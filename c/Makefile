@@ -1,12 +1,13 @@
+LDSHARED?=$(CC) -shared
 OBJECTS = lexer.o parser.o bool_ast.o
 
 all: libbool.o libbool.a
 
 libbool.a: $(OBJECTS)
-	ar rcs $@ $(OBJECTS)
+	$(AR) rcs $@ $(OBJECTS)
 
 libbool.o: $(OBJECTS)
-	$(CC) -shared -o $@ $(OBJECTS) -lfl
+	$(CC) -shared -o $@ $(OBJECTS)
 
 lexer.o: parser.o
 nodes.o: nodes.h

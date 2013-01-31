@@ -1,10 +1,16 @@
 require 'mkmf'
 
-LIBBOOL = File.expand_path(File.dirname(__FILE__) + '/libbool')
+LIBBOOL = File.expand_path('../libbool', __FILE__)
 HEADER_DIRS = [LIBBOOL, RbConfig::CONFIG['includedir']]
 LIB_DIRS = [LIBBOOL, RbConfig::CONFIG['libdir']]
 
 Dir.chdir(LIBBOOL) do
+  puts RbConfig::CONFIG["CC"]
+  puts RbConfig::CONFIG["AR"]
+  puts RbConfig::CONFIG["LDSHARED"]
+  ENV["CC"] = RbConfig::CONFIG["CC"]
+  ENV["AR"] = RbConfig::CONFIG["AR"]
+  ENV["LDSHARED"] = RbConfig::CONFIG["LDSHARED"]
   system 'make clean all'
 end
 

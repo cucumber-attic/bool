@@ -10,8 +10,8 @@ Gem::Specification.new do |s|
     s.platform = "java"
     s.files << "lib/bool_ext.jar"
   else
-    s.extensions << "ext/bool/extconf.rb"
-    s.files << Dir.glob("ext/**/*.{c,rb}")
+    s.extensions << "ext/bool_ext/extconf.rb"
+    s.files.concat << Dir.glob("ext/**/*.{c,rb}")
     s.add_development_dependency('rake-compiler', '>= 0.8.2')
   end
 end

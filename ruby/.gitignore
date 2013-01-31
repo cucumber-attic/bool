@@ -1,12 +1,10 @@
-/lib/bool.bundle
-/tmp/
-.DS_Store
-.jbundler
 *.jar
 *.lock
 *.idea
-target
 *.iml
 *.ipr
 *.iws
+target
+tmp
 ext/bool_ext/libbool
+lib/bool_ext.so

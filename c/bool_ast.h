@@ -28,8 +28,8 @@ typedef struct Unary {
     Node* refnode;
 } Unary;
 
-Node* parse_bool_ast(const char* source);
-void free_bool_ast(Node* node);
+extern Node* parse_bool_ast(const char* source);
+extern void free_bool_ast(Node* node);
 
 Node* create_var(char* value);
 Node* create_and(Node* left, Node* right);

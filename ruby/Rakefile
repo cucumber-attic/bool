@@ -26,6 +26,8 @@ else
     cp_r '../c', native_lib_c
   end
 
+  task :compile => native_lib_c
+
   require 'rake/extensiontask'
   # defines :compile task
   Rake::ExtensionTask.new('bool_ext', spec) do |ext|
@@ -33,11 +35,7 @@ else
     ext.cross_platform = 'x86-mingw32'
   end
 
-  # Ideally we'd just :compile => native_lib
-  # but RakeCompiler defines :compile in a way
-  # that breaks dependencies like that.
-  task :test => :_compile
-  task :_compile => [native_lib_c, :compile]
+  task :test => :compile
 end
 
 # defines :test task

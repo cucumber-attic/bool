@@ -1,6 +1,6 @@
 Gem::Specification.new do |s|
   s.name    = "bool"
-  s.version = "0.0.1"
+  s.version = "1.0.0"
   s.summary = "Boolean expression parser"
   s.author  = "Aslak Hellesøy"
   

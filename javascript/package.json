@@ -1,0 +1,38 @@
+{
+    "name": "bool",
+    "version": "0.0.1",
+    "description": "Boolean expression evaluator",
+    "keywords": [ "boolean", "logic" ],
+    "homepage": "http://github.com/cucumber/bool-js",
+    "author": "Aslak Hellesøy <aslak.hellesoy@gmail.com>",
+    "contributors": [
+        "Aslak Hellesøy <aslak.hellesoy@gmail.com>"
+    ],
+    "repository": {
+        "type": "git",
+        "url": "git://github.com/cucumber/bool-js.git"
+    },
+    "bugs": {
+        "url": "http://github.com/cucumber/bool-js/issues"
+    },
+    "directories": {
+        "lib" : "./lib"
+    },
+    "main": "./lib/bool",
+    "licenses": [
+        {
+            "type": "MIT",
+            "url": "http://github.com/cucumber/bool-js/raw/master/LICENSE"
+        }
+    ],
+    "devDependencies": {
+        "mocha" : "1.7.4",
+        "jison": "0.3.12"
+    },
+    "scripts": {
+        "test": "make mocha"
+    },
+    "engines": {
+        "node" : ">=0.8.11"
+    }
+}

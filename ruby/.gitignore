@@ -1,0 +1,12 @@
+/lib/bool.bundle
+/tmp/
+.DS_Store
+.jbundler
+*.jar
+*.lock
+*.idea
+target
+*.iml
+*.ipr
+*.iws
+ext/bool_ext/libbool

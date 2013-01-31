@@ -1,0 +1,48 @@
+require 'rake/testtask'
+require 'rake/clean'
+
+native_lib_jar     = 'lib/bool_ext.jar'
+native_lib_jar_mvn = "../java/target/bool-1.0.0.jar"
+native_lib_c       = 'ext/bool_ext/libbool'
+CLEAN << native_lib_jar
+CLEAN << native_lib_c
+
+spec = Gem::Specification.load('bool.gemspec')
+
+if RUBY_PLATFORM =~ /java/
+  file native_lib_jar => native_lib_jar_mvn do
+    cp native_lib_jar_mvn, native_lib_jar
+  end
+
+  file native_lib_jar_mvn do
+    Dir.chdir('../java') do
+      sh 'mvn package'
+    end
+  end
+
+  task :test => native_lib_jar
+else
+  file native_lib_c do
+    cp_r '../c', native_lib_c
+  end
+
+  require 'rake/extensiontask'
+  # defines :compile task
+  Rake::ExtensionTask.new('bool_ext', spec) do |ext|
+    ext.cross_compile = true
+    ext.cross_platform = 'x86-mingw32'
+  end
+
+  # Ideally we'd just :compile => native_lib
+  # but RakeCompiler defines :compile in a way
+  # that breaks dependencies like that.
+  task :test => :_compile
+  task :_compile => [native_lib_c, :compile]
+end
+
+# defines :test task
+Rake::TestTask.new do |t|
+  t.pattern = "spec/*_spec.rb"
+end
+
+task :default => :test

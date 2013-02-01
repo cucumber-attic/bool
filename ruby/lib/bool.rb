@@ -10,6 +10,7 @@ module Bool
 
   if RUBY_PLATFORM =~ /java/
     def parse(source)
+      raise "HELLO TRAVIS"
       lexer = Java::Bool::Lexer.new(source)
       parser = Java::Bool::Parser.new(lexer)
       parser.parseExpr()

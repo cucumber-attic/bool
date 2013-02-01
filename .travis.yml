@@ -5,3 +5,8 @@ compiler:
 script: "make travis && cd ruby && rvm jruby do rake"
 before_script:
   - "pushd ruby && gem install bundler && bundle && popd"
+notifications:
+  email:
+    - cukes-devs@googlegroups.com
+  irc:
+    - "irc.freenode.org#cucumber"

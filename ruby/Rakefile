@@ -5,7 +5,6 @@ native_lib_jar     = 'lib/bool_ext.jar'
 native_lib_jar_mvn = '../java/target/bool-1.0.0-SNAPSHOT.jar'
 native_lib_c       = 'ext/bool_ext/libbool'
 CLEAN << native_lib_jar
-CLEAN << native_lib_c
 
 spec = Gem::Specification.load('bool.gemspec')
 
@@ -22,11 +21,28 @@ if RUBY_PLATFORM =~ /java/
 
   task :test => native_lib_jar
 else
-  file native_lib_c do
-    cp_r '../c', native_lib_c
-  end
 
-  task :compile => native_lib_c
+  %w[bool_ast.h bool_ast.c lexer.h lexer.c parser.h parser.c].each do |f|
+    gen  = "../c/#{f}"
+    copy = "ext/bool_ext/#{f}"
+
+    file copy => gen do
+      cp gen, copy
+    end
+
+    task :compile => copy
+
+    CLEAN << copy
+
+    if f =~ /(lexer|parser)/
+      p "WT"
+      file gen => ["../c/lexer.l", "../c/parser.y"] do
+        Dir.chdir('../c') do
+          sh "make #{f}"
+        end
+      end
+    end
+  end
 
   require 'rake/extensiontask'
   # defines :compile task

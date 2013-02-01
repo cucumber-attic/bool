@@ -1,5 +1,5 @@
-#ifndef __EXPRESSION_H__
-#define __EXPRESSION_H__
+#ifndef __BOOL_AST_H__
+#define __BOOL_AST_H__
 
 typedef enum NodeType {
     eVAR,
@@ -8,6 +8,10 @@ typedef enum NodeType {
     eNOT,
 } NodeType;
 
+/* All of the other node types can be type cast to this
+ * type because the first member is always the same.
+ * This allows for a kind of lightweight polymorphism.
+ */
 typedef struct Node {
     NodeType type;
 } Node;

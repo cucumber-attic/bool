@@ -3,3 +3,5 @@ compiler:
   - gcc
   - clang
 script: make
+before_script:
+  - "cd ruby && gem install bundler && bundle"

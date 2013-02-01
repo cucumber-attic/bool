@@ -1,5 +1,6 @@
 LDSHARED?=$(CC) -shared
 OBJECTS = lexer.o parser.o bool_ast.o
+CFLAGS = -O2 -fPIC
 
 all: libbool.o libbool.a
 
@@ -20,3 +21,4 @@ parser.h parser.c: parser.y
 
 clean:
 	rm -f lexer.h lexer.c parser.h parser.c *.o *.a
+

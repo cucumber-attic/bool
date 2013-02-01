@@ -4,4 +4,4 @@ compiler:
   - clang
 script: make
 before_script:
-  - "cd ruby && gem install bundler && bundle"
+  - "pushd ruby && gem install bundler && bundle && popd"

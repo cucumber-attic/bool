@@ -2,6 +2,6 @@ language: c
 compiler:
   - gcc
   - clang
-script: make
+script: make travis
 before_script:
   - "pushd ruby && gem install bundler && bundle && popd"

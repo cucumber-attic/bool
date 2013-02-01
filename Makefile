@@ -1,4 +1,5 @@
-all: c java javascript ruby jruby
+all:    c java javascript ruby jruby
+travis: c java javascript ruby
 
 c: 
 	cd c && make

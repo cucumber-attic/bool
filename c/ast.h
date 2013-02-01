@@ -1,5 +1,5 @@
-#ifndef __BOOL_AST_H__
-#define __BOOL_AST_H__
+#ifndef __AST_H__
+#define __AST_H__
 
 typedef enum NodeType {
     eVAR,

@@ -9,7 +9,7 @@ void yyerror(yyscan_t scanner, Node** node, const char* msg);
 
 %code requires {
 
-#include "bool_ast.h"
+#include "ast.h"
 #ifndef YY_TYPEDEF_YY_SCANNER_T
 #define YY_TYPEDEF_YY_SCANNER_T
 typedef void* yyscan_t;

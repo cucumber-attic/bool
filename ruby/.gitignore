@@ -6,5 +6,7 @@
 *.iws
 target
 tmp
-ext/bool_ext/libbool
+ext/bool_ext/ast.*
+ext/bool_ext/lexer.*
+ext/bool_ext/parser.*
 lib/bool_ext.so

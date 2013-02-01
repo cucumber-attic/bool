@@ -1,4 +1,4 @@
-#include "bool_ast.h"
+#include "ast.h"
 #include "parser.h"
 #include "lexer.h"
 

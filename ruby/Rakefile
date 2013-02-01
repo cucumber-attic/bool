@@ -22,7 +22,7 @@ if RUBY_PLATFORM =~ /java/
   task :test => native_lib_jar
 else
 
-  %w[bool_ast.h bool_ast.c lexer.h lexer.c parser.h parser.c].each do |f|
+  %w[ast.h ast.c lexer.h lexer.c parser.h parser.c].each do |f|
     gen  = "../c/#{f}"
     copy = "ext/bool_ext/#{f}"
 
@@ -35,7 +35,6 @@ else
     CLEAN << copy
 
     if f =~ /(lexer|parser)/
-      p "WT"
       file gen => ["../c/lexer.l", "../c/parser.y"] do
         Dir.chdir('../c') do
           sh "make #{f}"

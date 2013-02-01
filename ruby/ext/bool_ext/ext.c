@@ -1,5 +1,5 @@
 #include <ruby.h>
-#include "bool_ast.h"
+#include "ast.h"
 
 VALUE rb_cVar;
 VALUE rb_cAnd;

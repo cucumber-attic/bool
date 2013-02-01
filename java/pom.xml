@@ -11,7 +11,7 @@
         <dependency>
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>
-            <version>4.10</version>
+            <version>4.11</version>
             <scope>test</scope>
         </dependency>
     </dependencies>
@@ -28,7 +28,6 @@
                         <phase>generate-sources</phase>
                         <configuration>
                             <target>
-                                <mkdir dir="${project.build.directory}/generated-sources/ragel/bool/ragel"/>
                                 <mkdir dir="${project.build.directory}/generated-sources/bison/bool/bison"/>
                             </target>
                         </configuration>
@@ -72,25 +71,6 @@
                             </arguments>
                         </configuration>
                     </execution>
-
-                    <execution>
-                        <id>ragel-lexer</id>
-                        <phase>generate-sources</phase>
-                        <goals>
-                            <goal>exec</goal>
-                        </goals>
-                        <configuration>
-                            <executable>ragel</executable>
-                            <arguments>
-                                <argument>-J</argument>
-                                <argument>-o</argument>
-                                <argument>
-                                    ${project.build.directory}/generated-sources/ragel/bool/RagelLexer.java
-                                </argument>
-                                <argument>${basedir}/src/main/ragel/lexer.rl</argument>
-                            </arguments>
-                        </configuration>
-                    </execution>
                 </executions>
             </plugin>
 
@@ -108,7 +88,6 @@
                         <configuration>
                             <sources>
                                 <source>${project.build.directory}/generated-sources/bison</source>
-                                <source>${project.build.directory}/generated-sources/ragel</source>
                             </sources>
                         </configuration>
                     </execution>

@@ -14,7 +14,7 @@ public class ParserTest {
 
     @Test
     public void test_parse() throws IOException {
-        Parser parser = new Parser(new RagelLexer("foo && bar"));
+        Parser parser = new Parser(new Lexer("foo && bar"));
         Expr expr = parser.parseExpr();
         assertTrue(expr.accept(new EvalVisitor(), asList("foo", "bar")));
         assertFalse(expr.accept(new EvalVisitor(), asList("foo")));
@@ -22,7 +22,7 @@ public class ParserTest {
 
     @Test
     public void test_parse_error() throws IOException {
-        Parser parser = new Parser(new bool.RagelLexer("foo && bar &&"));
+        Parser parser = new Parser(new Lexer("foo && bar &&"));
         try {
             parser.parseExpr();
             fail();

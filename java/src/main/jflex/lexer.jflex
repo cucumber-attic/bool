@@ -7,25 +7,14 @@ import java.io.StringReader;
 %%
 
 %public
-%class JFlexLexer
-%implements Lexer
+%class Lexer
 %byaccj
 %unicode
 %column
 
 %{
-    public JFlexLexer(String expr) {
+    public Lexer(String expr) {
         this(new StringReader(expr));
-    }
-
-    @Override
-    public final int lex() throws IOException {
-        return yylex();
-    }
-
-    @Override
-    public final String text() {
-        return yytext();
     }
 %}
 

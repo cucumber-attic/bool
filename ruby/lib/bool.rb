@@ -10,7 +10,7 @@ module Bool
 
   if RUBY_PLATFORM =~ /java/
     def parse(source)
-      lexer = Java::Bool::JFlexLexer.new(source)
+      lexer = Java::Bool::Lexer.new(source)
       parser = Java::Bool::Parser.new(lexer)
       parser.parseExpr()
     rescue => e

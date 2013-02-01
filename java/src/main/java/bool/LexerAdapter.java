@@ -11,12 +11,12 @@ class LexerAdapter implements Parser.Lexer {
 
     @Override
     public Expr getLVal() {
-        return new Var(lexer.text());
+        return new Var(lexer.yytext());
     }
 
     @Override
     public int yylex() throws IOException {
-        return lexer.lex();
+        return lexer.yylex();
     }
 
     @Override

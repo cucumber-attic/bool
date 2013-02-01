@@ -1,4 +1,4 @@
-var bool = require('bool');
+var parser = require('../lib');
 var assert = require('assert');
 var fs = require('fs');
 var path = require('path');
@@ -8,10 +8,10 @@ describe('Testdata', function() {
   fs.readdirSync(dir).forEach(function(f) {
     var lines = fs.readFileSync(path.join(dir, f), 'UTF-8').split(/\n/);
     it(f, function() {
-      var expr = bool.parse(lines[0]);
+      var expr = parser.parse(lines[0]);
       var vars = lines[1].split(/\s+/);
       var expected = lines[2];
-      assert.equal(expected, expr.accept(new bool.EvalVisitor(), vars).toString());
+      assert.equal(expected, expr.accept(new parser.EvalVisitor(), vars).toString());
     });
   }); 
 });

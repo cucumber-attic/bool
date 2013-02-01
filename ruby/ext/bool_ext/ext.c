@@ -30,10 +30,10 @@ static VALUE Bool_parse(VALUE ast_klass, VALUE r_expr) {
     // TODO: Verify that r_expr is a String
     Node* ast = NULL;
     char* expr = RSTRING_PTR(r_expr);
-    ast = parse_bool_ast(expr);
+    ast = parse_ast(expr);
     if(ast != NULL) {
         VALUE result = transform(ast);
-        free_bool_ast(ast);
+        free_ast(ast);
         return result;
     } else {
         rb_raise(rb_eParseError, "Couldn't parse boolean expression");

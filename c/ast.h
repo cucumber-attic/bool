@@ -16,6 +16,9 @@ typedef struct Node {
     NodeType type;
 } Node;
 
+extern Node* parse_ast(const char* source);
+extern void free_ast(Node* node);
+
 typedef struct Var {
     NodeType type;
     char* value;
@@ -31,9 +34,6 @@ typedef struct Unary {
     NodeType type;
     Node* refnode;
 } Unary;
-
-extern Node* parse_bool_ast(const char* source);
-extern void free_bool_ast(Node* node);
 
 Node* create_var(char* value);
 Node* create_and(Node* left, Node* right);

@@ -1,5 +1,7 @@
 # bool
 
+[![Build Status](https://travis-ci.org/cucumber/bool.png)](https://travis-ci.org/cucumber/bool)
+
 This is a cross-platform library for parsing boolean arithmetic expressions like `a && b && (!c || !d)` and evaluating them by assigning values to the variables.
 
 Boolean expressions are parsed into an [abstract syntax tree](http://en.wikipedia.org/wiki/Abstract_syntax_tree) (AST) using a 

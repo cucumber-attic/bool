@@ -36,3 +36,12 @@ make
 ```
 
 If that fails for you (it probably will the first time), don't worry. See the individual platform-specific READMEs.
+
+You are definitely going to need [GNU Bison](http://www.gnu.org/software/bison/) 2.5 or newer to build any platform library (except for the JavaScript library).
+
+OS X already comes with (a too old) Bison so you need to install a 2.5 or newer. It's easy to do this with [Homebrew](http://mxcl.github.com/homebrew/). After installing Homebrew you must install [Homebrew-Dupes](https://github.com/Homebrew/homebrew-dupes) before you can install Bison:
+
+```
+brew tap homebrew/dupes
+brew install bison
+```

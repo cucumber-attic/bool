@@ -21,6 +21,8 @@ if RUBY_PLATFORM =~ /java/
 
   task :test => native_lib_jar
 else
+  mingv_bin = File.expand_path('../../mingw/bin', __FILE__)
+  ENV['PATH'] = "#{mingv_bin}:#{ENV['PATH']}"
 
   %w[ast.h ast.c lexer.h lexer.c parser.h parser.c].each do |f|
     gen  = "../c/#{f}"
@@ -44,14 +46,39 @@ else
     end
   end
 
-  require 'rake/extensiontask'
-  # defines :compile task
-  Rake::ExtensionTask.new('bool_ext', spec) do |ext|
-    ext.cross_compile = true
-    ext.cross_platform = 'x86-mingw32'
-  end
-
   task :test => :compile
+  
+  cross_ruby_version = '1.9.3-p362' # The Windows ruby version we're compiling for
+  
+  # Install a windows ruby if it isn't already installed
+  if !File.directory?("#{ENV['HOME']}/.rake-compiler/ruby/ruby-#{cross_ruby_version}")
+    task :install_cross_ruby do
+      old_cc = ENV['CC']
+      ENV['CC'] = "#{mingv_bin}/i686-w64-mingw32-gcc"
+      sh "rake-compiler cross-ruby VERSION=#{cross_ruby_version}"
+      ENV['CC'] = old_cc
+
+      # Need to define this after installing windows ruby
+
+      require 'rake/extensiontask'
+      # defines :compile task
+      Rake::ExtensionTask.new('bool_ext', spec) do |ext|
+        ext.cross_compile = true
+        ext.cross_platform = 'x86-mingw32'
+      end
+    end
+    
+    task :win => [:install_cross_ruby, :cross, :compile]
+  else
+    require 'rake/extensiontask'
+    # defines :compile task
+    Rake::ExtensionTask.new('bool_ext', spec) do |ext|
+      ext.cross_compile = true
+      ext.cross_platform = 'x86-mingw32'
+    end
+
+    task :win => [:cross, :compile]
+  end
 end
 
 # defines :test task

@@ -20,7 +20,7 @@ jruby:
 	cd ruby && jruby -S rake
 
 winruby: mingw
-	cd ruby && rake cross compile
+	cd ruby && rake win
 
 clean:
 	cd c          && make clean

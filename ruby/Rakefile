@@ -47,37 +47,23 @@ else
   end
 
   task :test => :compile
-  
+
   cross_ruby_version = '1.9.3-p362' # The Windows ruby version we're compiling for
+  cross_ruby = "#{ENV['HOME']}/.rake-compiler/ruby/ruby-#{cross_ruby_version}"
+  # Ideally we'd just define task :compile => :install_cross_ruby but the 
+  # :cross task fails if the ruby doesn't exist when the task is defined.
+  if !File.directory?(cross_ruby) && ARGV.index('cross')
+    old_cc = ENV['CC']
+    ENV['CC'] = "#{mingv_bin}/i686-w64-mingw32-gcc"
+    sh "bundle exec rake-compiler cross-ruby VERSION=#{cross_ruby_version}"
+    ENV['CC'] = old_cc
+  end
   
-  # Install a windows ruby if it isn't already installed
-  if !File.directory?("#{ENV['HOME']}/.rake-compiler/ruby/ruby-#{cross_ruby_version}")
-    task :install_cross_ruby do
-      old_cc = ENV['CC']
-      ENV['CC'] = "#{mingv_bin}/i686-w64-mingw32-gcc"
-      sh "rake-compiler cross-ruby VERSION=#{cross_ruby_version}"
-      ENV['CC'] = old_cc
-
-      # Need to define this after installing windows ruby
-
-      require 'rake/extensiontask'
-      # defines :compile task
-      Rake::ExtensionTask.new('bool_ext', spec) do |ext|
-        ext.cross_compile = true
-        ext.cross_platform = 'x86-mingw32'
-      end
-    end
-    
-    task :win => [:install_cross_ruby, :cross, :compile]
-  else
-    require 'rake/extensiontask'
-    # defines :compile task
-    Rake::ExtensionTask.new('bool_ext', spec) do |ext|
-      ext.cross_compile = true
-      ext.cross_platform = 'x86-mingw32'
-    end
-
-    task :win => [:cross, :compile]
+  require 'rake/extensiontask'
+  # defines :compile task
+  Rake::ExtensionTask.new('bool_ext', spec) do |ext|
+    ext.cross_compile = true
+    ext.cross_platform = 'x86-mingw32'
   end
 end
 

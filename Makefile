@@ -1,5 +1,4 @@
 UNAME := $(shell uname)
-PATH := $(shell pwd)/mingw/bin:$(PATH)
 RUBY_PLATFORM := $(shell ruby -e "puts RUBY_PLATFORM")
 
 all:    c javascript ruby winruby jruby

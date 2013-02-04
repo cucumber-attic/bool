@@ -53,10 +53,7 @@ else
   # Ideally we'd just define task :compile => :install_cross_ruby but the 
   # :cross task fails if the ruby doesn't exist when the task is defined.
   if !File.directory?(cross_ruby) && ARGV.index('cross')
-    old_cc = ENV['CC']
-    ENV['CC'] = "#{mingv_bin}/i686-w64-mingw32-gcc"
     sh "bundle exec rake-compiler cross-ruby VERSION=#{cross_ruby_version}"
-    ENV['CC'] = old_cc
   end
   
   require 'rake/extensiontask'

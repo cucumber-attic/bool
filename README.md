@@ -35,19 +35,32 @@ If you're lucky and already have all the needed software installed you can just 
 make
 ```
 
-If that fails for you (it probably will the first time), don't worry. See the individual platform-specific READMEs.
+If that fails for you (it probably will the first time), don't worry. Follow the OS-specific instructions below and try again. 
+If you still run into problems, see the relevant READMEs in the sub directories.
 
-You are definitely going to need [GNU Bison](http://www.gnu.org/software/bison/) 2.5 or newer to build any platform library (except for the JavaScript library).
+You are definitely going to need [GNU Bison](http://www.gnu.org/software/bison/) 2.5 or newer to build any platform library (except for the JavaScript library). 
 
 ### OS X
 
-OS X already comes with (a too old) Bison so you need to install a newer one. It's easy to do this with [Homebrew](http://mxcl.github.com/homebrew/). After installing Homebrew you must install [Homebrew-Dupes](https://github.com/Homebrew/homebrew-dupes) before you can install Bison:
+OS X ships with an old Bison we can't use. You need to install a newer one. It's easy to do this with [Homebrew](http://mxcl.github.com/homebrew/). After installing Homebrew you must install [Homebrew-Dupes](https://github.com/Homebrew/homebrew-dupes) before you can install Bison and the other requirements:
 
 ```
 brew tap homebrew/dupes
-brew install bison
+brew install bison flex wget node
+```
+
+### Ubuntu
+
+Ubuntu users can install the needed software with:
+
+```
+sudo apt-get install bison flex wget node mingw32
 ```
 
 ### Fedora
 
-Fedora 18 needs you to `yum install mingw32-gcc flex bison` to make it through a successful build.
+Fedora 18 can install the needed software with:
+
+```
+yum install bison flex wget node mingw32-gcc
+```

@@ -13,7 +13,7 @@ if RUBY_PLATFORM =~ /java/
     cp native_lib_jar_mvn, native_lib_jar
   end
 
-  file native_lib_jar_mvn do
+  file native_lib_jar_mvn => Dir['../java/src/main/**/*.{java,jflex,y}'] do
     Dir.chdir('../java') do
       sh 'mvn package'
     end

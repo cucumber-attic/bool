@@ -21,8 +21,9 @@ module Bool
       end
 
       def visit_not(not_node, vars)
-        !not_node.node.accept(self, vars)
+        !not_node.other.accept(self, vars)
       end
     end
   end
 end
+

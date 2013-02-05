@@ -14,37 +14,35 @@ module Bool
       end
     end
 
-    class Binary
+    class And
       attr_reader :left, :right
 
       def initialize(left, right)
         @left, @right = left, right
       end
-    end
 
-    class And < Binary
       def accept(visitor, arg)
         visitor.visit_and(self, arg)
       end
     end
 
-    class Or < Binary
+    class Or
+      attr_reader :left, :right
+
+      def initialize(left, right)
+        @left, @right = left, right
+      end
+
       def accept(visitor, arg)
         visitor.visit_or(self, arg)
       end
     end
 
-    class Unary
-      attr_reader :node
+    class Not
+      attr_reader :other
 
-      def initialize(node)
-        @node = node
-      end
-    end
-
-    class Not < Unary
-      def initialize(node)
-        @node = node
+      def initialize(other)
+        @other = other
       end
 
       def accept(visitor, arg)

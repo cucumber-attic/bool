@@ -3,7 +3,7 @@ RUBY_PLATFORM := $(shell ruby -e "puts RUBY_PLATFORM")
 BISON_VERSION := $(shell bison --version | grep ^bison | sed 's/^.* //')
 # Keep in sync with c/Makefile
 REQUIRED_BISON_VERSION = 2.7
-PATH := $(shell pwd)/bison-$(REQUIRED_BISON_VERSION)/src:$(PATH)
+PATH := $(shell pwd)/bison-$(REQUIRED_BISON_VERSION)/tests:$(PATH)
 
 all: c javascript ruby winruby jruby
 

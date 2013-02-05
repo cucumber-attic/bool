@@ -1,6 +1,10 @@
 require 'mkmf'
 
-$CFLAGS << ' -O2 -Wall -Werror' if CONFIG['CC'] =~ /gcc|clang/
+if CONFIG['CC'] =~ /mingw/
+  $CFLAGS << ' -O2 -Werror' 
+elsif CONFIG['CC'] =~ /gcc|clang/
+  $CFLAGS << ' -O2 -Werror -Wall' 
+end
 
 extension_name = 'bool_ext'
 dir_config(extension_name)

@@ -25,20 +25,26 @@ typedef struct Var {
     char* value;
 } Var;
 
-typedef struct Binary {
+typedef struct And {
     NodeType type;
     Node* left;
     Node* right;
-} Binary;
+} And;
 
-typedef struct Unary {
+typedef struct Or {
     NodeType type;
-    Node* refnode;
-} Unary;
+    Node* left;
+    Node* right;
+} Or;
+
+typedef struct Not {
+    NodeType type;
+    Node* other;
+} Not;
 
 Node* create_var(char* value);
 Node* create_and(Node* left, Node* right);
 Node* create_or(Node* left, Node* right);
-Node* create_not(Node* node);
+Node* create_not(Node* other);
 
 #endif

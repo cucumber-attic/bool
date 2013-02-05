@@ -1,6 +1,8 @@
 LDSHARED?=$(CC) -shared
 OBJECTS = lexer.o parser.o ast.o
 CFLAGS = -O2 -fPIC -Wall -Werror
+# Keep in sync with ../Makefile
+PATH := $(shell pwd)/../bison-2.7/src:$(PATH)
 
 all: libparse.o libparse.a
 

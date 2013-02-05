@@ -18,6 +18,9 @@ nodes.o: nodes.h
 lexer.h lexer.c: lexer.l
 	flex --version
 	flex lexer.l
+	# http://stackoverflow.com/questions/1251999/sed-how-can-i-replace-a-newline-n
+	sed -e ':a' -e 'N' -e '$$!ba' -e 's/ yyscanner)\n{/ yyscanner) { UNUSED(yyscanner);/g' lexer.c > lexer.c.nowarn
+	mv lexer.c.nowarn lexer.c
 
 parser.h parser.c: parser.y
 	bison --version

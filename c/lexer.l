@@ -1,4 +1,5 @@
 %{
+#include "unused.h"
 #define YY_NO_INPUT
 #include "parser.h"
 %}

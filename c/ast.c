@@ -3,7 +3,10 @@
 #include "lexer.h"
 #include "unused.h"
 
-void yyerror(yyscan_t UNUSED(scanner), Node** UNUSED(node), const char* UNUSED(msg)) {
+void yyerror(yyscan_t scanner, Node** node, const char* msg) {
+    UNUSED(scanner);
+    UNUSED(node);
+    UNUSED(msg);
     //fprintf(stderr,"Error: %s\n", msg);
 }
  

@@ -14,11 +14,11 @@ lexer.o: parser.o
 nodes.o: nodes.h
 
 lexer.h lexer.c: lexer.l
-    flex --version
+	flex --version
 	flex lexer.l
 
 parser.h parser.c: parser.y
-    bison --version
+	bison --version
 	bison parser.y
 
 clean:

@@ -3,7 +3,7 @@ require 'mkmf'
 if CONFIG['CC'] =~ /mingw/
   $CFLAGS << ' -O2 -Werror' 
 elsif CONFIG['CC'] =~ /gcc|clang/
-  $CFLAGS << ' -O2 -Werror -Wall' 
+  $CFLAGS << ' -O2 -Werror' 
 end
 
 extension_name = 'bool_ext'

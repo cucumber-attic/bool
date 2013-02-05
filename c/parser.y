@@ -24,6 +24,9 @@ typedef void* yyscan_t;
 %lex-param   { yyscan_t scanner }
 %parse-param { Node** node }
 %parse-param { yyscan_t scanner }
+
+%error-verbose
+/* %locations */
  
 %union {
     char* value;

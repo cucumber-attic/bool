@@ -2,14 +2,20 @@
 #include "parser.h"
 #include "lexer.h"
 
+#define LAST_ERROR_MSG_BUFFER_SIZE 512
+
+char last_error_msg[LAST_ERROR_MSG_BUFFER_SIZE];
+
 void yyerror(yyscan_t scanner, Node** node, const char* msg) {
-    //fprintf(stderr,"Error: %s\n", msg);
+    snprintf(last_error_msg, LAST_ERROR_MSG_BUFFER_SIZE,"%s", msg);
 }
  
 Node* parse_ast(const char* source) {
     Node* node;
     yyscan_t scanner;
     YY_BUFFER_STATE state;
+
+	last_error_msg[0]  = 0;
  
     if (yylex_init(&scanner)) {
         // couldn't initialize
@@ -39,26 +45,19 @@ void free_ast(Node* node) {
             break;
         }
         case eAND:
-        {
-            And* and = (And*) node;
-            free_ast(and->left);
-            free_ast(and->right);
-            free(and);
-            break;
-        }
         case eOR:
         {
-            Or* or = (Or*) node;
-            free_ast(or->left);
-            free_ast(or->right);
-            free(or);
+            Binary* binary = (Binary*) node;
+            free_ast(binary->left);
+            free_ast(binary->right);
+            free(binary);
             break;
         }
         case eNOT:
         {
-            Not* not = (Not*) node;
-            free_ast(not->other);
-            free(not);
+            Unary* unary = (Unary*) node;
+            free_ast(unary->refnode);
+            free(unary);
             break;
         }
     }
@@ -75,32 +74,34 @@ Node* create_var(char* value) {
     return (Node*) node;
 }
 
-Node* create_and(Node* left, Node* right) {
-    And* node = (And*) malloc(sizeof* node);
+Node* create_binary(NodeType type, Node* left, Node* right) {
+    Binary* node = (Binary*) malloc(sizeof* node);
     if (node == NULL) return NULL;
  
-    node->type = eAND;
+    node->type = type;
     node->left = left;
     node->right = right;
     return (Node*) node;
+}
+
+Node* create_and(Node* left, Node* right) {
+    return create_binary(eAND, left, right);
 }
 
 Node* create_or(Node* left, Node* right) {
-    Or* node = (Or*) malloc(sizeof* node);
+    return create_binary(eOR, left, right);
+}
+
+Node* create_unary(NodeType type, Node* refnode) {
+    Unary* node = (Unary*) malloc(sizeof* node);
     if (node == NULL) return NULL;
  
-    node->type = eOR;
-    node->left = left;
-    node->right = right;
+    node->type = type;
+    node->refnode = refnode;
     return (Node*) node;
 }
 
-Node* create_not(Node* other) {
-    Not* node = (Not*) malloc(sizeof* node);
-    if (node == NULL) return NULL;
- 
-    node->type = eNOT;
-    node->other = other;
-    return (Node*) node;
+Node* create_not(Node* node) {
+    return create_unary(eNOT, node);
 }
 

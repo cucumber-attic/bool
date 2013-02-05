@@ -51,8 +51,7 @@ describe 'Bool' do
         Bool.parse("a ||")
         fail
       rescue Bool::ParseError => expected
-        # TODO
-        # expected.message.must_equal("syntax error, unexpected end of input, expecting TOKEN_VAR or TOKEN_NOT or TOKEN_LPAREN");
+        expected.message.must_match /expecting TOKEN_VAR or TOKEN_NOT or TOKEN_LPAREN/
       end
     end
 
@@ -61,8 +60,7 @@ describe 'Bool' do
         Bool.parse("a ^ e")
         fail
       rescue Bool::ParseError => expected
-        # TODO
-        # expected.message.must_equal("Error: could not match input");
+        expected.message.must_match /syntax error, unexpected TOKEN_VAR, expecting \$end|Error: could not match input/
       end
     end
   end

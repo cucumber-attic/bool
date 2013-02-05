@@ -18,32 +18,27 @@ typedef struct Node {
 
 extern Node* parse_ast(const char* source);
 extern void free_ast(Node* node);
+extern char last_error_msg[];
 
 typedef struct Var {
     NodeType type;
     char* value;
 } Var;
 
-typedef struct And {
+typedef struct Binary {
     NodeType type;
     Node* left;
     Node* right;
-} And;
+} Binary;
 
-typedef struct Or {
+typedef struct Unary {
     NodeType type;
-    Node* left;
-    Node* right;
-} Or;
-
-typedef struct Not {
-    NodeType type;
-    Node* other;
-} Not;
+    Node* refnode;
+} Unary;
 
 Node* create_var(char* value);
 Node* create_and(Node* left, Node* right);
 Node* create_or(Node* left, Node* right);
-Node* create_not(Node* other);
+Node* create_not(Node* node);
 
 #endif

@@ -1,3 +1,9 @@
+if RUBY_VERSION =~ /^1.8/
+  STDERR.print "\e[31m"
+  STDERR.puts "You'll need at least Ruby 1.9.3. You have ruby #{RUBY_VERSION}. Read #{File.expand_path('../README.md', __FILE__)}."
+  STDERR.print "\e[0m"
+  exit 1
+end
 require 'rake/testtask'
 require 'rake/clean'
 
@@ -55,8 +61,15 @@ else
   if !File.directory?(cross_ruby) && ARGV.index('cross')
     sh "bundle exec rake-compiler cross-ruby VERSION=#{cross_ruby_version}"
   end
-  
-  require 'rake/extensiontask'
+
+  begin
+    require 'rake/extensiontask'
+  rescue LoadError
+    STDERR.print "\e[31m"
+    STDERR.puts "You have to bundle. Read #{File.expand_path('../README.md', __FILE__)}."
+    STDERR.print "\e[0m"
+    exit 1
+  end
   # defines :compile task
   Rake::ExtensionTask.new('bool_ext', spec) do |ext|
     ext.cross_compile = true

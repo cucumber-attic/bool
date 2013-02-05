@@ -1,4 +1,8 @@
-VERSION := $(shell node -e "console.log(JSON.parse(require('fs').readFileSync('package.json', 'utf8')).version)")
+NODE_VERSION_LT_0_8 := $(shell node -e "console.log(process.version.match(/^v0\.[1-7]/) != null)")
+
+ifeq ($(NODE_VERSION_LT_0_8),true)
+$(error Bad node version. Please install v0.8.11 or higher. You have node $(shell node --version))
+endif
 
 all: mocha
 
@@ -16,10 +20,6 @@ clobber:
 
 lib/parser.js: lib/parser.jison lib/lexer.jisonlex node_modules
 	./node_modules/.bin/jison -o $@ lib/parser.jison lib/lexer.jisonlex
-
-publish: lib/parser.js
-	npm publish && git tag v$(VERSION) -m "Release v$(VERSION)" && git push && git push --tags
-.PHONY: publish
 
 node_modules: package.json
 	npm install

@@ -1,10 +1,12 @@
 %{
+#define YY_NO_INPUT
 #include "parser.h"
 %}
 
 %option outfile="lexer.c" header-file="lexer.h"
 %option warn
 %option reentrant noyywrap never-interactive nounistd
+%option nounput
 %option bison-bridge
 
 %%

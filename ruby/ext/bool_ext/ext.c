@@ -26,10 +26,16 @@ static VALUE transform(Node *node) {
     }
 }
 
-static VALUE Bool_parse(VALUE ast_klass, VALUE r_expr) {
+static VALUE Bool_parse(VALUE klass, VALUE r_expr) {
+    Node* ast;
+    char* expr;
+
+    if(NIL_P(klass)) {
+        rb_raise(rb_eRuntimeError, "Bool klass was nil");
+    }
+
     // TODO: Verify that r_expr is a String
-    Node* ast = NULL;
-    char* expr = RSTRING_PTR(r_expr);
+    expr = RSTRING_PTR(r_expr);
     ast = parse_ast(expr);
     if(ast != NULL) {
         VALUE result = transform(ast);
@@ -41,12 +47,17 @@ static VALUE Bool_parse(VALUE ast_klass, VALUE r_expr) {
 }
 
 void Init_bool_ext() {
-    VALUE rb_mBool = rb_define_module("Bool");
-    VALUE rb_eStandardError = rb_const_get(rb_cObject, rb_intern("StandardError"));
+    VALUE rb_mBool; 
+    VALUE rb_eStandardError;
+    VALUE rb_cBinary;
+    VALUE rb_cUnary;
+
+    rb_eStandardError = rb_const_get(rb_cObject, rb_intern("StandardError"));
+    rb_mBool = rb_define_module("Bool");
     rb_eParseError = rb_define_class_under(rb_mBool, "ParseError", rb_eStandardError);
 
-    VALUE rb_cBinary = rb_define_class_under(rb_mBool, "Binary", rb_cObject);
-    VALUE rb_cUnary = rb_define_class_under(rb_mBool, "Unary", rb_cObject);
+    rb_cBinary = rb_define_class_under(rb_mBool, "Binary", rb_cObject);
+    rb_cUnary = rb_define_class_under(rb_mBool, "Unary", rb_cObject);
     rb_cVar = rb_define_class_under(rb_mBool, "Var", rb_cObject);
     rb_cAnd = rb_define_class_under(rb_mBool, "And", rb_cBinary);
     rb_cOr  = rb_define_class_under(rb_mBool, "Or", rb_cBinary);

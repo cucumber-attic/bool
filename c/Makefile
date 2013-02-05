@@ -1,6 +1,6 @@
 LDSHARED?=$(CC) -shared
 OBJECTS = lexer.o parser.o ast.o
-CFLAGS = -O2 -fPIC
+CFLAGS = -O2 -fPIC -Wall -Werror
 
 all: libparse.o libparse.a
 

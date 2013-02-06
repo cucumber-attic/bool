@@ -4,7 +4,7 @@ module Bool
       require 'libbool'
 
       def self.new
-        Java::Bool::EvalVisitor.new
+        Java::Bool::Evaluator.new
       end
 
     else

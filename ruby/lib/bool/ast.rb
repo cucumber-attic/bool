@@ -10,7 +10,7 @@ module Bool
       end
 
       def describe_to(visitor, arg)
-        visitor.visit_var(self, arg)
+        visitor.var(self, arg)
       end
     end
 
@@ -22,7 +22,7 @@ module Bool
       end
 
       def describe_to(visitor, arg)
-        visitor.visit_and(self, arg)
+        visitor.and(self, arg)
       end
     end
 
@@ -34,7 +34,7 @@ module Bool
       end
 
       def describe_to(visitor, arg)
-        visitor.visit_or(self, arg)
+        visitor.or(self, arg)
       end
     end
 
@@ -46,7 +46,7 @@ module Bool
       end
 
       def describe_to(visitor, arg)
-        visitor.visit_not(self, arg)
+        visitor.not(self, arg)
       end
     end
   end

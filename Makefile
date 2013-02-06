@@ -58,8 +58,10 @@ bison-$(REQUIRED_BISON_VERSION)/src/bison:
 endif
 
 ifeq ($(RUBY_PLATFORM), java)
+# ruby is actually jruby. In that case run only the ruby target, which will build with jruby
 travis: ruby
 else
+# ruby is MRI. In that case, build everything. We'll build ruby thrice, once with clang, once with gcc and once with mingw.
 travis: c javascript clangruby gccruby winruby
 endif
 

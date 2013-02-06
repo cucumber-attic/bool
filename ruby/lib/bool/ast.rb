@@ -9,7 +9,7 @@ module Bool
         @name = name
       end
 
-      def accept(visitor, arg)
+      def describe_to(visitor, arg)
         visitor.visit_var(self, arg)
       end
     end
@@ -21,7 +21,7 @@ module Bool
         @left, @right = left, right
       end
 
-      def accept(visitor, arg)
+      def describe_to(visitor, arg)
         visitor.visit_and(self, arg)
       end
     end
@@ -33,7 +33,7 @@ module Bool
         @left, @right = left, right
       end
 
-      def accept(visitor, arg)
+      def describe_to(visitor, arg)
         visitor.visit_or(self, arg)
       end
     end
@@ -45,7 +45,7 @@ module Bool
         @other = other
       end
 
-      def accept(visitor, arg)
+      def describe_to(visitor, arg)
         visitor.visit_not(self, arg)
       end
     end

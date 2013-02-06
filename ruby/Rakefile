@@ -27,6 +27,11 @@ if RUBY_PLATFORM =~ /java/
 
   task :test => native_lib_jar
 else
+  task :clean do
+    Dir.chdir('../c') do
+      sh 'make clean'
+    end
+  end
   mingv_bin = File.expand_path('../../mingw/bin', __FILE__)
   ENV['PATH'] = "#{mingv_bin}:#{ENV['PATH']}"
 

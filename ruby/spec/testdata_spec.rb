@@ -7,7 +7,7 @@ describe "Testdata" do
     expr, vars, result = IO.read(f).split(/\n/)
     it f do
       ast = Bool.parse(expr)
-      ast.describe_to(Bool::EvalVisitor.new, vars.split(/\s+/)).to_s.must_equal(result)
+      ast.describe_to(Bool::Evaluator.new, vars.split(/\s+/)).to_s.must_equal(result)
     end
   end
 end

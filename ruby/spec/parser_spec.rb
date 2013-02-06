@@ -5,7 +5,7 @@ require 'minitest/autorun'
 describe 'Bool' do
 
   def evaluate(vars)
-    ast.describe_to(Bool::EvalVisitor.new, vars)
+    ast.describe_to(Bool::Evaluator.new, vars)
   end
 
   let(:ast) { Bool.parse(expression) }

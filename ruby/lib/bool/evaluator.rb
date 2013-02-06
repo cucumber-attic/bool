@@ -1,5 +1,5 @@
 module Bool
-  class EvalVisitor
+  class Evaluator
     if RUBY_PLATFORM =~ /java/
       require 'libbool'
 

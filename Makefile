@@ -17,7 +17,7 @@ javascript:
 	cd javascript && make
 
 ruby: bison
-	cd ruby && rake
+	cd ruby && bundle && bundle exec rake
 
 clangruby: bison
 	cd ruby && CC=clang rake clean compile

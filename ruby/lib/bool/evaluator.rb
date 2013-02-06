@@ -8,20 +8,20 @@ module Bool
       end
 
     else
-      def var(var_node, vars)
-        !!vars.index(var_node.name)
+      def var(node, vars)
+        !!vars.index(node.name)
       end
 
-      def and(and_node, vars)
-        evaluate(and_node.left, vars) && evaluate(and_node.right, vars)
+      def and(node, vars)
+        evaluate(node.left, vars) && evaluate(node.right, vars)
       end
 
-      def or(and_node, vars)
-        evaluate(and_node.left, vars) || evaluate(and_node.right, vars)
+      def or(node, vars)
+        evaluate(node.left, vars) || evaluate(node.right, vars)
       end
 
-      def not(not_node, vars)
-        !evaluate(not_node.other, vars)
+      def not(node, vars)
+        !evaluate(node.other, vars)
       end
 
       private

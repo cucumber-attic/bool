@@ -20,16 +20,16 @@ ruby: bison
 	cd ruby && bundle && bundle exec rake
 
 clangruby: bison
-	cd ruby && CC=clang bundle exec rake clean compile
+	cd ruby && bundle && CC=clang bundle exec rake clean compile
 
 gccruby: bison
-	cd ruby && CC=gcc bundle exec rake clean compile
+	cd ruby && bundle && CC=gcc bundle exec rake clean compile
 
 jruby: bison
 	cd ruby && jruby -S rake
 
 winruby: mingw bison
-	cd ruby && bundle exec rake cross compile
+	cd ruby && bundle && bundle exec rake cross compile
 
 clean:
 	cd c          && make clean

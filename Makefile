@@ -35,7 +35,7 @@ clean:
 	cd c          && make clean
 	cd java       && mvn clean
 	cd javascript && make clean
-	cd ruby       && rake clean
+	cd ruby       && bundle exec rake clean
 
 clobber: clean
 	rm -Rf mingw

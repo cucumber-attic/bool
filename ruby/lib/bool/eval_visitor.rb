@@ -13,15 +13,21 @@ module Bool
       end
 
       def visit_and(and_node, vars)
-        and_node.left.describe_to(self, vars) && and_node.right.describe_to(self, vars)
+        evaluate(and_node.left, vars) && evaluate(and_node.right, vars)
       end
 
       def visit_or(and_node, vars)
-        and_node.left.describe_to(self, vars) || and_node.right.describe_to(self, vars)
+        evaluate(and_node.left, vars) || evaluate(and_node.right, vars)
       end
 
       def visit_not(not_node, vars)
-        !not_node.other.describe_to(self, vars)
+        !evaluate(not_node.other, vars)
+      end
+
+      private
+
+      def evaluate(node, vars)
+        node.describe_to(self, vars)
       end
     end
   end

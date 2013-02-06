@@ -19,6 +19,12 @@ javascript:
 ruby: bison
 	cd ruby && rake
 
+clangruby: bison
+	cd ruby && CC=clang rake clean compile
+
+gccruby: bison
+	cd ruby && CC=gcc rake clean compile
+
 jruby: bison
 	cd ruby && jruby -S rake
 
@@ -54,8 +60,8 @@ endif
 ifeq ($(RUBY_PLATFORM), java)
 travis: ruby
 else
-travis: c javascript ruby winruby
+travis: c javascript clangruby gccruby winruby
 endif
 
-.PHONY: all c java javascript ruby jruby winruby mingw travis bison clean
+.PHONY: all c java javascript ruby clangruby gccruby jruby winruby mingw travis bison clean
 

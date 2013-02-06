@@ -27,10 +27,15 @@ if RUBY_PLATFORM =~ /java/
 
   task :test => native_lib_jar
 else
+  task :clean do
+    Dir.chdir('../c') do
+      sh 'make clean'
+    end
+  end
   mingv_bin = File.expand_path('../../mingw/bin', __FILE__)
   ENV['PATH'] = "#{mingv_bin}:#{ENV['PATH']}"
 
-  %w[ast.h ast.c lexer.h lexer.c parser.h parser.c].each do |f|
+  %w[ast.h ast.c lexer.h lexer.c parser.h parser.c unused.h].each do |f|
     gen  = "../c/#{f}"
     copy = "ext/bool_ext/#{f}"
 

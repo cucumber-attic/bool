@@ -69,7 +69,7 @@ describe 'Bool' do
         Bool.parse("b || c\n   &&")
         fail
       rescue Bool::ParseError => expected
-        expected.message.must_match /line:2, column:4/
+        expected.message.must_match /line:2, column:5/
       end
     end
   end

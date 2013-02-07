@@ -10,12 +10,21 @@ import java.io.StringReader;
 %class Lexer
 %byaccj
 %unicode
+%line
 %column
 
 %{
     public Lexer(String expr) {
         this(new StringReader(expr));
     }
+
+	public int getLineNumber() {
+	    return yyline;
+	}
+	
+	public int getColumnNumber() {
+	    return yycolumn;
+	}
 %}
 
 %%

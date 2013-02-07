@@ -10,7 +10,7 @@ char last_error_msg[LAST_ERROR_MSG_BUFFER_SIZE];
 void yyerror(YYLTYPE *locp, yyscan_t scanner, Node** node, const char* msg) {
     UNUSED(scanner);
     UNUSED(node);
-    snprintf(last_error_msg, LAST_ERROR_MSG_BUFFER_SIZE,"%s (line:%d, column:%d)", msg, locp->first_line, locp->first_column);
+    snprintf(last_error_msg, LAST_ERROR_MSG_BUFFER_SIZE,"%s (line:%d, column:%d)", msg, locp->first_line, locp->last_column);
 }
  
 Node* parse_ast(const char* source) {

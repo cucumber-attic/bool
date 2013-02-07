@@ -4,6 +4,14 @@ BISON_VERSION := $(shell bison --version | grep ^bison | sed 's/^.* //')
 # Keep in sync with c/Makefile
 REQUIRED_BISON_VERSION = 2.7
 PATH := $(shell pwd)/bison-$(REQUIRED_BISON_VERSION)/tests:$(PATH)
+VERSION := $(shell head -1 VERSION)
+# http://stackoverflow.com/questions/5694228/sed-in-place-flag-that-works-both-on-mac-and-linux
+ifeq ($(UNAME), Darwin)
+ISED = sed -i ''
+else
+ISED = sed -i''
+endif
+
 
 all: c javascript ruby winruby jruby
 
@@ -66,6 +74,20 @@ else
 # ruby is MRI. In that case, build everything. We'll build ruby thrice, once with clang, once with gcc and once with mingw.
 travis: c javascript clangruby gccruby winruby
 endif
+
+### Bump versions
+
+java/pom.xml: VERSION
+	$(ISED) -e '0,/<version>.*/s//<version>$(VERSION)<\/version>/' java/pom.xml
+
+
+javascript/package.json: VERSION
+	$(ISED) -e '0,/"version"\s*:.*/s//"version": "$(VERSION)",/' javascript/package.json
+
+ruby/bool.gemspec: VERSION
+	$(ISED) -e '0,/s.version\s*=.*/s//s.version = "$(VERSION)"/' ruby/bool.gemspec
+
+version: java/pom.xml javascript/package.json ruby/bool.gemspec
 
 .PHONY: all c java javascript ruby clangruby gccruby jruby winruby mingw travis bison clean
 

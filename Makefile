@@ -40,9 +40,7 @@ clean:
 clobber: clean
 	rm -Rf mingw
 	rm -Rf javascript/node_modules
-ifneq ($(BISON_VERSION), $(REQUIRED_BISON_VERSION))
 	rm -Rf bison-$(REQUIRED_BISON_VERSION)
-endif
 
 ifeq ($(UNAME), Darwin)
 mingw: mingw/bin/i686-w64-mingw32-gcc

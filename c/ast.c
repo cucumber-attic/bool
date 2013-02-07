@@ -6,8 +6,8 @@
 
 char last_error_msg[LAST_ERROR_MSG_BUFFER_SIZE];
 
-void yyerror(yyscan_t scanner, Node** node, const char* msg) {
-    snprintf(last_error_msg, LAST_ERROR_MSG_BUFFER_SIZE,"%s", msg);
+void yyerror(YYLTYPE *locp, yyscan_t scanner, Node** node, const char* msg) {
+    snprintf(last_error_msg, LAST_ERROR_MSG_BUFFER_SIZE,"%s (line:%d, column:%d)", msg, locp->first_line, locp->first_column);
 }
  
 Node* parse_ast(const char* source) {

@@ -17,22 +17,30 @@ javascript:
 	cd javascript && make
 
 ruby: bison
-	cd ruby && rake
+	cd ruby && bundle && bundle exec rake
+
+clangruby: bison
+	cd ruby && bundle && CC=clang bundle exec rake clean compile
+
+gccruby: bison
+	cd ruby && bundle && CC=gcc bundle exec rake clean compile
 
 jruby: bison
 	cd ruby && jruby -S rake
 
 winruby: mingw bison
-	cd ruby && rake cross compile
+	cd ruby && bundle && bundle exec rake cross compile
 
 clean:
 	cd c          && make clean
 	cd java       && mvn clean
 	cd javascript && make clean
-	cd ruby       && rake clean
+	cd ruby       && bundle exec rake clean
 
 clobber: clean
 	rm -Rf mingw
+	rm -Rf javascript/node_modules
+	rm -Rf bison-$(REQUIRED_BISON_VERSION)
 
 ifeq ($(UNAME), Darwin)
 mingw: mingw/bin/i686-w64-mingw32-gcc
@@ -52,10 +60,12 @@ bison-$(REQUIRED_BISON_VERSION)/src/bison:
 endif
 
 ifeq ($(RUBY_PLATFORM), java)
+# ruby is actually jruby. In that case run only the ruby target, which will build with jruby
 travis: ruby
 else
-travis: c javascript ruby winruby
+# ruby is MRI. In that case, build everything. We'll build ruby thrice, once with clang, once with gcc and once with mingw.
+travis: c javascript clangruby gccruby winruby
 endif
 
-.PHONY: all c java javascript ruby jruby winruby mingw travis bison clean
+.PHONY: all c java javascript ruby clangruby gccruby jruby winruby mingw travis bison clean
 

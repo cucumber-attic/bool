@@ -1,4 +1,5 @@
 %{
+#include "unused.h"
 #define YY_NO_INPUT
 #include "parser.h"
 
@@ -18,8 +19,7 @@
 
 %%
 
-[ \r\t]*               { /* Skip blanks. */ }
-[\n]                   {}
+[ \n\r\t]*             { /* Skip blanks. */ }
 [A-Za-z0-9_\-@]+       { yylval->value = strdup(yytext); return TOKEN_VAR; }
 "&&"                   { return TOKEN_AND; }
 "||"                   { return TOKEN_OR; }

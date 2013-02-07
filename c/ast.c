@@ -1,12 +1,15 @@
 #include "ast.h"
 #include "parser.h"
 #include "lexer.h"
+#include "unused.h"
 
 #define LAST_ERROR_MSG_BUFFER_SIZE 512
 
 char last_error_msg[LAST_ERROR_MSG_BUFFER_SIZE];
 
 void yyerror(YYLTYPE *locp, yyscan_t scanner, Node** node, const char* msg) {
+    UNUSED(scanner);
+    UNUSED(node);
     snprintf(last_error_msg, LAST_ERROR_MSG_BUFFER_SIZE,"%s (line:%d, column:%d)", msg, locp->first_line, locp->first_column);
 }
  

@@ -34,5 +34,58 @@ describe('Bool', function() {
     var expr = parser.parse('!@a1A');
     assert.equal(false, expr.accept(new parser.EvalVisitor(), ['@a1A']));
   });
+
+  it('throws exception on scanner error', function() {
+    try {
+      parser.parse(
+                         // line,token_start_col
+        "          \n" + // 1
+        "          \n" + // 2
+        "  a       \n" + // 3,3
+        "    ?     \n"   // 4,5
+      );
+      throw new Error("should fail");
+    } catch(expected) {
+      assert.equal(
+        "Lexical error on line 4. Unrecognized text.\n" +
+        "...      a           ?     \n" +
+        "---------------------^"
+        , expected.message);
+      assert.deepEqual({
+        text: '',
+        token: null,
+        line: 3
+      }, expected.hash);
+    }
+  });
+
+  it('throws exception on parse error', function() {
+    try {
+      parser.parse(
+                         // line,token_start_col
+        "          \n" + // 1
+        "          \n" + // 2
+        "  a       \n" + // 3,3
+        "    ||    \n" + // 4,5
+        "      c   \n" + // 5,7
+        "        &&"     // 6,9
+      );
+      throw new Error("should fail");
+    } catch(expected) {
+      assert.equal(
+        "Parse error on line 6:\n" +
+        "...     c           &&\n" +
+        "----------------------^\n" +
+        "Expecting 'TOKEN_VAR', 'TOKEN_NOT', 'TOKEN_LPAREN', got 'EOF'"
+        , expected.message);
+      assert.deepEqual({
+        text: '',
+        token: 'EOF',
+        line: 5,
+        loc: { first_line: 6, last_line: 6, first_column: 8, last_column: 10 },
+        expected: [ '\'TOKEN_VAR\'', '\'TOKEN_NOT\'', '\'TOKEN_LPAREN\'' ]
+      }, expected.hash);
+    }
+  });
 });
 

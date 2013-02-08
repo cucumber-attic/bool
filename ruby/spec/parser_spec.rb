@@ -4,45 +4,46 @@ require 'minitest/autorun'
 
 describe 'Bool' do
 
+  def evaluate(vars)
+    ast.describe_to(Bool::Evaluator.new, vars)
+  end
+
+  let(:ast) { Bool.parse(expression) }
+  let(:expression) { raise NotImplementedError }
+
   describe "AND expression" do
-    before do
-      @ast = Bool.parse("a && b")
-    end
+    let(:expression) { "a && b" }
 
     it "is false when one operand is false" do
-      @ast.accept(Bool::EvalVisitor.new, ["a"]).must_equal(false)
+      evaluate(["a"]).must_equal(false)
     end
 
     it "is true when both operands are true" do
-      @ast.accept(Bool::EvalVisitor.new, ["a", "b"]).must_equal(true)
+      evaluate(["a", "b"]).must_equal(true)
     end
   end
 
   describe "OR expression" do
-    before do
-      @ast = Bool.parse("a || b")
-    end
+    let(:expression) { "a || b" }
 
     it "is true when one operand is false" do
-      @ast.accept(Bool::EvalVisitor.new, ["a"]).must_equal(true)
+      evaluate(["a"]).must_equal(true)
     end
 
     it "is false when both operands are false" do
-      @ast.accept(Bool::EvalVisitor.new, []).must_equal(false)
+      evaluate([]).must_equal(false)
     end
   end
 
   describe "NOT expression" do
-    before do
-      @ast = Bool.parse("!a")
-    end
+    let(:expression) { "!a" }
 
     it "is true when operand is false" do
-      @ast.accept(Bool::EvalVisitor.new, []).must_equal(true)
+      evaluate([]).must_equal(true)
     end
 
     it "is false when operand is true" do
-      @ast.accept(Bool::EvalVisitor.new, ["a"]).must_equal(false)
+      evaluate(["a"]).must_equal(false)
     end
   end
 

@@ -6,7 +6,7 @@ public class And extends Binary {
     }
 
     @Override
-    public <R, A> R accept(Visitor<R, A> visitor, A arg) {
-        return visitor.visitAnd(this, arg);
+    public <R, A> R describeTo(Visitor<R, A> visitor, A arg) {
+        return visitor.and(this, arg);
     }
 }

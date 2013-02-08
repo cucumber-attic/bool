@@ -8,7 +8,7 @@ public class Not extends Expr {
     }
 
     @Override
-    public <R, A> R accept(Visitor<R, A> visitor, A arg) {
-        return visitor.visitNot(this, arg);
+    public <R, A> R describeTo(Visitor<R, A> visitor, A arg) {
+        return visitor.not(this, arg);
     }
 }

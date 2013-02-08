@@ -11,7 +11,7 @@ describe('Testdata', function() {
       var expr = parser.parse(lines[0]);
       var vars = lines[1].split(/\s+/);
       var expected = lines[2];
-      assert.equal(expected, expr.accept(new parser.EvalVisitor(), vars).toString());
+      assert.equal(expected, expr.describeTo(new parser.Evaluator(), vars).toString());
     });
   }); 
 });

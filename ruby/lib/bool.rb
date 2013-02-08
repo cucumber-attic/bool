@@ -2,7 +2,7 @@
 # bool_ext.jar, depending on your Ruby platform and OS
 require 'bool_ext'
 require 'bool/ast'
-require 'bool/eval_visitor'
+require 'bool/evaluator'
 
 module Bool
   class SyntaxError < StandardError

@@ -11,4 +11,4 @@ parser.parser.parseError = function parseError(message, hash) {
     throw new SyntaxError(message, hash);
 };
 module.exports.parse = parser.parse;
-module.exports.EvalVisitor = require('./eval_visitor');
+module.exports.Evaluator = require('./evaluator');

@@ -22,13 +22,18 @@ public class LexerTest {
 
     @Test
     public void test_lex_error() throws IOException {
-        Lexer lexer = new Lexer("foo ?? bar");
+        Lexer lexer = new Lexer("" +
+                "          \n" +
+                "          \n" +
+                "  a       \n" +
+                "    ?     \n"
+        );
         lexer.yylex();
         try {
             lexer.yylex();
         } catch (SyntaxError e) {
             assertEquals("Unexpected character: ?", e.getMessage());
-            assertEquals(1, e.getLine());
+            assertEquals(4, e.getLine());
             assertEquals(5, e.getColumn());
         }
     }

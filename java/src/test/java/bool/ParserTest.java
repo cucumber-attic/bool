@@ -22,14 +22,21 @@ public class ParserTest {
 
     @Test
     public void test_parse_error() throws IOException {
-        Parser parser = new Parser(new Lexer("foo && bar &&"));
+        Parser parser = new Parser(new Lexer("" +
+                "          \n" +
+                "          \n" +
+                "  a       \n" +
+                "    ||    \n" +
+                "      c   \n" +
+                "        &&"
+        ));
         try {
             parser.parseExpr();
             fail();
         } catch (SyntaxError expected) {
             assertEquals("syntax error, unexpected end of input, expecting TOKEN_VAR or TOKEN_NOT or TOKEN_LPAREN", expected.getMessage());
-            assertEquals(1, expected.getLine());
-            assertEquals(14, expected.getColumn());
+            assertEquals(6, expected.getLine());
+            assertEquals(11, expected.getColumn());
         }
     }
 }

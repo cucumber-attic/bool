@@ -4,6 +4,11 @@ rvm:
 before_script:
   - "pushd ruby && gem install bundler && bundle && popd"
 script: "make travis"
+branches:
+  only:
+    - master
+    - /^issue.*$/
+    - /^fix.*$/
 notifications:
   email:
     - cukes-devs@googlegroups.com

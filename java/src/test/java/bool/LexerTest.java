@@ -19,4 +19,17 @@ public class LexerTest {
         assertEquals(Parser.TOKEN_VAR, lexer.yylex());
         assertEquals("bar", lexer.yytext());
     }
+
+    @Test
+    public void test_lex_error() throws IOException {
+        Lexer lexer = new Lexer("foo ?? bar");
+        lexer.yylex();
+        try {
+            lexer.yylex();
+        } catch (SyntaxError e) {
+            assertEquals("Unexpected character: ?", e.getMessage());
+            assertEquals(1, e.getLine());
+            assertEquals(5, e.getColumn());
+        }
+    }
 }

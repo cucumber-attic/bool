@@ -3,6 +3,7 @@ require 'bool'
 require 'minitest/autorun'
 
 describe 'Bool' do
+
   describe "AND expression" do
     before do
       @ast = Bool.parse("a && b")
@@ -45,32 +46,44 @@ describe 'Bool' do
     end
   end
 
-  describe "Exception" do
-    it 'is raised on parse error' do
+  describe "SyntaxError" do
+    it 'is raised on scanner error' do
       begin
-        Bool.parse("a ||")
+        Bool.parse(        # line,token_start_col
+          "          \n" + # 1
+          "          \n" + # 2
+          "  a       \n" + # 3,3
+          "    ?     \n"   # 4,5
+        )
         fail
-      rescue Bool::ParseError => expected
-        expected.message.must_match /expecting TOKEN_VAR or TOKEN_NOT or TOKEN_LPAREN/
+      rescue Bool::SyntaxError => expected
+        expected.line.must_equal 4
+        expected.column.must_equal 5
+        expected.message.must_equal "Unexpected character: ?"
       end
     end
 
-    it 'is raised on lexing error' do
+    it 'is raised on parse error' do
       begin
-        Bool.parse("a ^ e")
+        Bool.parse(        # line,token_start_col
+          "          \n" + # 1
+          "          \n" + # 2
+          "  a       \n" + # 3,3
+          "    ||    \n" + # 4,5
+          "      c   \n" + # 5,7
+          "        &&"     # 6,9
+        )
         fail
-      rescue Bool::ParseError => expected
-        expected.message.must_match /syntax error, unexpected TOKEN_VAR, expecting \$end|Error: could not match input/
+      rescue Bool::SyntaxError => expected
+        if RUBY_PLATFORM =~ /java/
+          expected.message.must_equal "syntax error, unexpected end of input, expecting TOKEN_VAR or TOKEN_NOT or TOKEN_LPAREN"
+        else
+          expected.message.must_equal "syntax error, unexpected $end, expecting TOKEN_VAR or TOKEN_NOT or TOKEN_LPAREN"
+        end
+        expected.line.must_equal 6
+        expected.column.must_equal 11
       end
     end
-    
-    it 'is contains correct line and column numbers' do
-      begin
-        Bool.parse("b || c\n   &&")
-        fail
-      rescue Bool::ParseError => expected
-        expected.message.must_match /line:2, column:5/
-      end
-    end
+
   end
 end

@@ -3,14 +3,15 @@
 #include "lexer.h"
 #include "unused.h"
 
-#define LAST_ERROR_MSG_BUFFER_SIZE 512
+SyntaxError last_error;
 
-char last_error_msg[LAST_ERROR_MSG_BUFFER_SIZE];
-
-void yyerror(YYLTYPE *locp, yyscan_t scanner, Node** node, const char* msg) {
+void yyerror(YYLTYPE* locp, yyscan_t scanner, Node** node, const char* msg) {
     UNUSED(scanner);
     UNUSED(node);
-    snprintf(last_error_msg, LAST_ERROR_MSG_BUFFER_SIZE,"%s (line:%d, column:%d)", msg, locp->first_line, locp->last_column);
+
+    last_error.message = strdup(msg);
+    last_error.line = locp->first_line;
+    last_error.column = locp->first_column + 1;
 }
  
 Node* parse_ast(const char* source) {
@@ -18,8 +19,6 @@ Node* parse_ast(const char* source) {
     yyscan_t scanner;
     YY_BUFFER_STATE state;
 
-	last_error_msg[0]  = 0;
- 
     if (yylex_init(&scanner)) {
         // couldn't initialize
         return NULL;

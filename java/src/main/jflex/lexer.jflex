@@ -18,13 +18,13 @@ import java.io.StringReader;
         this(new StringReader(expr));
     }
 
-	public int getLineNumber() {
-	    return yyline;
-	}
-	
-	public int getColumnNumber() {
-	    return yycolumn;
-	}
+    public int getYyline() {
+        return yyline;
+    }
+
+    public int getYycolumn() {
+        return yycolumn;
+    }
 %}
 
 %%
@@ -36,4 +36,4 @@ import java.io.StringReader;
 "!"                   { return Parser.TOKEN_NOT; }
 "("                   { return Parser.TOKEN_LPAREN; }
 ")"                   { return Parser.TOKEN_RPAREN; }
-
+.                     { throw new SyntaxError("Unexpected character: " + yytext(), yyline+1, yycolumn+1); }

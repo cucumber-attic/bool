@@ -19,12 +19,13 @@
 
 %%
 
-[ \n\r\t]*             { /* Skip blanks. */ }
+[ \r\n\t]*             { /* skip whitespace */ }
 [A-Za-z0-9_\-@]+       { yylval->value = strdup(yytext); return TOKEN_VAR; }
 "&&"                   { return TOKEN_AND; }
 "||"                   { return TOKEN_OR; }
 "!"                    { return TOKEN_NOT; }
 "("                    { return TOKEN_LPAREN; }
 ")"                    { return TOKEN_RPAREN; }
+.                      { /* store the bad token here?? */ return TOKEN_ERROR; }
 
 %%

@@ -1,6 +1,12 @@
 #ifndef __AST_H__
 #define __AST_H__
 
+typedef struct SyntaxError {
+    char* message;
+    int line;
+    int column;
+} SyntaxError;
+
 typedef enum NodeType {
     eVAR,
     eAND,
@@ -18,7 +24,7 @@ typedef struct Node {
 
 extern Node* parse_ast(const char* source);
 extern void free_ast(Node* node);
-extern char last_error_msg[];
+extern SyntaxError last_error;
 
 typedef struct Var {
     NodeType type;

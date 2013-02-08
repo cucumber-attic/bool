@@ -26,8 +26,10 @@ public class ParserTest {
         try {
             parser.parseExpr();
             fail();
-        } catch (ParseException expected) {
-            assertEquals("syntax error, unexpected end of input, expecting TOKEN_VAR or TOKEN_NOT or TOKEN_LPAREN (line:1, column:13)", expected.getMessage());
+        } catch (SyntaxError expected) {
+            assertEquals("syntax error, unexpected end of input, expecting TOKEN_VAR or TOKEN_NOT or TOKEN_LPAREN", expected.getMessage());
+            assertEquals(1, expected.getLine());
+            assertEquals(14, expected.getColumn());
         }
     }
 }

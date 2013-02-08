@@ -21,6 +21,6 @@ class LexerAdapter implements Parser.Lexer {
 
     @Override
     public void yyerror(String s) {
-        throw new ParseException(String.format("%s (line:%d, column:%d)", s, lexer.getLineNumber()+1, lexer.getColumnNumber()));
+        throw new SyntaxError(s, lexer.getYyline() + 1, lexer.getYycolumn() + 1);
     }
 }

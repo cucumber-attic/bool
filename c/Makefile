@@ -31,6 +31,8 @@ lexer.h lexer.c: lexer.l
 	$(ISED) -e 's/return (void \*) malloc( size );/UNUSED(yyscanner);return (void *) malloc( size );/g' lexer.c
 	$(ISED) -e 's/return (void \*) realloc( (char \*) ptr, size );/UNUSED(yyscanner);return (void *) realloc( (char *) ptr, size );/g' lexer.c
 	$(ISED) -e 's/free( (char \*) ptr );/UNUSED(yyscanner);free( (char *) ptr );/g' lexer.c
+	# Inject missing initializations into lexer.c with surgical precision.
+	$(ISED) -e 's/b->yy_fill_buffer = 0;/b->yy_fill_buffer = 0; b->yy_bs_lineno = 1; b->yy_bs_column = 1;/g' lexer.c
 
 parser.h parser.c: parser.y
 	bison --version

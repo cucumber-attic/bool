@@ -15,11 +15,11 @@ static VALUE transform(Node *node) {
     case eVAR:
         return rb_funcall(rb_cVar, rb_intern("new"), 1, rb_str_new2(((Var*)node)->value));
     case eAND:
-        return rb_funcall(rb_cAnd, rb_intern("new"), 2, transform(((Binary*)node)->left), transform(((Binary*)node)->right));
+        return rb_funcall(rb_cAnd, rb_intern("new"), 2, transform(((And*)node)->left), transform(((And*)node)->right));
     case eOR:
-        return rb_funcall(rb_cOr,  rb_intern("new"), 2, transform(((Binary*)node)->left), transform(((Binary*)node)->right));
+        return rb_funcall(rb_cOr,  rb_intern("new"), 2, transform(((Or*)node)->left), transform(((Or*)node)->right));
     case eNOT:
-        return rb_funcall(rb_cNot, rb_intern("new"), 1, transform(((Unary*)node)->refnode));
+        return rb_funcall(rb_cNot, rb_intern("new"), 1, transform(((Not*)node)->other));
     default:
         rb_raise(rb_eArgError, "Should never happen");
         return 0;
@@ -49,19 +49,15 @@ static VALUE Bool_parse(VALUE klass, VALUE r_expr) {
 void Init_bool_ext() {
     VALUE rb_mBool; 
     VALUE rb_eStandardError;
-    VALUE rb_cBinary;
-    VALUE rb_cUnary;
 
     rb_eStandardError = rb_const_get(rb_cObject, rb_intern("StandardError"));
     rb_mBool = rb_define_module("Bool");
     rb_eParseError = rb_define_class_under(rb_mBool, "ParseError", rb_eStandardError);
 
-    rb_cBinary = rb_define_class_under(rb_mBool, "Binary", rb_cObject);
-    rb_cUnary = rb_define_class_under(rb_mBool, "Unary", rb_cObject);
-    rb_cVar = rb_define_class_under(rb_mBool, "Var", rb_cObject);
-    rb_cAnd = rb_define_class_under(rb_mBool, "And", rb_cBinary);
-    rb_cOr  = rb_define_class_under(rb_mBool, "Or", rb_cBinary);
-    rb_cNot = rb_define_class_under(rb_mBool, "Not", rb_cUnary);
+    rb_cVar    = rb_define_class_under(rb_mBool, "Var", rb_cObject);
+    rb_cAnd    = rb_define_class_under(rb_mBool, "And", rb_cObject);
+    rb_cOr     = rb_define_class_under(rb_mBool, "Or",  rb_cObject);
+    rb_cNot    = rb_define_class_under(rb_mBool, "Not", rb_cObject);
 
     rb_define_singleton_method(rb_mBool, "parse", Bool_parse, 1);
 }

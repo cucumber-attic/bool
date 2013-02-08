@@ -3,7 +3,7 @@
 #include "parser.h"
 #include "lexer.h"
  
-void yyerror(yyscan_t scanner, Node** node, const char* msg);
+void yyerror(YYLTYPE *locp, yyscan_t scanner, Node** node, const char* msg);
  
 %}
 
@@ -14,7 +14,6 @@ void yyerror(yyscan_t scanner, Node** node, const char* msg);
 #define YY_TYPEDEF_YY_SCANNER_T
 typedef void* yyscan_t;
 #endif
-
 }
  
 %output  "parser.c"
@@ -26,7 +25,7 @@ typedef void* yyscan_t;
 %parse-param { yyscan_t scanner }
 
 %error-verbose
-/* %locations */
+%locations
  
 %union {
     char* value;

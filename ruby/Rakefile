@@ -8,7 +8,7 @@ require 'rake/testtask'
 require 'rake/clean'
 
 native_lib_jar     = 'lib/bool_ext.jar'
-native_lib_jar_mvn = '../java/target/bool-1.0.0-SNAPSHOT.jar'
+native_lib_jar_mvn = '../java/target/bool.jar'
 native_lib_c       = 'ext/bool_ext/libbool'
 CLEAN << native_lib_jar
 

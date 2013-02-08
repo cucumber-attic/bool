@@ -5,6 +5,7 @@ Gem::Specification.new do |s|
   s.author  = "Aslak Hellesøy"
   
   s.files = Dir.glob("lib/**/*.rb")
+  s.add_development_dependency('rake')
   
   if RUBY_PLATFORM =~ /java/
     s.platform = "java"

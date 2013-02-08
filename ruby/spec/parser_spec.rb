@@ -65,5 +65,14 @@ describe 'Bool' do
         expected.message.must_match /syntax error, unexpected TOKEN_VAR, expecting \$end|Error: could not match input/
       end
     end
+    
+    it 'is contains correct line and column numbers' do
+      begin
+        Bool.parse("b || c\n   &&")
+        fail
+      rescue Bool::ParseError => expected
+        expected.message.must_match /line:2, column:5/
+      end
+    end
   end
 end

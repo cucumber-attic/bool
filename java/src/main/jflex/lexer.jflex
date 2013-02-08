@@ -36,4 +36,4 @@ import java.io.StringReader;
 "!"                   { return Parser.TOKEN_NOT; }
 "("                   { return Parser.TOKEN_LPAREN; }
 ")"                   { return Parser.TOKEN_RPAREN; }
-.                     { throw new SyntaxError("Unexpected character: " + yytext(), yyline+1, yycolumn+1); }
+.                     { throw new SyntaxError("Unexpected character: " + yytext(), yyline, yycolumn); }

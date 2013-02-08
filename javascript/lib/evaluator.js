@@ -1,4 +1,4 @@
-module.exports = function() {
+module.exports = function Evaluator() {
   this.var = function(var_node, vars) {
     return vars.indexOf(var_node.name) != -1;
   };

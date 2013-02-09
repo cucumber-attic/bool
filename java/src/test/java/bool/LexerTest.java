@@ -21,19 +21,6 @@ public class LexerTest {
     }
     
     @Test
-    public void test_lex_or() throws IOException {
-        Lexer lexer = new Lexer("foo || bar");
-        assertEquals(Parser.TOKEN_VAR, lexer.yylex());
-        assertEquals("foo", lexer.yytext());
-
-        assertEquals(Parser.TOKEN_OR, lexer.yylex());
-        assertEquals("||", lexer.yytext());
-
-        assertEquals(Parser.TOKEN_VAR, lexer.yylex());
-        assertEquals("bar", lexer.yytext());
-    }
-    
-    @Test
     public void test_less_simple_lex() throws IOException {
     	Lexer lexer = new Lexer("a && b && (!c || !d)");
         assertEquals(Parser.TOKEN_VAR, lexer.yylex());

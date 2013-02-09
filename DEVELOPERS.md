@@ -61,6 +61,7 @@ Bump the version in `VERSION` and run `make version`. This updates the version i
     + When you need feedback or help
     + You think the branch is ready for merging (I do this using the [hub](https://github.com/defunkt/hub#git-pull-request) command-line tool -- @mattwynne)
 * After someone else has reviewed and agreed on the change, you can merge it into master
+
  Here is an [Example](https://github.com/cucumber/bool/pull/12) of this process in action
 
 ### Tips for good commits

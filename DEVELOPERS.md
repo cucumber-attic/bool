@@ -47,23 +47,23 @@ yum install bison flex wget node mingw32-gcc
 
 Bump the version in `VERSION` and run `make version`. This updates the version in the package descriptors for all platforms.
 
- ## The Github Process
+## The Github Process
 
- The process for using git/github as we all start collaborating on bool and other Cucumber projects. This process is similar to the [Github-Flow](http://scottchacon.com/2011/08/31/github-flow.html)
+ The process for using git/github as we all start collaborating on bool and other Cucumber projects is similar to the [Github-Flow](http://scottchacon.com/2011/08/31/github-flow.html)
 
- 1. **Anything** in the master branch is good enough to release
- 2. Working on new features
-     + Create a descriptively named branch off of master (ie: new-oauth2-scopes)
-     + Commit to that branch locally and regularly
-     + Push your work to the same named branch on the server
-     + Regularly rebase this branch from master to keep it up to date.
- 3. Open a pull request
-     + When you need feedback or help
-     + You think the branch is ready for merging (I do this using the [hub](https://github.com/defunkt/hub#git-pull-request) command-line tool -- @mattwynne)
- 4. After someone else has reviewed and agreed on the change, you can merge it into master
+* **Anything** in the master branch is good enough to release
+* Working on new features
+    + Create a descriptively named branch off of master (ie: new-oauth2-scopes)
+    + Commit to that branch locally and regularly
+    + Push your work to the same named branch on the server
+    + Regularly rebase this branch from master to keep it up to date.
+* Open a pull request
+    + When you need feedback or help
+    + You think the branch is ready for merging (I do this using the [hub](https://github.com/defunkt/hub#git-pull-request) command-line tool -- @mattwynne)
+* After someone else has reviewed and agreed on the change, you can merge it into master
  Here is an [Example](https://github.com/cucumber/bool/pull/12) of this process in action
 
- ### Tips for good commits
+### Tips for good commits
 
  1. Read up on [Github Flavored Markdown](https://help.github.com/articles/github-flavored-markdown)
       + especially links and syntax highlighting. GFM can be used in tickets as well as commit messages (e.g. put "#4" somewhere in a commit message to link ticket 4 to that commit.

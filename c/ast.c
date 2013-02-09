@@ -9,11 +9,21 @@ void yyerror(YYLTYPE* locp, yyscan_t scanner, Node** node, const char* msg) {
     UNUSED(scanner);
     UNUSED(node);
 
-    last_error.message = strdup(msg);
+    if (last_error.token == 0)
+    {
+        last_error.message = strdup(msg);
+    }
+    else
+    {
+        char message[] = "Unexpected character: ";
+        last_error.message = malloc(sizeof(char) * (strlen(message) + strlen(last_error.token) + 1));
+        sprintf(last_error.message, "%s%s", message, last_error.token); 
+    }
+
     last_error.line = locp->first_line;
-    last_error.column = locp->first_column + 1;
+    last_error.column = locp->last_column;
 }
- 
+
 Node* parse_ast(const char* source) {
     Node* node;
     yyscan_t scanner;
@@ -23,6 +33,8 @@ Node* parse_ast(const char* source) {
         // couldn't initialize
         return NULL;
     }
+    
+    last_error.token = 0;
 
     // TODO: Check state here?
     state = yy_scan_string(source, scanner);

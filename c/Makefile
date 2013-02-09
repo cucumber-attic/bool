@@ -1,6 +1,7 @@
 UNAME := $(shell uname)
 LDSHARED?=$(CC) -shared
 OBJECTS = lexer.o parser.o ast.o
+TEST_OBJECTS = test/test.o
 CFLAGS = -fPIC -O2 -Werror -Wall -Wunused-parameter
 # Keep in sync with ../Makefile
 PATH := $(shell pwd)/../bison-2.7/tests:$(PATH)
@@ -12,7 +13,7 @@ else
 ISED = sed -i''
 endif
 
-all: libparse.o libparse.a
+all: libparse.o libparse.a test.o test.out run_tests
 
 libparse.a: $(OBJECTS)
 	$(AR) rcs $@ $(OBJECTS)
@@ -22,6 +23,14 @@ libparse.o: $(OBJECTS)
 
 lexer.o: parser.o
 nodes.o: nodes.h
+
+run_tests: test.out
+	test/test.out
+
+test.out: $(TEST_OBJECTS) libparse.a
+	$(CC) -o test/$@ test/*.o libparse.a
+
+test.o: $(TEST_OBJECTS)
 
 lexer.h lexer.c: lexer.l
 	flex --version
@@ -39,4 +48,4 @@ parser.h parser.c: parser.y
 	bison parser.y
 
 clean:
-	rm -f lexer.h lexer.c parser.h parser.c *.o *.a
+	rm -f lexer.h lexer.c parser.h parser.c *.o *.a test/test.out test/*.o

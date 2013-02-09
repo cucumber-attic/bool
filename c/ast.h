@@ -5,6 +5,7 @@ typedef struct SyntaxError {
     char* message;
     int line;
     int column;
+    char* token;
 } SyntaxError;
 
 typedef enum NodeType {

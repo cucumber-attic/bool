@@ -3,8 +3,10 @@
 
 typedef struct SyntaxError {
     char* message;
-    int line;
-    int column;
+    int first_line;
+    int last_line;
+    int first_column;
+    int last_column;
     char* token;
 } SyntaxError;
 

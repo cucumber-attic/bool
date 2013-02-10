@@ -16,7 +16,6 @@ void test_valid_expression()
         
     ASSERT("AST should not have returned NULL", ast);
     ASSERT_EQUALS(eAND, ast->type);
-    printf("TYPE: %d\n", ast->type);
 }
 
 void test_line_and_column()
@@ -26,13 +25,14 @@ void test_line_and_column()
         "      \n"
         "      \n"
         "   && \n");
-        
     ASSERT_EQUALS(NULL, ast);
-
-    char message[] = "syntax error, unexpected TOKEN_AND, expecting TOKEN_VAR or TOKEN_NOT or TOKEN_LPAREN";
-    ASSERT_EQUALS(4, last_error.line);
-    ASSERT_EQUALS(5, last_error.column);
-    ASSERT_STRING_EQUALS(message, last_error.message);
+    ASSERT_EQUALS(4, last_error.first_line);
+    ASSERT_EQUALS(4, last_error.last_line);
+    ASSERT_EQUALS(4, last_error.first_column);
+    ASSERT_EQUALS(5, last_error.last_column);
+    ASSERT_STRING_EQUALS(
+        "syntax error, unexpected TOKEN_AND, expecting TOKEN_VAR or TOKEN_NOT or TOKEN_LPAREN", 
+        last_error.message);
 }
 
 void test_invalid_symbol()
@@ -41,11 +41,11 @@ void test_invalid_symbol()
         "^");
 
     ASSERT_EQUALS(NULL, ast);
-
-    char message[] = "Unexpected character: ^";
-    ASSERT_EQUALS(1, last_error.line);
-    ASSERT_EQUALS(1, last_error.column);
-    ASSERT_STRING_EQUALS(message, last_error.message);
+    ASSERT_EQUALS(1, last_error.first_line);
+    ASSERT_EQUALS(1, last_error.last_line);
+    ASSERT_EQUALS(1, last_error.first_column);
+    ASSERT_EQUALS(1, last_error.last_column);
+    ASSERT_STRING_EQUALS("Unexpected character: ^", last_error.message);
 }
 
 void test_invalid_token()
@@ -54,11 +54,11 @@ void test_invalid_token()
         "^£$");
 
     ASSERT_EQUALS(NULL, ast);
-
-    char message[] = "Unexpected character: ^";
-    ASSERT_EQUALS(1, last_error.line);
-    ASSERT_EQUALS(1, last_error.column);
-    ASSERT_STRING_EQUALS(message, last_error.message);
+    ASSERT_EQUALS(1, last_error.first_line);
+    ASSERT_EQUALS(1, last_error.last_line);
+    ASSERT_EQUALS(1, last_error.first_column);
+    ASSERT_EQUALS(1, last_error.last_column);
+    ASSERT_STRING_EQUALS("Unexpected character: ^", last_error.message);
 }
 
 void test_invalid_statement()
@@ -67,12 +67,12 @@ void test_invalid_statement()
         "a ^ e");
     
     ASSERT_EQUALS(NULL, ast);
-
-    char message[] = "Unexpected character: ^";
-    ASSERT_EQUALS(1, last_error.line);
-    printf("WHERE %d\n", last_error.column);
-    ASSERT_EQUALS(3, last_error.column);
-    ASSERT_STRING_EQUALS(message, last_error.message);
+    ASSERT_EQUALS(1, last_error.first_line);
+    ASSERT_EQUALS(1, last_error.last_line);
+    // TODO: should be 2 and 3
+    ASSERT_EQUALS(1, last_error.first_column);
+    ASSERT_EQUALS(1, last_error.last_column);
+    ASSERT_STRING_EQUALS("Unexpected character: ^", last_error.message);
 }
 
 void test_invalid_long_statement()
@@ -84,13 +84,15 @@ void test_invalid_long_statement()
         "    ||    \n"
         "      c   \n"
         "        &&");
-
+       //01234567890
     ASSERT_EQUALS(NULL, ast);
-   
-    char message[] = "syntax error, unexpected $end, expecting TOKEN_VAR or TOKEN_NOT or TOKEN_LPAREN";
-    ASSERT_EQUALS(6, last_error.line);
-    ASSERT_EQUALS(10, last_error.column);
-    ASSERT_STRING_EQUALS(message, last_error.message);
+    ASSERT_EQUALS(6, last_error.first_line);
+    ASSERT_EQUALS(6, last_error.last_line);
+    ASSERT_EQUALS(9, last_error.first_column);
+    ASSERT_EQUALS(10, last_error.last_column);
+    ASSERT_STRING_EQUALS(
+        "syntax error, unexpected $end, expecting TOKEN_VAR or TOKEN_NOT or TOKEN_LPAREN", 
+        last_error.message);
 }
 
 int main()

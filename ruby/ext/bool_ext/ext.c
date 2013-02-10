@@ -44,7 +44,7 @@ static VALUE Bool_parse(VALUE klass, VALUE r_expr) {
     } else {
         //rb_raise(rb_eSyntaxError, "%s", last_error_msg, last_error.line, last_error.column);
         //exception = rb_exc_new2(rb_eSyntaxError, "input was < 0", last_error.line, last_error.column);
-        exception = rb_funcall(rb_eSyntaxError, rb_intern("new"), 3, rb_str_new(last_error.message, strlen(last_error.message)), INT2FIX(last_error.line), INT2FIX(last_error.column));
+        exception = rb_funcall(rb_eSyntaxError, rb_intern("new"), 3, rb_str_new(last_error.message, strlen(last_error.message)), INT2FIX(last_error.first_line), INT2FIX(last_error.last_column));
         rb_exc_raise(exception);
     }
 }

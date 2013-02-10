@@ -20,8 +20,10 @@ void yyerror(YYLTYPE* locp, yyscan_t scanner, Node** node, const char* msg) {
         sprintf(last_error.message, "%s%s", message, last_error.token); 
     }
 
-    last_error.line = locp->first_line;
-    last_error.column = locp->last_column;
+    last_error.first_line   = locp->first_line;
+    last_error.last_line    = locp->last_line;
+    last_error.first_column = locp->first_column;
+    last_error.last_column  = locp->last_column;
 }
 
 Node* parse_ast(const char* source) {

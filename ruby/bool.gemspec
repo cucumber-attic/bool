@@ -1,7 +1,7 @@
 Gem::Specification.new do |s|
   s.name    = "bool"
   s.version = "1.0.0"
-  s.summary = "Boolean expression parser"
+  s.summary = "Boolean expression evaluator"
   s.author  = "Aslak Hellesøy"
   
   s.files = Dir.glob("lib/**/*.rb")

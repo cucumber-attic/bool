@@ -10,6 +10,9 @@ Gem::Specification.new do |s|
   if RUBY_PLATFORM =~ /java/
     s.platform = "java"
     s.files << "lib/bool_ext.jar"
+  elsif ENV['RUBY_PLATFORM'] == 'x86-mingw32'
+    s.platform = "x86-mingw32"
+    s.files << "lib/bool_ext.so"
   else
     s.extensions << "ext/bool_ext/extconf.rb"
     s.files += Dir.glob("ext/**/*.{c,h,rb}")

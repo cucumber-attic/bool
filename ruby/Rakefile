@@ -6,6 +6,7 @@ if RUBY_VERSION =~ /^1.8/
 end
 require 'rake/testtask'
 require 'rake/clean'
+require 'bundler/gem_helper'
 
 native_lib_jar     = 'lib/bool_ext.jar'
 native_lib_jar_mvn = '../java/target/bool.jar'
@@ -88,3 +89,5 @@ Rake::TestTask.new do |t|
 end
 
 task :default => :test
+
+Bundler::GemHelper.install_tasks

@@ -89,7 +89,7 @@ ruby/bool.gemspec: VERSION
 
 version: java/pom.xml javascript/package.json ruby/bool.gemspec
 
-release: version
+release: clean version
 	cd javascript && npm publish
 	cd ruby && rake release
 	cd ruby && RUBY_PLATFORM=x86-mingw32 rake release
@@ -100,5 +100,5 @@ release: version
 	echo "then CLOSE and RELEASE (no description needed)"
 	echo "**********************************************"
 
-.PHONY: all c java javascript ruby clangruby gccruby jruby winruby mingw travis bison clean
+.PHONY: all c java javascript ruby clangruby gccruby jruby winruby mingw travis bison not_dirty clean
 

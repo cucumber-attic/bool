@@ -100,11 +100,13 @@ You need an account at:
   + Create a JIRA ticket and specify `groupId=info.cukes`
   + Create and distribute your GPG key
 
-Once all of your accounts are set up, add your name below and create a Github ticket where you request release karma. 
+Once all of your accounts are set up, create a Github ticket where you request release karma. 
 Please specify user names at all accounts.
 
 Once you have been given release karma you can try to make a release (just bump the minor version). If you have any questions,
 ask in the original ticket you created. Once you can successfully release everything, confirm in the ticket and close it. 
+
+At this point you can add your name below.
 
 ### Release managers
 

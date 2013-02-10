@@ -11,3 +11,4 @@ ext/bool_ext/lexer.*
 ext/bool_ext/parser.*
 ext/bool_ext/unused.*
 lib/bool_ext.so
+pkg/

@@ -29,7 +29,7 @@ brew install bison flex wget node
 Ubuntu users can install the needed software with:
 
 ```
-sudo apt-get install bison flex wget node mingw32
+sudo apt-get install bison flex wget nodejs mingw32
 ```
 
 At the time of this writing, `apt-get` will install Bison 2.5, which is too old, so the `Makefile` will install `./bison-2.7` anyway.
@@ -40,7 +40,7 @@ When `apt-get` installs Bison 2.7 some day in the future this step will be skipp
 Fedora 18 can install the needed software with:
 
 ```
-yum install bison flex wget node mingw32-gcc
+yum install bison flex wget nodejs mingw32-gcc
 ```
 
 ## Making a release

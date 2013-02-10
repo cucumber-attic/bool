@@ -83,3 +83,29 @@ yum install bison flex wget nodejs mingw32-gcc
 ## Making a release
 
 Bump the version in `VERSION` and run `make version`. This updates the version in the package descriptors for all platforms.
+Commit all files and release all packages:
+
+```
+make release
+```
+
+### The first time you release
+
+You need an account at:
+
+* [rubygems.org](http://rubygems.org/)
+* [npmjs.org](https://npmjs.org/)
+* [oss.sonatype.org](https://oss.sonatype.org/)
+  + Sign up
+  + Create a JIRA ticket and specify `groupId=info.cukes`
+  + Create and distribute your GPG key
+
+Once all of your accounts are set up, add your name below and create a Github ticket where you request release karma. 
+Please specify user names at all accounts.
+
+Once you have been given release karma you can try to make a release (just bump the minor version). If you have any questions,
+ask in the original ticket you created. Once you can successfully release everything, confirm in the ticket and close it. 
+
+### Release managers
+
+* Aslak Hellesøy

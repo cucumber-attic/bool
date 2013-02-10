@@ -1,4 +1,4 @@
-#include "minunit.h"
+#include "tinytest.h"
 
 #include "../ast.h"
 #include "../unused.h"
@@ -9,9 +9,17 @@
 #include <errno.h>
 #include <stdlib.h>
 
-int tests_run;
+void test_valid_expression()
+{
+    Node* ast = parse_ast(
+        "a && b");
+        
+    ASSERT("AST should not have returned NULL", ast);
+    ASSERT_EQUALS(eAND, ast->type);
+    printf("TYPE: %d\n", ast->type);
+}
 
-static char* test_line_and_column()
+void test_line_and_column()
 {
     Node* ast = parse_ast(
         "      \n"
@@ -19,90 +27,55 @@ static char* test_line_and_column()
         "      \n"
         "   && \n");
         
-    if (ast == NULL)
-    {
-        //printf("test_line_and_column: %s, line:%d, col:%d\n", last_error.message, last_error.line, last_error.column);
-        
-        char message[] = "syntax error, unexpected TOKEN_AND, expecting TOKEN_VAR or TOKEN_NOT or TOKEN_LPAREN";
-        mu_assert("Line number should be 4", last_error.line == 4);
-        mu_assert("Column number should be 5", last_error.column == 5);
-        mu_assert("Message incorrect", !strcmp(message, last_error.message));
-    }
-    else
-    {
-        mu_assert("AST should have returned NULL", 1);
-    }
-    
-    return NULL;
+    ASSERT_EQUALS(NULL, ast);
+
+    char message[] = "syntax error, unexpected TOKEN_AND, expecting TOKEN_VAR or TOKEN_NOT or TOKEN_LPAREN";
+    ASSERT_EQUALS(4, last_error.line);
+    ASSERT_EQUALS(5, last_error.column);
+    ASSERT_STRING_EQUALS(message, last_error.message);
 }
 
-static char* test_invalid_symbol()
+void test_invalid_symbol()
 {
     Node* ast = parse_ast(
         "^");
-        
-    if (ast == NULL)
-    {
-        //printf("test_invalid_symbol: %s, line:%d, col:%d\n", last_error.message, last_error.line, last_error.column);
-        
-        char message[] = "Unexpected character: ^";
-        mu_assert("Line number should be 1", last_error.line == 1);
-        mu_assert("Column number should be 1", last_error.column == 1);
-        mu_assert("Message incorrect", !strcmp(message, last_error.message));
-    }
-    else
-    {
-        mu_assert("AST should have returned NULL", 1);
-    }
-    
-    return NULL;
+
+    ASSERT_EQUALS(NULL, ast);
+
+    char message[] = "Unexpected character: ^";
+    ASSERT_EQUALS(1, last_error.line);
+    ASSERT_EQUALS(1, last_error.column);
+    ASSERT_STRING_EQUALS(message, last_error.message);
 }
 
-static char* test_invalid_token()
+void test_invalid_token()
 {
     Node* ast = parse_ast(
         "^£$");
-        
-    if (ast == NULL)
-    {
-        //printf("test_invalid_token: %s, line:%d, col:%d\n", last_error.message, last_error.line, last_error.column);
-        
-        char message[] = "Unexpected character: ^";
-        mu_assert("Line number should be 1", last_error.line == 1);
-        mu_assert("Column number should be 1", last_error.column == 1);
-        mu_assert("Message incorrect", !strcmp(message, last_error.message));
-    }
-    else
-    {
-        mu_assert("AST should have returned NULL", 1);
-    }
-    
-    return NULL;
+
+    ASSERT_EQUALS(NULL, ast);
+
+    char message[] = "Unexpected character: ^";
+    ASSERT_EQUALS(1, last_error.line);
+    ASSERT_EQUALS(1, last_error.column);
+    ASSERT_STRING_EQUALS(message, last_error.message);
 }
 
-static char* test_invalid_statement()
+void test_invalid_statement()
 {
     Node* ast = parse_ast(
         "a ^ e");
-        
-    if (ast == NULL)
-    {
-        //printf("test_invalid_statement: %s, line:%d, col:%d\n", last_error.message, last_error.line, last_error.column);
-        
-        char message[] = "Unexpected character: ^";
-        mu_assert("Line number should be 1", last_error.line == 1);
-        mu_assert("Column number should be 3", last_error.column == 3);
-        mu_assert("Message incorrect", !strcmp(message, last_error.message));
-    }
-    else
-    {
-        mu_assert("AST should have returned NULL", 1);
-    }
     
-    return NULL;
+    ASSERT_EQUALS(NULL, ast);
+
+    char message[] = "Unexpected character: ^";
+    ASSERT_EQUALS(1, last_error.line);
+    printf("WHERE %d\n", last_error.column);
+    ASSERT_EQUALS(3, last_error.column);
+    ASSERT_STRING_EQUALS(message, last_error.message);
 }
 
-static char* test_invalid_long_statement()
+void test_invalid_long_statement()
 {
     Node* ast = parse_ast(
         "          \n"
@@ -111,54 +84,23 @@ static char* test_invalid_long_statement()
         "    ||    \n"
         "      c   \n"
         "        &&");
-    
-    if (ast == NULL)
-    {
-        //printf("test_invalid_long_statement: %s, line:%d, col:%d\n", last_error.message, last_error.line, last_error.column);
-        
-        char message[] = "syntax error, unexpected $end, expecting TOKEN_VAR or TOKEN_NOT or TOKEN_LPAREN";
-        mu_assert("Line number should be 6", last_error.line == 6);
-        mu_assert("Column number should be 10", last_error.column == 10);
-        mu_assert("Message incorrect", !strcmp(message, last_error.message));
-    }
-    else
-    {
-        mu_assert("AST should have returned NULL", 1);
-    }
-    
-    return NULL;
+
+    ASSERT_EQUALS(NULL, ast);
+   
+    char message[] = "syntax error, unexpected $end, expecting TOKEN_VAR or TOKEN_NOT or TOKEN_LPAREN";
+    ASSERT_EQUALS(6, last_error.line);
+    ASSERT_EQUALS(10, last_error.column);
+    ASSERT_STRING_EQUALS(message, last_error.message);
 }
 
-static char * all_tests() {
-    mu_run_test(test_line_and_column);
-    mu_run_test(test_invalid_symbol);
-    mu_run_test(test_invalid_token);
-    mu_run_test(test_invalid_statement);
-    mu_run_test(test_invalid_long_statement);
-    return 0;
-}
- 
-int main(int argc, char ** argv)
+int main()
 {
-    UNUSED(argc);
-    UNUSED(argv);
-    
-    tests_run = 0;
-    char *result = all_tests();    
-    
-    if (result != 0) 
-    {
-        printf("\e[31m");
-        printf("%s\n", result);
-        printf("\e[0m");
-    }
-    else 
-    {
-        printf("\e[32m");
-        printf("ALL TESTS PASSED\n");
-        printf("\e[0m");
-    }
-    printf("Tests run: %d\n", tests_run);
+    RUN(test_valid_expression);
+    RUN(test_line_and_column);
+    RUN(test_invalid_symbol);
+    RUN(test_invalid_token);
+    RUN(test_invalid_statement);
+    RUN(test_invalid_long_statement);
  
-    return result != 0;
+    return TEST_REPORT();
 }

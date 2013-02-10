@@ -25,6 +25,7 @@ void yyerror(YYLTYPE* locp, yyscan_t scanner, Node** node, const char* msg) {
 }
 
 Node* parse_ast(const char* source) {
+    int error = 0;
     Node* node;
     yyscan_t scanner;
     YY_BUFFER_STATE state;
@@ -33,7 +34,7 @@ Node* parse_ast(const char* source) {
         // couldn't initialize
         return NULL;
     }
-    
+
     last_error.token = 0;
 
     // TODO: Check state here?
@@ -41,15 +42,21 @@ Node* parse_ast(const char* source) {
 
     if (yyparse(&node, scanner)) {
         // error parsing
-        return NULL;
+        error = 1;
+    }
+    if (last_error.token)
+    {
+        // error lexing
+        error = 1;
     }
 
     yy_delete_buffer(state, scanner);
     yylex_destroy(scanner);
-    return node;
+    return error ? NULL : node;
 }
 
 void free_ast(Node* node) {
+    
     switch (node->type) {
         case eVAR: 
         {

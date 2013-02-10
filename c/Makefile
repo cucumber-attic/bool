@@ -2,7 +2,7 @@ UNAME := $(shell uname)
 LDSHARED?=$(CC) -shared
 OBJECTS = lexer.o parser.o ast.o
 TEST_OBJECTS = test/test.o
-CFLAGS = -fPIC -O2 -Werror -Wall -Wunused-parameter
+CFLAGS = -fPIC -O2 -Werror -Wall -Wextra
 # Keep in sync with ../Makefile
 PATH := $(shell pwd)/../bison-2.7/tests:$(PATH)
 

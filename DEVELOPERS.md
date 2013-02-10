@@ -43,10 +43,6 @@ Fedora 18 can install the needed software with:
 yum install bison flex wget nodejs mingw32-gcc
 ```
 
-## Making a release
-
-Bump the version in `VERSION` and run `make version`. This updates the version in the package descriptors for all platforms.
-
 ## The Github Process
 
  The process for using git/github as we all start collaborating on bool and other Cucumber projects is similar to the [Github-Flow](http://scottchacon.com/2011/08/31/github-flow.html)
@@ -81,5 +77,9 @@ Bump the version in `VERSION` and run `make version`. This updates the version i
      + Use the same indentation, spacing, line ending and UTF-8 everywhere.
  7. Use git diff (or git diff --cached if you have staged) before every commit.
      + This helps you avoid committing changes you didn't mean to.
- 8. Travis continously builds the master branch and any branch that starts with ticket or fix. See [.travis.yml](https://github.com/cucumber/bool/blob/master/.travis.yml)
+ 8. Travis continously builds the master branch and any branch that starts with `ticket` or `fix`. See [.travis.yml](https://github.com/cucumber/bool/blob/master/.travis.yml)
  This is a good reminder for everyone to give branches descriptive names.
+
+## Making a release
+
+Bump the version in `VERSION` and run `make version`. This updates the version in the package descriptors for all platforms.

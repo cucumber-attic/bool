@@ -5,7 +5,7 @@ You need MRI 1.9.3 or newer. OS X and Linux users can install this easily with [
 Now you need to install dependencies. cd to this directory (`bool/ruby`) and run:
 
 ```
-gem install bundler && bundle
+gem install bundler --prerelease && bundle
 ```
 
 This should install the gems listed in `bool.gemspec`. If you have already managed to build the C code you should be fine to

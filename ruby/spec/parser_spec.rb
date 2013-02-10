@@ -58,8 +58,15 @@ describe 'Bool' do
         )
         fail
       rescue Bool::SyntaxError => expected
-        expected.line.must_equal 4
-        expected.column.must_equal 5
+        expected.first_line.must_equal 4
+        expected.last_line.must_equal 4
+        if RUBY_PLATFORM =~ /java/
+          expected.first_column.must_equal 4
+          expected.last_column.must_equal 4
+        else
+          expected.first_column.must_equal 5
+          expected.last_column.must_equal 5
+        end
         expected.message.must_equal "Unexpected character: ^"
       end
     end
@@ -73,17 +80,21 @@ describe 'Bool' do
           "    ||    \n" + # 4,5
           "      c   \n" + # 5,7
           "        &&"     # 6,9
+          #0123456789
         )
         fail
       rescue Bool::SyntaxError => expected
+        expected.first_line.must_equal 6
+        expected.last_line.must_equal 6
         if RUBY_PLATFORM =~ /java/
           expected.message.must_equal "syntax error, unexpected end of input, expecting TOKEN_VAR or TOKEN_NOT or TOKEN_LPAREN"
-          expected.column.must_equal 11
+          expected.first_column.must_equal 11
+          expected.last_column.must_equal 11
         else
           expected.message.must_equal "syntax error, unexpected $end, expecting TOKEN_VAR or TOKEN_NOT or TOKEN_LPAREN"
-          expected.column.must_equal 10
+          expected.first_column.must_equal 9
+          expected.last_column.must_equal 10
         end
-        expected.line.must_equal 6
       end
     end
 

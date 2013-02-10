@@ -69,6 +69,7 @@ describe('Bool', function() {
         "    ||    \n" + // 4,5
         "      c   \n" + // 5,7
         "        &&"     // 6,9
+      ///0123456789
       );
       throw new Error("should fail");
     } catch(expected) {

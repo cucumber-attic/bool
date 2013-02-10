@@ -6,11 +6,11 @@ require 'bool/evaluator'
 
 module Bool
   class SyntaxError < StandardError
-    attr_reader :line, :column
+    attr_reader :first_line, :last_line, :first_column, :last_column
 
-    def initialize(message, line, column)
+    def initialize(message, first_line, last_line, first_column, last_column)
       super(message)
-      @line, @column = line, column
+      @first_line, @last_line, @first_column, @last_column = first_line, last_line, first_column, last_column
     end
   end
 
@@ -20,7 +20,7 @@ module Bool
       parser = Java::Bool::Parser.new(lexer)
       parser.parseExpr()
     rescue => e
-      raise SyntaxError.new(e.message, e.line, e.column)
+      raise SyntaxError.new(e.message, e.line, e.line, e.column, e.column)
     end
     module_function(:parse)
   else

@@ -53,8 +53,8 @@ describe 'Bool' do
         Bool.parse(        # line,token_start_col
           "          \n" + # 1
           "          \n" + # 2
-          "         \n" + # 3,3
-          "    ^   \n"   # 4,5
+          "          \n" + # 3,3
+          "    ^     \n"   # 4,5
         )
         fail
       rescue Bool::SyntaxError => expected

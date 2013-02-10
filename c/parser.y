@@ -42,7 +42,6 @@ typedef void* yyscan_t;
 %token TOKEN_NOT
 %token TOKEN_LPAREN
 %token TOKEN_RPAREN
-%token TOKEN_ERROR
 
 %type <node> expr
 

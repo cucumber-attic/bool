@@ -27,7 +27,7 @@
 "!"                    { return TOKEN_NOT; }
 "("                    { return TOKEN_LPAREN; }
 ")"                    { return TOKEN_RPAREN; }
-.                      { last_error.token=strdup(yytext); return TOKEN_ERROR; }
+.                      { last_error.token=strdup(yytext); yyterminate(); }
 
 %%
 

@@ -7,9 +7,9 @@ PATH := $(shell pwd)/bison-$(REQUIRED_BISON_VERSION)/tests:$(PATH)
 VERSION := $(shell head -1 VERSION)
 # http://stackoverflow.com/questions/5694228/sed-in-place-flag-that-works-both-on-mac-and-linux
 ifeq ($(UNAME), Darwin)
-ISED = sed -i ''
+SEDI = sed -i ''
 else
-ISED = sed -i''
+SEDI = sed -i''
 endif
 
 
@@ -78,14 +78,14 @@ endif
 ### Bump versions
 
 java/pom.xml: VERSION
-	$(ISED) -e '0,/<version>.*/s//<version>$(VERSION)<\/version>/' java/pom.xml
+	$(SEDI) -e '0,/<version>.*/s//<version>$(VERSION)<\/version>/' java/pom.xml
 
 
 javascript/package.json: VERSION
-	$(ISED) -e '0,/"version"\s*:.*/s//"version": "$(VERSION)",/' javascript/package.json
+	$(SEDI) -e '0,/"version"\s*:.*/s//"version": "$(VERSION)",/' javascript/package.json
 
 ruby/bool.gemspec: VERSION
-	$(ISED) -e '0,/s.version\s*=.*/s//s.version = "$(VERSION)"/' ruby/bool.gemspec
+	$(SEDI) -e '0,/s.version\s*=.*/s//s.version = "$(VERSION)"/' ruby/bool.gemspec
 
 version: java/pom.xml javascript/package.json ruby/bool.gemspec
 

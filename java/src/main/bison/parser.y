@@ -17,7 +17,7 @@ import java.io.IOException;
         this(new LexerAdapter(lexer));
     }
 
-    public Expr parseExpr() throws ParseException, IOException {
+    public Expr parseExpr() throws SyntaxError, IOException {
         parse();
         return expr;
     }

@@ -39,7 +39,7 @@
                         <phase>generate-sources</phase>
                         <configuration>
                             <target>
-                                <mkdir dir="${project.build.directory}/generated-sources/bison/bool/bison"/>
+                                <mkdir dir="${project.build.directory}/generated-sources/bison/bool"/>
                             </target>
                         </configuration>
                         <goals>

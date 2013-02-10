@@ -3,42 +3,62 @@
 #include "lexer.h"
 #include "unused.h"
 
-#define LAST_ERROR_MSG_BUFFER_SIZE 512
+SyntaxError last_error;
 
-char last_error_msg[LAST_ERROR_MSG_BUFFER_SIZE];
-
-void yyerror(YYLTYPE *locp, yyscan_t scanner, Node** node, const char* msg) {
+void yyerror(YYLTYPE* locp, yyscan_t scanner, Node** node, const char* msg) {
     UNUSED(scanner);
     UNUSED(node);
-    snprintf(last_error_msg, LAST_ERROR_MSG_BUFFER_SIZE,"%s (line:%d, column:%d)", msg, locp->first_line, locp->last_column);
+
+    if (last_error.token == 0)
+    {
+        last_error.message = strdup(msg);
+    }
+    else
+    {
+        char message[] = "Unexpected character: ";
+        last_error.message = malloc(sizeof(char) * (strlen(message) + strlen(last_error.token) + 1));
+        sprintf(last_error.message, "%s%s", message, last_error.token); 
+    }
+
+    last_error.first_line   = locp->first_line;
+    last_error.last_line    = locp->last_line;
+    last_error.first_column = locp->first_column;
+    last_error.last_column  = locp->last_column;
 }
- 
+
 Node* parse_ast(const char* source) {
+    int error = 0;
     Node* node;
     yyscan_t scanner;
     YY_BUFFER_STATE state;
 
-	last_error_msg[0]  = 0;
- 
     if (yylex_init(&scanner)) {
         // couldn't initialize
         return NULL;
     }
+
+    last_error.token = 0;
 
     // TODO: Check state here?
     state = yy_scan_string(source, scanner);
 
     if (yyparse(&node, scanner)) {
         // error parsing
-        return NULL;
+        error = 1;
+    }
+    if (last_error.token)
+    {
+        // error lexing
+        error = 1;
     }
 
     yy_delete_buffer(state, scanner);
     yylex_destroy(scanner);
-    return node;
+    return error ? NULL : node;
 }
 
 void free_ast(Node* node) {
+    
     switch (node->type) {
         case eVAR: 
         {

@@ -5,13 +5,6 @@ BISON_VERSION := $(shell bison --version | grep ^bison | sed 's/^.* //')
 REQUIRED_BISON_VERSION = 2.7
 PATH := $(shell pwd)/bison-$(REQUIRED_BISON_VERSION)/tests:$(PATH)
 VERSION := $(shell head -1 VERSION)
-# http://stackoverflow.com/questions/5694228/sed-in-place-flag-that-works-both-on-mac-and-linux
-ifeq ($(UNAME), Darwin)
-SEDI = sed -i ''
-else
-SEDI = sed -i''
-endif
-
 
 all: c javascript ruby winruby jruby
 
@@ -78,14 +71,14 @@ endif
 ### Bump versions
 
 java/pom.xml: VERSION
-	$(SEDI) -e '0,/<version>.*/s//<version>$(VERSION)<\/version>/' java/pom.xml
+	perl -i -pe 'if (!$$changed) {s/<version>.*/<version>$(VERSION)<\/version>/ and $$changed++;}' java/pom.xml
 
 
 javascript/package.json: VERSION
-	$(SEDI) -e '0,/"version"\s*:.*/s//"version": "$(VERSION)",/' javascript/package.json
+	perl -i -pe 'if (!$$changed) {s/"version"\s*:.*/"version": "$(VERSION)",/ and $$changed++;}' javascript/package.json
 
 ruby/bool.gemspec: VERSION
-	$(SEDI) -e '0,/s.version\s*=.*/s//s.version = "$(VERSION)"/' ruby/bool.gemspec
+	perl -i -pe 'if (!$$changed) {s/s.version\s*=.*/s.version = "$(VERSION)"/ and $$changed++;}' ruby/bool.gemspec
 
 version: java/pom.xml javascript/package.json ruby/bool.gemspec
 
@@ -100,5 +93,5 @@ release: clean version
 	echo "then CLOSE and RELEASE (no description needed)"
 	echo "**********************************************"
 
-.PHONY: all c java javascript ruby clangruby gccruby jruby winruby mingw travis bison not_dirty clean
+.PHONY: all c java javascript ruby clangruby gccruby jruby winruby mingw travis bison not_dirty clean version
 

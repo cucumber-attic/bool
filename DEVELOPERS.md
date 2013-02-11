@@ -96,12 +96,21 @@ You need an account at:
 * [rubygems.org](http://rubygems.org/)
 * [npmjs.org](https://npmjs.org/)
 * [oss.sonatype.org](https://oss.sonatype.org/)
-  + [Sign up](http://issues.sonatype.org/)
-  + Add a comment to the [this JIRA ticket](https://issues.sonatype.org/browse/OSSRH-2050) stating your user name and requesting publish rights [see docs](https://docs.sonatype.org/display/Repository/Sonatype+OSS+Maven+Repository+Usage+Guide)
-  + Create and distribute your GPG key
+  + [Sign up](http://issues.sonatype.org/) ([see docs](https://docs.sonatype.org/display/Repository/Sonatype+OSS+Maven+Repository+Usage+Guide)), in particular:
+  + Add a comment to the [this JIRA ticket](https://issues.sonatype.org/browse/OSSRH-2050) stating your user name and requesting publish rights 
+  + Create and distribute your GPG key to `hkp://pool.sks-keyservers.net/`
 
 Once all of your accounts are set up, create a Github ticket where you request release karma. 
 Please specify user names at all accounts.
+
+One of the existing release managers can now give you karma:
+
+```
+gem owner bool --add <RUBYGEMS-ORG-EMAIL>
+npm owner add <NPM-JS-USER> bool
+```
+
+Karma to the `info.cukes` group in Sonatype must be given by someone from Sonatype - they don't let us administer our own group for some reason.
 
 Once you have been given release karma you can try to make a release (just bump the minor version). If you have any questions,
 ask in the original ticket you created. Once you can successfully release everything, confirm in the ticket and close it. 

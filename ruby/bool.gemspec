@@ -8,7 +8,7 @@ Gem::Specification.new do |s|
   s.add_development_dependency('rake')
   s.add_development_dependency('bundler', '~> 1.3.0.pre')
   
-  if RUBY_PLATFORM =~ /java/
+  if ENV['RUBY_PLATFORM'] == 'java' || RUBY_PLATFORM =~ /java/
     s.platform = "java"
     s.files << "lib/bool_ext.jar"
   elsif ENV['RUBY_PLATFORM'] == 'x86-mingw32'

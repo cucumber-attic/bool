@@ -86,7 +86,7 @@ release: clean version all
 	cd javascript && npm publish
 	cd ruby && rake release
 	cd ruby && RUBY_PLATFORM=x86-mingw32 rake release
-	cd ruby && jruby -S rake release
+	cd ruby && RUBY_PLATFORM=java rake release
 	cd java && mvn clean source:jar javadoc:jar deploy
 	@echo "**********************************************"
 	@echo "go to https://oss.sonatype.org/"

@@ -111,3 +111,4 @@ At this point you can add your name below.
 ### Release managers
 
 * Aslak Hellesøy
+* Matt Wynne

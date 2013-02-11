@@ -37,24 +37,24 @@ describe('Bool', function() {
 
   it('throws exception on scanner error', function() {
     try {
-      parser.parse(
-                         // line,token_start_col
+      parser.parse(      // line,token_start_col
         "          \n" + // 1
         "          \n" + // 2
         "  a       \n" + // 3,3
-        "    ?     \n"   // 4,5
+        "    ^     \n"   // 4,5
+       //0123456789
       );
       throw new Error("should fail");
     } catch(expected) {
       assert.equal(
         "Lexical error on line 4. Unrecognized text.\n" +
-        "...      a           ?     \n" +
+        "...      a           ^     \n" +
         "---------------------^"
         , expected.message);
       assert.deepEqual({
         text: '',
         token: null,
-        line: 3
+        line: 3 // Jison lines are zero-indexed.
       }, expected.hash);
     }
   });

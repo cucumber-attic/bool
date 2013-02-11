@@ -55,9 +55,11 @@ describe 'Bool' do
           "          \n" + # 2
           "          \n" + # 3,3
           "    ^     \n"   # 4,5
+          #0123456789
         )
         fail
       rescue Bool::SyntaxError => expected
+        expected.message.must_equal "Unexpected character: ^"
         expected.first_line.must_equal 4
         expected.last_line.must_equal 4
         if RUBY_PLATFORM =~ /java/
@@ -67,7 +69,7 @@ describe 'Bool' do
           expected.first_column.must_equal 5
           expected.last_column.must_equal 5
         end
-        expected.message.must_equal "Unexpected character: ^"
+        # Also see /javascript/test/parser_test.js. Columns are not reported.
       end
     end
 
@@ -95,6 +97,7 @@ describe 'Bool' do
           expected.first_column.must_equal 9
           expected.last_column.must_equal 10
         end
+        # Also see /javascript/test/parser_test.js. Columns are 8,10.
       end
     end
 

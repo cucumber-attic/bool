@@ -10,16 +10,20 @@ public class Evaluator implements Visitor<Boolean, List<String>> {
 
     @Override
     public Boolean and(And and, List<String> vars) {
-        return and.left.describeTo(this, vars) && and.right.describeTo(this, vars);
+        return evaluate(and.left, vars) && evaluate(and.right, vars);
     }
 
     @Override
     public Boolean or(Or or, List<String> vars) {
-        return or.left.describeTo(this, vars) || or.right.describeTo(this, vars);
+        return evaluate(or.left, vars) || evaluate(or.right, vars);
     }
 
     @Override
     public Boolean not(Not not, List<String> vars) {
-        return !not.node.describeTo(this, vars);
+        return !evaluate(not.operand, vars);
+    }
+
+    private Boolean evaluate(Expr expr, List<String> vars) {
+        return expr.describeTo(this, vars);
     }
 }

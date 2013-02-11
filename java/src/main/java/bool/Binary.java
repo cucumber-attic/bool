@@ -1,6 +1,6 @@
 package bool;
 
-public class Binary extends Expr {
+public abstract class Binary extends Expr {
     public final Expr left;
     public final Expr right;
 

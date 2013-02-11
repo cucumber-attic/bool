@@ -1,10 +1,10 @@
 package bool;
 
 public class Not extends Expr {
-    public final Expr node;
+    public final Expr operand;
 
-    public Not(Expr node) {
-        this.node = node;
+    public Not(Expr operand) {
+        this.operand = operand;
     }
 
     @Override

@@ -97,7 +97,9 @@ You need an account at:
 * [rubygems.org](http://rubygems.org/)
 * [npmjs.org](https://npmjs.org/)
 * [oss.sonatype.org](https://oss.sonatype.org/)
-  + [Sign up](http://issues.sonatype.org/) ([see docs](https://docs.sonatype.org/display/Repository/Sonatype+OSS+Maven+Repository+Usage+Guide)), in particular:
+  + [Read the docs](https://docs.sonatype.org/display/Repository/Sonatype+OSS+Maven+Repository+Usage+Guide)
+  + [Sign up](http://issues.sonatype.org/)
+  + [Request Access](https://issues.sonatype.org/browse/OSSRH-2050)
   + [Create](http://www.dewinter.com/gnupg_howto/english/GPGMiniHowto-3.html#ss3.1) and distribute your GPG public key to `hkp://pool.sks-keyservers.net/`:
     + GPG Guide for [OS X](http://www.robertsosinski.com/2008/02/18/working-with-pgp-and-mac-os-x/)
 

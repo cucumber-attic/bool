@@ -95,9 +95,9 @@ You need an account at:
 
 * [rubygems.org](http://rubygems.org/)
 * [npmjs.org](https://npmjs.org/)
-* [oss.sonatype.org](https://docs.sonatype.org/display/Repository/Sonatype+OSS+Maven+Repository+Usage+Guide)
-  + Sign up
-  + Create a JIRA ticket and specify `groupId=info.cukes`
+* [oss.sonatype.org](https://oss.sonatype.org/)
+  + [Sign up](http://issues.sonatype.org/)
+  + Add a comment to the [this JIRA ticket](https://issues.sonatype.org/browse/OSSRH-2050) stating your user name and requesting publish rights [see docs](https://docs.sonatype.org/display/Repository/Sonatype+OSS+Maven+Repository+Usage+Guide)
   + Create and distribute your GPG key
 
 Once all of your accounts are set up, create a Github ticket where you request release karma. 

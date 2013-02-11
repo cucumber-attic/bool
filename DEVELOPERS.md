@@ -66,6 +66,7 @@ yum install bison flex wget nodejs mingw32-gcc
       + especially links and syntax highlighting. GFM can be used in tickets as well as commit messages (e.g. put "#4" somewhere in a commit message to link ticket 4 to that commit.
  2. Close tickets with commits if you can.
      + Add "Closes #5, #9" somewhere in the commit message to both link and close. See [Issues 2.0 the Next Generation](https://github.com/blog/831-issues-2-0-the-next-generation) for details.
+     + Use [this script](https://gist.github.com/aslakhellesoy/4754009) to compile and view GFM locally.
  3. Tag issues so we can do better triage and assignment.
      + People tend to gravitate towards areas of expertise and tags makes it easier to give a ticket to the right person.
  4. Update History.md

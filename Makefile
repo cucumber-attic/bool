@@ -82,7 +82,7 @@ ruby/bool.gemspec: VERSION
 
 version: java/pom.xml javascript/package.json ruby/bool.gemspec
 
-release: clean version
+release: clean version all
 	cd javascript && npm publish
 	cd ruby && rake release
 	cd ruby && RUBY_PLATFORM=x86-mingw32 rake release

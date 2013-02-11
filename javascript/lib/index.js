@@ -10,5 +10,5 @@ SyntaxError.prototype = Error.prototype;
 parser.parser.parseError = function parseError(message, hash) {
     throw new SyntaxError(message, hash);
 };
-module.exports.parse = parser.parse;
-module.exports.Evaluator = require('./evaluator');
+module.exports = parser;
+

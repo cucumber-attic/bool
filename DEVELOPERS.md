@@ -95,7 +95,7 @@ You need an account at:
 
 * [rubygems.org](http://rubygems.org/)
 * [npmjs.org](https://npmjs.org/)
-* [oss.sonatype.org](https://oss.sonatype.org/)
+* [oss.sonatype.org](https://docs.sonatype.org/display/Repository/Sonatype+OSS+Maven+Repository+Usage+Guide)
   + Sign up
   + Create a JIRA ticket and specify `groupId=info.cukes`
   + Create and distribute your GPG key

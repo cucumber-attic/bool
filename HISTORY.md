@@ -1,3 +1,7 @@
+## [Git master](https://github.com/cucumber/bool/compare/v1.0.3...master)
+
+* [javascript] Added lexer tests. (Aslak Hellesøy)
+
 ## [1.0.3](https://github.com/cucumber/bool/compare/v1.0.2...v1.0.3) (11 Feb 2013)
 
 * [jruby] Make sure jruby gem can be built with MRI. (Aslak Hellesøy)

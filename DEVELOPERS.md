@@ -97,7 +97,11 @@ You need an account at:
 * [npmjs.org](https://npmjs.org/)
 * [oss.sonatype.org](https://oss.sonatype.org/)
   + [Sign up](http://issues.sonatype.org/) ([see docs](https://docs.sonatype.org/display/Repository/Sonatype+OSS+Maven+Repository+Usage+Guide)), in particular:
-  + [Create](http://www.dewinter.com/gnupg_howto/english/GPGMiniHowto-3.html#ss3.1) and distribute your GPG public key to `hkp://pool.sks-keyservers.net/`
+  + [Create](http://www.dewinter.com/gnupg_howto/english/GPGMiniHowto-3.html#ss3.1) and distribute your GPG public key to `hkp://pool.sks-keyservers.net/`:
+
+    $ gpg list-public-keys
+    $ gpg --keyserver hkp://pool.sks-keyservers.net/ --send-keys <YOUR PUBLIC KEY ID>
+
     + GPG Guide for [OS X](http://www.robertsosinski.com/2008/02/18/working-with-pgp-and-mac-os-x/)
 
 Once all of your accounts are set up, create a Github ticket where you request release karma. 

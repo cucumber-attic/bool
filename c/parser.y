@@ -32,16 +32,15 @@ typedef void* yyscan_t;
     Node* node;
 }
  
-%left TOKEN_OR
-%left TOKEN_AND
-%left UNOT
-
 %token <value> TOKEN_VAR
 %token TOKEN_AND
 %token TOKEN_OR
 %token TOKEN_NOT
 %token TOKEN_LPAREN
 %token TOKEN_RPAREN
+
+%left TOKEN_AND TOKEN_OR
+%left UNOT
 
 %type <node> expr
 

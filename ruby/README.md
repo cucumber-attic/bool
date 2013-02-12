@@ -33,6 +33,7 @@ You need JRuby 1.7.2 or newer. OS X and Linux users can install this easily with
 If you have already managed to build the Java code you should be fine. You also need `jruby` on your `PATH`. RVM users can do this like so:
 
 ```
+mkdir ~/bin
 ln -s ~/.rvm/rubies/jruby-1.7.2/bin/jruby ~/bin/jruby
 export PATH=$PATH:~/bin
 ```

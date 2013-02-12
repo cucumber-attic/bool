@@ -116,8 +116,26 @@ gpg list-public-keys
 gpg --keyserver hkp://pool.sks-keyservers.net/ --send-keys <YOUR PUBLIC KEY ID>
 ```
 
-Once all of your accounts are set up, create a Github issue where you request release karma. 
+You also need to store the sonatype credentials in a `~/.m2/settings.xml` file in order to upload artifacts.
 
+```xml
+<settings>
+  <servers>
+    <server>
+      <id>sonatype-nexus-snapshots</id>
+      <username>your-jira-id</username>
+      <password>your-jira-pwd</password>
+    </server>
+    <server>
+      <id>sonatype-nexus-staging</id>
+      <username>your-jira-id</username>
+      <password>your-jira-pwd</password>
+    </server>
+  </servers>
+</settings>
+```
+
+Once all of your accounts are set up, create a Github issue where you request release karma. 
 One of the existing release managers can now give you karma if you give them your `RUBYGEMS-ORG-EMAIL` and `NPM-JS-USER`:
 
 ```

@@ -1,8 +1,12 @@
 package bool;
 
-public class Or extends Binary {
+public class Or implements Expr {
+    public final Expr left;
+    public final Expr right;
+
     public Or(Expr left, Expr right) {
-        super(left, right);
+        this.left = left;
+        this.right = right;
     }
 
     @Override

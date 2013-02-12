@@ -1,4 +1,4 @@
-## [Git master](https://github.com/cucumber/bool/compare/v1.0.3...master)
+## [1.0.4](https://github.com/cucumber/bool/compare/v1.0.3...v1.0.4)
 
 * [javascript] Added lexer tests. (Aslak Hellesøy)
 

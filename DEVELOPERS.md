@@ -37,11 +37,19 @@ When `apt-get` installs Bison 2.7 some day in the future this step will be skipp
 
 ### Fedora
 
-Fedora 18 can install the needed software with:
+Fedora 18 can install almost all of the needed software with:
 
 ```
-yum install bison flex wget nodejs mingw32-gcc
+yum install bison flex wget mingw32-gcc
 ```
+
+Supposedly nodejs can be installed via 
+
+```
+yum --enablerepo=updates-testing install nodejs
+````
+
+However, I (David Kowis) wasn't able to make this work, and I just installed node's binary distribution from http://nodejs.org/download/ and symlinked the necessary binaries into `~/bin`.
 
 ## The Github Process
 

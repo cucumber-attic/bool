@@ -116,10 +116,9 @@ gpg list-public-keys
 gpg --keyserver hkp://pool.sks-keyservers.net/ --send-keys <YOUR PUBLIC KEY ID>
 ```
 
-Once all of your accounts are set up, create a Github ticket where you request release karma. 
-Please specify user names at all accounts.
+Once all of your accounts are set up, create a Github issue where you request release karma. 
 
-One of the existing release managers can now give you karma:
+One of the existing release managers can now give you karma if you give them your `RUBYGEMS-ORG-EMAIL` and `NPM-JS-USER`:
 
 ```
 gem owner bool --add <RUBYGEMS-ORG-EMAIL>
@@ -128,10 +127,14 @@ npm owner add <NPM-JS-USER> bool
 
 Karma to the `info.cukes` group in Sonatype must be given by someone from Sonatype - they don't let us administer our own group for some reason.
 
-Once you have been given release karma you can try to make a release (just bump the minor version). If you have any questions,
-ask in the original ticket you created. Once you can successfully release everything, confirm in the ticket and close it. 
+Once you have been given release karma you should try to make a release (just bump the minor version). You can verify that a release 
+is succesful by checking:
 
-At this point you can add your name below.
+* https://rubygems.org/gems/bool
+* https://npmjs.org/package/bool
+* https://oss.sonatype.org/content/repositories/releases/info/cukes/bool/
+
+When you have made your first successful release, confirm in the ticket and close it. Then add your name below.
 
 ### Release managers
 

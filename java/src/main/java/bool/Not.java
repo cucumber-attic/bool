@@ -1,6 +1,6 @@
 package bool;
 
-public class Not extends Expr {
+public class Not implements Expr {
     public final Expr operand;
 
     public Not(Expr operand) {

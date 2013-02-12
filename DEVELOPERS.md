@@ -109,6 +109,8 @@ There is one manual step after uploading packages. You have to:
 
 ### The first time you release
 
+You need to have a JAVA_HOME environment variable. 
+
 You need an account at:
 
 * [rubygems.org](http://rubygems.org/)
@@ -132,11 +134,13 @@ Before you can upload packages you need to authenticate.
 You need to log in once to rubygems.org:
 
 ```
+`gem push` (well this worked for me (@ilanpillemer), though you get an error message.. if someone knows the correct way of doing this please update this.)
 ```
 
 And to npmjs.org:
 
 ```
+`npm adduser`
 ```
 
 Sonatype authentication details are stored in a `~/.m2/settings.xml` file:
@@ -184,4 +188,5 @@ When you have made your first successful release, confirm in the ticket and clos
 ### Release managers
 
 * Aslak Hellesøy
+* Ilan Pillemer
 * Matt Wynne

@@ -30,8 +30,7 @@ import java.io.IOException;
 %token TOKEN_LPAREN
 %token TOKEN_RPAREN
 
-%left TOKEN_OR
-%left TOKEN_AND
+%left TOKEN_AND TOKEN_OR
 %left UNOT
 
 %%

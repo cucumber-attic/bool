@@ -1,9 +1,16 @@
+%token TOKEN_VAR
+%token TOKEN_AND
+%token TOKEN_OR
+%token TOKEN_NOT
+%token TOKEN_LPAREN
+%token TOKEN_RPAREN
+
 %left TOKEN_AND TOKEN_OR
 %left UNOT
 
 %start expressions
 
-%% /* language grammar */
+%%
 
 expressions
     : expr EOF      { return $1; }

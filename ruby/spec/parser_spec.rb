@@ -47,6 +47,14 @@ describe 'Bool' do
     end
   end
 
+  describe "ALL expressions" do
+    let(:expression) { "@a && @b || !@c" }
+    
+    it "is true when all variables are false" do
+      evaluate([]).must_equal(true)
+    end
+  end
+
   describe "SyntaxError" do
     it 'is raised on scanner error' do
       begin

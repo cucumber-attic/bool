@@ -1,8 +1,12 @@
 package bool;
 
-public class And extends Binary {
+public class And implements Expr {
+    public final Expr left;
+    public final Expr right;
+
     public And(Expr left, Expr right) {
-        super(left, right);
+        this.left = left;
+        this.right = right;
     }
 
     @Override

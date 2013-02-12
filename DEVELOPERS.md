@@ -101,6 +101,12 @@ make release
 
 This will upload packages and create a tag in git. (The tag is created by bundler during `rake release` in the ruby project).
 
+There is one manual step after uploading packages. You have to:
+
+* Log in to [Sonatype](https://oss.sonatype.org/index.html#stagingRepositories)
+* Check your bundle and *Close* it (no Description necessary).
+* Check your bundle and *Release* it (no Description necessary).
+
 ### The first time you release
 
 You need an account at:

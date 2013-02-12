@@ -1,6 +1,6 @@
 package bool;
 
-public class Var extends Expr {
+public class Var implements Expr {
     public final String name;
 
     public Var(String name) {

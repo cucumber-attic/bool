@@ -119,7 +119,21 @@ gpg list-public-keys
 gpg --keyserver hkp://pool.sks-keyservers.net/ --send-keys <YOUR PUBLIC KEY ID>
 ```
 
-You also need to store the sonatype credentials in a `~/.m2/settings.xml` file in order to upload artifacts.
+#### Authentication
+
+Before you can upload packages you need to authenticate.
+
+You need to log in once to rubygems.org:
+
+```
+```
+
+And to npmjs.org:
+
+```
+```
+
+Sonatype authentication details are stored in a `~/.m2/settings.xml` file:
 
 ```xml
 <settings>

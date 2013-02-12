@@ -91,8 +91,9 @@ However, I (David Kowis) wasn't able to make this work, and I just installed nod
 
 ## Making a release
 
-Bump the version in `VERSION` and run `make version`. This updates the version in the package descriptors for all platforms.
-Commit all files and release all packages:
+* Bump the version in `VERSION` and run `make version`. This updates the version in the package descriptors for all platforms.
+* Next, update HISTORY.md, especially the header link and date.
+* Commit all files and release all packages:
 
 ```
 make release

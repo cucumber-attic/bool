@@ -163,7 +163,7 @@ npm owner add <NPM-JS-USER> bool
 Karma to the `info.cukes` group in Sonatype must be given by someone from Sonatype - they don't let us administer our own group for some reason.
 
 Once you have been given release karma you should try to make a release (just bump the minor version). You can verify that a release 
-is succesful by checking:
+is succesful by checking if your packages exist at:
 
 * https://rubygems.org/gems/bool
 * https://npmjs.org/package/bool

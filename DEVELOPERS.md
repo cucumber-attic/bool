@@ -98,6 +98,8 @@ Commit all files and release all packages:
 make release
 ```
 
+This will upload packages and create a tag in git. (The tag is created by bundler during `rake release` in the ruby project).
+
 ### The first time you release
 
 You need an account at:

@@ -36,6 +36,7 @@ If you have already managed to build the Java code you should be fine. You also 
 mkdir ~/bin
 ln -s ~/.rvm/rubies/jruby-1.7.2/bin/jruby ~/bin/jruby
 export PATH=$PATH:~/bin
+jruby -S gem install bundler --pre
 ```
 
 Now just run

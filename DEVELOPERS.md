@@ -171,6 +171,10 @@ is succesful by checking:
 
 When you have made your first successful release, confirm in the ticket and close it. Then add your name below.
 
+### Troubleshooting:
+
+* I get `401` when deploying Maven artifacts. See [What to do when Nexus returns '401'](http://www.sonatype.com/people/2010/11/what-to-do-when-nexus-returns-401/).
+
 ### Release managers
 
 * Aslak Hellesøy

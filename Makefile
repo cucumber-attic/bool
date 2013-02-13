@@ -1,35 +1,36 @@
 UNAME := $(shell uname)
+VERSION := $(shell head -1 VERSION)
 RUBY_PLATFORM := $(shell ruby -e "puts RUBY_PLATFORM")
-BISON_VERSION := $(shell bison --version | grep ^bison | sed 's/^.* //')
 # Keep in sync with c/Makefile
 REQUIRED_BISON_VERSION = 2.7
-PATH := $(shell pwd)/bison-$(REQUIRED_BISON_VERSION)/tests:/usr/local/Cellar/flex/2.5.37/bin:$(PATH)
-VERSION := $(shell head -1 VERSION)
+REQUIRED_FLEX_VERSION = 2.5.37
+BISON_VERSION := $(shell bison --version | grep ^bison | sed 's/^.* //')
+FLEX_VERSION := $(shell flex --version | cut -d' ' -f2)
 
 all: c javascript ruby winruby jruby
 
-c: bison
+c: flex bison
 	cd c && make
 
-java: bison
+java: flex bison
 	cd java && mvn package
 
 javascript:
 	cd javascript && make
 
-ruby: bison
+ruby: flex bison
 	cd ruby && bundle && bundle exec rake
 
-clangruby: bison
+clangruby: flex bison
 	cd ruby && bundle && CC=clang bundle exec rake clean compile
 
-gccruby: bison
+gccruby: flex bison
 	cd ruby && bundle && CC=gcc bundle exec rake clean compile
 
 jruby: bison
 	cd ruby && jruby -S rake
 
-winruby: mingw bison
+winruby: mingw flex bison
 	cd ruby && bundle && bundle exec rake cross compile
 
 clean:
@@ -60,6 +61,14 @@ bison-$(REQUIRED_BISON_VERSION)/src/bison:
 	cd bison-$(REQUIRED_BISON_VERSION) && ./configure && make
 endif
 
+ifneq ($(FLEX_VERSION), $(REQUIRED_FLEX_VERSION))
+flex: flex-$(REQUIRED_FLEX_VERSION)
+
+flex-$(REQUIRED_FLEX_VERSION):
+	curl --silent --location http://prdownloads.sourceforge.net/flex/flex-$(REQUIRED_FLEX_VERSION).tar.gz?download | tar xvz
+	cd flex-$(REQUIRED_FLEX_VERSION) && ./configure && make
+endif
+
 ifeq ($(RUBY_PLATFORM), java)
 # ruby is actually jruby. In that case run only the ruby target, which will build with jruby
 travis: ruby
@@ -72,7 +81,6 @@ endif
 
 java/pom.xml: VERSION
 	perl -i -pe 'if (!$$changed) {s/<version>.*/<version>$(VERSION)<\/version>/ and $$changed++;}' java/pom.xml
-
 
 javascript/package.json: VERSION
 	perl -i -pe 'if (!$$changed) {s/"version"\s*:.*/"version": "$(VERSION)",/ and $$changed++;}' javascript/package.json

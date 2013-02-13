@@ -43,6 +43,7 @@ clobber: clean
 	rm -Rf mingw
 	rm -Rf javascript/node_modules
 	rm -Rf bison-$(REQUIRED_BISON_VERSION)
+	rm -Rf flex-$(REQUIRED_FLEX_VERSION)
 
 ifeq ($(UNAME), Darwin)
 mingw: mingw/bin/i686-w64-mingw32-gcc

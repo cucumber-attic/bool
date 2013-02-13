@@ -107,7 +107,8 @@ You need an account at:
   + [Create](http://www.dewinter.com/gnupg_howto/english/GPGMiniHowto-3.html#ss3.1) and distribute your GPG public key to `hkp://pool.sks-keyservers.net/` (see below)
     + GPG Guide for [OS X](http://www.robertsosinski.com/2008/02/18/working-with-pgp-and-mac-os-x/)
     + It's recommended you install a GPG Agent so you don't have to enter your password for each signed artifact.
-      + For OS X you can use [GPG Keychain Access](https://www.gpgtools.org/keychain/index.html)
+      + For OS X you can use [GPGTools](https://www.gpgtools.org/)
+      + For OS X after you have installed GPGTools, in the System Preferences dialog you need to tick 'use keychain to store passphrases'.
 
 Distributing your key:
 

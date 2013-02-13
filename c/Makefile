@@ -4,7 +4,7 @@ OBJECTS = lexer.o parser.o ast.o
 TEST_OBJECTS = test/test.o
 CFLAGS = -fPIC -O2 -Werror -Wall -Wextra
 # Keep in sync with ../Makefile
-PATH := $(shell pwd)/../bison-2.7/tests:$(PATH)
+PATH := $(shell pwd)/../bison-2.7/tests:/usr/local/Cellar/flex/2.5.37/bin:$(PATH)
 
 # http://stackoverflow.com/questions/5694228/sed-in-place-flag-that-works-both-on-mac-and-linux
 ifeq ($(UNAME), Darwin)

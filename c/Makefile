@@ -39,6 +39,9 @@ lexer.h lexer.c: lexer.l
 	$(SEDI) -e 's/free( (char \*) ptr );/UNUSED(yyscanner);free( (char *) ptr );/g' lexer.c
 	# Inject missing initializations into lexer.c with surgical precision.
 	$(SEDI) -e 's/b->yy_fill_buffer = 0;/b->yy_fill_buffer = 0; b->yy_bs_lineno = 1; b->yy_bs_column = 1;/g' lexer.c
+	# resolve a warning in lexer.c by casting appropriately
+	$(SEDI) -e 's/for ( yyl = 0; yyl < yyleng; ++yyl )/for ( yyl = 0; yyl < (int)yyleng; ++yyl )/g' lexer.c
+	$(SEDI) -e 's/for ( i = 0; i < _yybytes_len; ++i )/for ( i = 0; i < (int)_yybytes_len; ++i )/g' lexer.c
 
 parser.h parser.c: parser.y
 	bison --version

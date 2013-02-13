@@ -93,6 +93,7 @@ However, I (David Kowis) wasn't able to make this work, and I just installed nod
 
 * Bump the version in `VERSION` and run `make version`. This updates the version in the package descriptors for all platforms.
 * Next, update HISTORY.md, especially the header link and date.
+* Make sure the `JAVA_HOME` environment variable is defined. On OS X this is `/Library/Java/JavaVirtualMachines/jdk1.7.0_10.jdk/Contents/Home` or similar.
 * Commit all files and release all packages:
 
 ```
@@ -116,9 +117,12 @@ You need an account at:
 * [oss.sonatype.org](https://oss.sonatype.org/)
   + [Read the docs](https://docs.sonatype.org/display/Repository/Sonatype+OSS+Maven+Repository+Usage+Guide)
   + [Sign up](http://issues.sonatype.org/)
-  + [Request Access](https://issues.sonatype.org/browse/OSSRH-2050)
-  + [Create](http://www.dewinter.com/gnupg_howto/english/GPGMiniHowto-3.html#ss3.1) and distribute your GPG public key to `hkp://pool.sks-keyservers.net/`:
+  + [Create](http://www.dewinter.com/gnupg_howto/english/GPGMiniHowto-3.html#ss3.1) and distribute your GPG public key to `hkp://pool.sks-keyservers.net/` (see below)
     + GPG Guide for [OS X](http://www.robertsosinski.com/2008/02/18/working-with-pgp-and-mac-os-x/)
+    + It's recommended you install a GPG Agent so you don't have to enter your password for each signed artifact.
+      + For OS X you can use [GPG Keychain Access](https://www.gpgtools.org/keychain/index.html)
+
+Distributing your key:
 
 ```
 gpg list-public-keys
@@ -160,6 +164,8 @@ Sonatype authentication details are stored in a `~/.m2/settings.xml` file:
 </settings>
 ```
 
+#### Request Karma
+
 Once all of your accounts are set up, create a Github issue where you request release karma. 
 One of the existing release managers can now give you karma if you give them your `RUBYGEMS-ORG-EMAIL` and `NPM-JS-USER`:
 
@@ -168,7 +174,7 @@ gem owner bool --add <RUBYGEMS-ORG-EMAIL>
 npm owner add <NPM-JS-USER> bool
 ```
 
-Karma to the `info.cukes` group in Sonatype must be given by someone from Sonatype - they don't let us administer our own group for some reason.
+In order to release jar files to the Maven repo you must request access to the `info.cukes` Maven group. Just comment in [OSSRH-2050](https://issues.sonatype.org/browse/OSSRH-2050) like others have done before.
 
 Once you have been given release karma you should try to make a release (just bump the minor version). You can verify that a release 
 is succesful by checking if your packages exist at:
@@ -176,8 +182,6 @@ is succesful by checking if your packages exist at:
 * https://rubygems.org/gems/bool
 * https://npmjs.org/package/bool
 * https://oss.sonatype.org/content/repositories/releases/info/cukes/bool/
-
-Be aware you need to have a `JAVA_HOME` environment variable set up before you release. 
 
 When you have made your first successful release, confirm in the ticket and close it. Then add your name below.
 

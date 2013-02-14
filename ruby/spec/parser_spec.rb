@@ -47,11 +47,27 @@ describe 'Bool' do
     end
   end
 
-  describe "ALL expressions" do
-    let(:expression) { "@a && @b || !@c" }
+  describe "AND OR expression" do
+    let(:expression) { "a && b || c" } # (a && b) || c
+
+    it "is true when a and b are true" do
+      evaluate(['a', 'b']).must_equal(true)
+    end
+
+    it "is true when a and c are true" do
+      evaluate(['a', 'c']).must_equal(true)
+    end
+  end
+
+  describe "OR AND expression" do
+    let(:expression) { "c || a && b" } # c || (a && b)
     
-    it "is true when all variables are false" do
-      evaluate([]).must_equal(true)
+    it "is true when a and b are true" do
+      evaluate(['a', 'b']).must_equal(true)
+    end
+
+    it "is true when a and c are true" do
+      evaluate(['a', 'c']).must_equal(true)
     end
   end
 

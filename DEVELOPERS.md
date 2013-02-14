@@ -182,3 +182,4 @@ When you have made your first successful release, confirm in the ticket and clos
 * Aslak Hellesøy
 * Ilan Pillemer
 * Matt Wynne
+* Seb Rose

@@ -1,7 +1,7 @@
 module Bool
   class Evaluator
     if RUBY_PLATFORM =~ /java/
-      require 'libbool'
+      require 'bool_ext'
 
       def self.new
         Java::Bool::Evaluator.new

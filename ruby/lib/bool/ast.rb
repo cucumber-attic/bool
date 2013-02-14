@@ -1,6 +1,6 @@
 module Bool
   if RUBY_PLATFORM =~ /java/
-    # AST classes defined in bool_ext.jar (bool-jvm)
+    # AST classes defined in bool_ext.jar
   else
     class Var
       attr_reader :name

@@ -8,9 +8,10 @@ require 'rake/testtask'
 require 'rake/clean'
 require 'bundler/gem_helper'
 
+native_lib_win     = 'lib/bool_ext.so'
 native_lib_jar     = 'lib/bool_ext.jar'
 native_lib_jar_mvn = '../java/target/bool.jar'
-native_lib_c       = 'ext/bool_ext/libbool'
+CLEAN << native_lib_win
 CLEAN << native_lib_jar
 
 spec = Gem::Specification.load('bool.gemspec')

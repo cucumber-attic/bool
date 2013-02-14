@@ -2,6 +2,10 @@
 
 * [jruby] Bugfix: jruby gem can't be loaded [#30](https://github.com/cucumber/bool/issues/30)
 
+## [1.0.5-1.0.10](https://github.com/cucumber/bool/compare/v1.0.4...v1.0.10)
+
+* Misc build script improvements. Various people practicing releases.
+
 ## [1.0.4](https://github.com/cucumber/bool/compare/v1.0.3...v1.0.4)
 
 * [javascript] Added lexer tests.

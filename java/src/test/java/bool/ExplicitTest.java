@@ -30,4 +30,13 @@ public class ExplicitTest {
 				expr.describeTo(new ExplicitVisitor(),null),
 				is ("(a || (b && c))"));
 	}
+	
+	@Test
+	public void test_not_expression() throws IOException {
+		Parser parser = new Parser(new Lexer("!(a || b && !c)"));
+		Expr expr = parser.parseExpr();
+		assertThat("!(a || b && !c) should explicitly be !(a || (b && !c))",
+				expr.describeTo(new ExplicitVisitor(),null),
+				is ("!(a || (b && !c))"));
+	}
 }

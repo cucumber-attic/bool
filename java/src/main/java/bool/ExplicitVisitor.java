@@ -21,7 +21,7 @@ public class ExplicitVisitor implements Visitor< String, List<String>> {
 
 	@Override
 	public String not(Not not, List<String> notused) {
-		return "!(" + explicit(not.operand) + ")"; 
+		return "!" + explicit(not.operand); 
 	}
 	
 	private String explicit (Expr expr) {

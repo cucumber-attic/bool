@@ -2,7 +2,7 @@ package bool;
 
 import java.util.List;
 
-public class Evaluator implements Visitor<Boolean, List<String>> {
+public class EvaluatorVisitor implements Visitor<Boolean, List<String>> {
     @Override
     public Boolean var(Var var, List<String> vars) {
         return vars.contains(var.name);

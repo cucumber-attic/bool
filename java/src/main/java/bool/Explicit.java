@@ -2,7 +2,7 @@ package bool;
 
 import java.util.List;
 
-public class ExplicitVisitor implements Visitor< String, List<String>> {
+public class Explicit implements Visitor< String, List<String>> {
 
 	@Override
 	public String var(Var var, List<String> notused) {

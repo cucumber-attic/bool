@@ -17,7 +17,7 @@ public class ExplicitTest {
 		Parser parser = new Parser(new Lexer("a && b || c"));
 		Expr expr = parser.parseExpr();
 		assertThat("a && b || c should explicitly be ((a && b) || c)",
-				expr.describeTo(new ExplicitVisitor(),null),
+				expr.describeTo(new Explicit(),null),
 				is ("((a && b) || c)"));
 		
 	}
@@ -27,7 +27,7 @@ public class ExplicitTest {
 		Parser parser = new Parser(new Lexer("a || b && c"));
 		Expr expr = parser.parseExpr();
 		assertThat("a || b && c should explicitly be (a || (b && c))",
-				expr.describeTo(new ExplicitVisitor(),null),
+				expr.describeTo(new Explicit(),null),
 				is ("(a || (b && c))"));
 	}
 	
@@ -36,7 +36,7 @@ public class ExplicitTest {
 		Parser parser = new Parser(new Lexer("!(a || b && !c)"));
 		Expr expr = parser.parseExpr();
 		assertThat("!(a || b && !c) should explicitly be !(a || (b && !c))",
-				expr.describeTo(new ExplicitVisitor(),null),
+				expr.describeTo(new Explicit(),null),
 				is ("!(a || (b && !c))"));
 	}
 }

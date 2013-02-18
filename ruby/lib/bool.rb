@@ -3,6 +3,7 @@
 require 'bool_ext'
 require 'bool/ast'
 require 'bool/evaluator'
+require 'bool/explicit'
 
 module Bool
   class SyntaxError < StandardError

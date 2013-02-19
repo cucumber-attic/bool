@@ -2,12 +2,19 @@
 
 #include "../ast.h"
 #include "../unused.h"
+#include "../parser.h"
+#include "../lexer.h"
 
 /* begin standard C headers. */
 #include <stdio.h>
 #include <string.h>
 #include <errno.h>
 #include <stdlib.h>
+
+YY_BUFFER_STATE state;
+YYSTYPE yylval;
+YYLTYPE yylloc;
+yyscan_t scanner;
 
 void test_valid_expression()
 {
@@ -95,6 +102,26 @@ void test_invalid_long_statement()
         last_error.message);
 }
 
+void test_lex_1()
+{
+    yylex_init(&scanner);
+    state = yy_scan_string("a && b", scanner);
+
+    ASSERT_EQUALS(TOKEN_VAR, yylex(&yylval, &yylloc, scanner));
+    ASSERT_EQUALS(TOKEN_AND, yylex(&yylval, &yylloc, scanner));
+    ASSERT_EQUALS(TOKEN_VAR, yylex(&yylval, &yylloc, scanner));
+}
+
+void test_lex_2()
+{
+    yylex_init(&scanner);
+    state = yy_scan_string("a || b", scanner);
+
+    ASSERT_EQUALS(TOKEN_VAR, yylex(&yylval, &yylloc, scanner));
+    ASSERT_EQUALS(TOKEN_OR, yylex(&yylval, &yylloc, scanner));
+    ASSERT_EQUALS(TOKEN_VAR, yylex(&yylval, &yylloc, scanner));
+}
+
 int main()
 {
     RUN(test_valid_expression);
@@ -103,6 +130,8 @@ int main()
     RUN(test_invalid_token);
     RUN(test_invalid_statement);
     RUN(test_invalid_long_statement);
+    RUN(test_lex_1);
+    RUN(test_lex_2);
  
     return TEST_REPORT();
 }

@@ -15,6 +15,7 @@ YY_BUFFER_STATE state;
 YYSTYPE yylval;
 YYLTYPE yylloc;
 yyscan_t scanner;
+#define YYLEX yylex(&yylval, &yylloc, scanner)
 
 void test_valid_expression()
 {
@@ -107,9 +108,9 @@ void test_lex_1()
     yylex_init(&scanner);
     state = yy_scan_string("a && b", scanner);
 
-    ASSERT_EQUALS(TOKEN_VAR, yylex(&yylval, &yylloc, scanner));
-    ASSERT_EQUALS(TOKEN_AND, yylex(&yylval, &yylloc, scanner));
-    ASSERT_EQUALS(TOKEN_VAR, yylex(&yylval, &yylloc, scanner));
+    ASSERT_EQUALS(TOKEN_VAR, YYLEX);
+    ASSERT_EQUALS(TOKEN_AND, YYLEX);
+    ASSERT_EQUALS(TOKEN_VAR, YYLEX);
 }
 
 void test_lex_2()
@@ -117,9 +118,9 @@ void test_lex_2()
     yylex_init(&scanner);
     state = yy_scan_string("a || b", scanner);
 
-    ASSERT_EQUALS(TOKEN_VAR, yylex(&yylval, &yylloc, scanner));
-    ASSERT_EQUALS(TOKEN_OR, yylex(&yylval, &yylloc, scanner));
-    ASSERT_EQUALS(TOKEN_VAR, yylex(&yylval, &yylloc, scanner));
+    ASSERT_EQUALS(TOKEN_VAR, YYLEX);
+    ASSERT_EQUALS(TOKEN_OR, YYLEX);
+    ASSERT_EQUALS(TOKEN_VAR, YYLEX);
 }
 
 int main()

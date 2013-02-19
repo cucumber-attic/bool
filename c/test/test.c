@@ -11,7 +11,6 @@
 #include <errno.h>
 #include <stdlib.h>
 
-YY_BUFFER_STATE state;
 YYSTYPE yylval;
 YYLTYPE yylloc;
 yyscan_t scanner;
@@ -106,7 +105,7 @@ void test_invalid_long_statement()
 void test_lex_1()
 {
     yylex_init(&scanner);
-    state = yy_scan_string("a && b", scanner);
+    yy_scan_string("a && b", scanner);
 
     ASSERT_EQUALS(TOKEN_VAR, YYLEX);
     ASSERT_EQUALS(TOKEN_AND, YYLEX);
@@ -116,7 +115,7 @@ void test_lex_1()
 void test_lex_2()
 {
     yylex_init(&scanner);
-    state = yy_scan_string("a || b", scanner);
+    yy_scan_string("a || b", scanner);
 
     ASSERT_EQUALS(TOKEN_VAR, YYLEX);
     ASSERT_EQUALS(TOKEN_OR, YYLEX);

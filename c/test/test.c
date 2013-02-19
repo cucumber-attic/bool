@@ -14,8 +14,8 @@
 YYSTYPE yylval;
 YYLTYPE yylloc;
 yyscan_t scanner;
-#define YYLEX yylex(&yylval, &yylloc, scanner)
 #define SOURCE(src) yylex_init(&scanner); yy_scan_string(src, scanner)
+#define YYLEX yylex(&yylval, &yylloc, scanner)
 
 void test_valid_expression()
 {

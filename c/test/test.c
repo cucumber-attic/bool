@@ -15,6 +15,7 @@ YYSTYPE yylval;
 YYLTYPE yylloc;
 yyscan_t scanner;
 #define YYLEX yylex(&yylval, &yylloc, scanner)
+#define SOURCE(src) yylex_init(&scanner); yy_scan_string(src, scanner)
 
 void test_valid_expression()
 {
@@ -104,7 +105,7 @@ void test_invalid_long_statement()
 
 void test_lex_1()
 {
-    yylex_init(&scanner); yy_scan_string("a && b", scanner);
+    SOURCE("a && b");
 
     ASSERT_EQUALS(TOKEN_VAR, YYLEX);
     ASSERT_EQUALS(TOKEN_AND, YYLEX);
@@ -113,7 +114,7 @@ void test_lex_1()
 
 void test_lex_2()
 {
-    yylex_init(&scanner); yy_scan_string("a || b", scanner);
+    SOURCE("a || b");
 
     ASSERT_EQUALS(TOKEN_VAR, YYLEX);
     ASSERT_EQUALS(TOKEN_OR, YYLEX);

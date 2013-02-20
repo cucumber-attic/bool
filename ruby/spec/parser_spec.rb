@@ -8,8 +8,8 @@ describe 'Bool' do
     ast.describe_to(Bool::Evaluator.new, vars)
   end
 
-  def explicit
-    ast.describe_to(Bool::Explicit.new, nil)
+  def renderer
+    ast.describe_to(Bool::Renderer.new, nil)
   end
 
   let(:ast) { Bool.parse(expression) }
@@ -76,28 +76,28 @@ describe 'Bool' do
   end
 
 
-  describe "AND OR expression tested explicitly" do
+  describe "AND OR expression tested by rendering explicitly" do
     let(:expression) { "a && b || c" } # (a && b) || c
 
-    it "expression should be equivalent to its explicit" do
-      explicit.must_equal "((a && b) || c)"
+    it "expression should be equivalent to its explicit rendering" do
+      renderer.must_equal "((a && b) || c)"
     end
   end
 
-  describe "OR AND expression tested explicitly" do
+  describe "OR AND expression tested by rendering explicitly" do
     let(:expression) { "c || a && b" } # c || (a && b)
     
-    it "expression should be equivalent to its explicit" do
-      explicit.must_equal "(c || (a && b))"
+    it "expression should be equivalent to its explicit rendering" do
+      renderer.must_equal "(c || (a && b))"
     end
   end
 
 
-  describe "not expression tested explicitly" do
+  describe "not expression tested by rendering explicitly" do
     let(:expression) { "!(c || a && !b)" } # c || (a && b)
     
-    it "expression should be equivalent to its explicit" do
-      explicit.must_equal "!(c || (a && !b))"
+    it "expression should be equivalent to its explicit rendering" do
+      renderer.must_equal "!(c || (a && !b))"
     end
   end
 

@@ -11,13 +11,13 @@ import static org.junit.Assert.assertTrue;
 
 
 
-public class ExplicitTest {
+public class RendererTest {
 	@Test
 	public void test_and_or_expression() throws IOException {
 		Parser parser = new Parser(new Lexer("a && b || c"));
 		Expr expr = parser.parseExpr();
 		assertThat("a && b || c should explicitly be ((a && b) || c)",
-				expr.describeTo(new Explicit(),null),
+				expr.describeTo(new Renderer(),null),
 				is ("((a && b) || c)"));
 		
 	}
@@ -27,7 +27,7 @@ public class ExplicitTest {
 		Parser parser = new Parser(new Lexer("a || b && c"));
 		Expr expr = parser.parseExpr();
 		assertThat("a || b && c should explicitly be (a || (b && c))",
-				expr.describeTo(new Explicit(),null),
+				expr.describeTo(new Renderer(),null),
 				is ("(a || (b && c))"));
 	}
 	
@@ -36,7 +36,7 @@ public class ExplicitTest {
 		Parser parser = new Parser(new Lexer("!(a || b && !c)"));
 		Expr expr = parser.parseExpr();
 		assertThat("!(a || b && !c) should explicitly be !(a || (b && !c))",
-				expr.describeTo(new Explicit(),null),
+				expr.describeTo(new Renderer(),null),
 				is ("!(a || (b && !c))"));
 	}
 }

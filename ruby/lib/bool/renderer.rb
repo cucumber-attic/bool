@@ -1,10 +1,10 @@
 module Bool
-  class Explicit
+  class Renderer
     if RUBY_PLATFORM =~ /java/
       require 'bool_ext'
 
       def self.new
-        Java::Bool::Explicit.new
+        Java::Bool::Renderer.new
       end
 
     else
@@ -13,20 +13,20 @@ module Bool
       end
 
       def and(node, vars)
-        "(" + explicit(node.left) + " && " + explicit(node.right) + ")"
+        "(" + renderer(node.left) + " && " + renderer(node.right) + ")"
       end
 
       def or(node, vars)
-        "(" + explicit(node.left) + " || " + explicit(node.right) + ")"
+        "(" + renderer(node.left) + " || " + renderer(node.right) + ")"
       end
 
       def not(node, vars)
-        "!" + explicit(node.other)
+        "!" + renderer(node.other)
       end
 
       private
 
-      def explicit(node)
+      def renderer(node)
         node.describe_to(self, nil)
       end
     end

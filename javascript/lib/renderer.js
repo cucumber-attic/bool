@@ -1,4 +1,4 @@
-module.exports = function Explicit() {
+module.exports = function Renderer() {
   this.var = function(var_node, vars) {
     return var_node.name;
   };

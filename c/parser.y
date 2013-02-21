@@ -39,7 +39,8 @@ typedef void* yyscan_t;
 %token TOKEN_LPAREN
 %token TOKEN_RPAREN
 
-%left TOKEN_AND TOKEN_OR
+%left TOKEN_OR
+%left TOKEN_AND
 %left UNOT
 
 %type <node> expr

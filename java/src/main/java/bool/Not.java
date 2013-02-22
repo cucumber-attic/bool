@@ -8,7 +8,7 @@ public class Not implements Expr {
     }
 
     @Override
-    public <R, A> R walkWith(Walker<R, A> visitor, A arg) {
-        return visitor.walk(this, arg);
+    public <R, A> R walkWith(Walker<R, A> walker, A arg) {
+        return walker.walk(this, arg);
     }
 }

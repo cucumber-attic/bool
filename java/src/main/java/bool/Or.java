@@ -10,7 +10,7 @@ public class Or implements Expr {
     }
 
     @Override
-    public <R, A> R describeTo(Visitor<R, A> visitor, A arg) {
-        return visitor.or(this, arg);
+    public <R, A> R walkWith(Walker<R, A> walker, A arg) {
+        return walker.walk(this, arg);
     }
 }

@@ -1,17 +1,17 @@
 module.exports = function Renderer() {
-  this.var = function(var_node, vars) {
+  this.walk_var = function(var_node, vars) {
     return var_node.name;
   };
 
-  this.and = function(and_node, vars) {
-    return "(" + and_node.left.describeTo(this, vars) + " && " + and_node.right.describeTo(this, vars) + ")";
+  this.walk_and = function(and_node, vars) {
+    return "(" + and_node.left.walk_with(this, vars) + " && " + and_node.right.walk_with(this, vars) + ")";
   };
 
-  this.or = function(or_node, vars) {
-    return "(" + or_node.left.describeTo(this, vars) + " || " + or_node.right.describeTo(this, vars) + ")";
+  this.walk_or = function(or_node, vars) {
+    return "(" + or_node.left.walk_with(this, vars) + " || " + or_node.right.walk_with(this, vars) + ")";
   };
 
-  this.not = function(not_node, vars) {
-    return "!" + not_node.refnode.describeTo(this, vars);
+  this.walk_not = function(not_node, vars) {
+    return "!" + not_node.refnode.walk_with(this, vars);
   };
 };

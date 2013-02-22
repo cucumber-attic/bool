@@ -17,9 +17,9 @@ public class EvaluatorTest {
 		Parser parser = new Parser(new Lexer("a && b || c"));
 		Expr expr = parser.parseExpr();
 		assertTrue("a && b || c given a, b should be true",
-				expr.describeTo(new Evaluator(), asList("a", "b")));
+				expr.walkWith(new Evaluator(), asList("a", "b")));
 		assertTrue("a && b || c given a, c should be true",
-				expr.describeTo(new Evaluator(), asList("a", "c")));
+				expr.walkWith(new Evaluator(), asList("a", "c")));
 		
 	}
 
@@ -28,9 +28,9 @@ public class EvaluatorTest {
 		Parser parser = new Parser(new Lexer("a || b && c"));
 		Expr expr = parser.parseExpr();
 		assertTrue("a || b && c given a, b should be true",
-				expr.describeTo(new Evaluator(), asList("a","b")));
+				expr.walkWith(new Evaluator(), asList("a","b")));
 		assertTrue("a || b && c given a, c should be true",
-				expr.describeTo(new Evaluator(), asList("a","c")));
+				expr.walkWith(new Evaluator(), asList("a","c")));
 	}
 	
 

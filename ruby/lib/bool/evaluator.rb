@@ -8,26 +8,26 @@ module Bool
       end
 
     else
-      def var(node, vars)
+      def walk_var(node, vars)
         !!vars.index(node.name)
       end
 
-      def and(node, vars)
+      def walk_and(node, vars)
         evaluate(node.left, vars) && evaluate(node.right, vars)
       end
 
-      def or(node, vars)
+      def walk_or(node, vars)
         evaluate(node.left, vars) || evaluate(node.right, vars)
       end
 
-      def not(node, vars)
+      def walk_not(node, vars)
         !evaluate(node.other, vars)
       end
 
       private
 
       def evaluate(node, vars)
-        node.describe_to(self, vars)
+        node.walk_with(self, vars)
       end
     end
   end

@@ -8,6 +8,10 @@ describe 'Bool' do
     ast.describe_to(Bool::Evaluator.new, vars)
   end
 
+  def renderer
+    ast.describe_to(Bool::Renderer.new, nil)
+  end
+
   let(:ast) { Bool.parse(expression) }
   let(:expression) { raise NotImplementedError }
 
@@ -47,11 +51,53 @@ describe 'Bool' do
     end
   end
 
-  describe "ALL expressions" do
-    let(:expression) { "@a && @b || !@c" }
+ describe "AND OR expression" do
+    let(:expression) { "a && b || c" } # (a && b) || c
+
+    it "is true when a and b are true" do
+      evaluate(['a', 'b']).must_equal(true)
+    end
+
+    it "is true when a and c are true" do
+      evaluate(['a', 'c']).must_equal(true)
+    end
+  end
+
+  describe "OR AND expression" do
+    let(:expression) { "c || a && b" } # c || (a && b)
     
-    it "is true when all variables are false" do
-      evaluate([]).must_equal(true)
+    it "is true when a and b are true" do
+      evaluate(['a', 'b']).must_equal(true)
+    end
+
+    it "is true when a and c are true" do
+      evaluate(['a', 'c']).must_equal(true)
+    end
+  end
+
+
+  describe "AND OR expression tested by rendering explicitly" do
+    let(:expression) { "a && b || c" } # (a && b) || c
+
+    it "expression should be equivalent to its explicit rendering" do
+      renderer.must_equal "((a && b) || c)"
+    end
+  end
+
+  describe "OR AND expression tested by rendering explicitly" do
+    let(:expression) { "c || a && b" } # c || (a && b)
+    
+    it "expression should be equivalent to its explicit rendering" do
+      renderer.must_equal "(c || (a && b))"
+    end
+  end
+
+
+  describe "not expression tested by rendering explicitly" do
+    let(:expression) { "!(c || a && !b)" } # c || (a && b)
+    
+    it "expression should be equivalent to its explicit rendering" do
+      renderer.must_equal "!(c || (a && !b))"
     end
   end
 

@@ -9,8 +9,8 @@ module Bool
         @name = name
       end
 
-      def describe_to(visitor, arg)
-        visitor.var(self, arg)
+      def walk_with(walker, arg)
+        walker.walk_var(self, arg)
       end
     end
 
@@ -21,8 +21,8 @@ module Bool
         @left, @right = left, right
       end
 
-      def describe_to(visitor, arg)
-        visitor.and(self, arg)
+      def walk_with(walker, arg)
+        walker.walk_and(self, arg)
       end
     end
 
@@ -33,8 +33,8 @@ module Bool
         @left, @right = left, right
       end
 
-      def describe_to(visitor, arg)
-        visitor.or(self, arg)
+      def walk_with(walker, arg)
+        walker.walk_or(self, arg)
       end
     end
 
@@ -45,8 +45,8 @@ module Bool
         @other = other
       end
 
-      def describe_to(visitor, arg)
-        visitor.not(self, arg)
+      def walk_with(walker, arg)
+        walker.walk_not(self, arg)
       end
     end
   end

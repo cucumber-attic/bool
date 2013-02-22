@@ -8,7 +8,7 @@ public class Var implements Expr {
     }
 
     @Override
-    public <R, A> R describeTo(Visitor<R, A> visitor, A arg) {
-        return visitor.var(this, arg);
+    public <R, A> R walkWith(Walker<R, A> visitor, A arg) {
+        return visitor.walk(this, arg);
     }
 }

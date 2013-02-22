@@ -16,8 +16,8 @@ public class ParserTest {
     public void test_parse() throws IOException {
         Parser parser = new Parser(new Lexer("foo && bar"));
         Expr expr = parser.parseExpr();
-        assertTrue(expr.describeTo(new Evaluator(), asList("foo", "bar")));
-        assertFalse(expr.describeTo(new Evaluator(), asList("foo")));
+        assertTrue(expr.walkWith(new Evaluator(), asList("foo", "bar")));
+        assertFalse(expr.walkWith(new Evaluator(), asList("foo")));
     }
 
     @Test

@@ -2,30 +2,30 @@ package bool;
 
 import java.util.List;
 
-public class Renderer implements Visitor< String, List<String>> {
+public class Renderer implements Walker< String, List<String>> {
 
 	@Override
-	public String var(Var var, List<String> notused) {
+	public String walk(Var var, List<String> notused) {
 		return var.name;
 	}
 
 	@Override
-	public String and(And and, List<String> notused) {
-		return "(" + explicit(and.left) + " && " + explicit(and.right) + ")";
+	public String walk(And and, List<String> notused) {
+		return "(" + render(and.left) + " && " + render(and.right) + ")";
 	}
 
 	@Override
-	public String or(Or or, List<String> notused) {
-		return "(" + explicit(or.left) + " || " + explicit(or.right) + ")";
+	public String walk(Or or, List<String> notused) {
+		return "(" + render(or.left) + " || " + render(or.right) + ")";
 	}
 
 	@Override
-	public String not(Not not, List<String> notused) {
-		return "!" + explicit(not.operand); 
+	public String walk(Not not, List<String> notused) {
+		return "!" + render(not.operand); 
 	}
 	
-	private String explicit (Expr expr) {
-	    return expr.describeTo(this, null);
+	private String render (Expr expr) {
+	    return expr.walkWith(this, null);
 	}
 
 }

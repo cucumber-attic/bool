@@ -12,7 +12,7 @@ describe('Testdata', function() {
       var expr = parser.parse(lines[0]);
       var vars = lines[1].split(/\s+/);
       var expected = lines[2];
-      assert.equal(expected, expr.describeTo(new Evaluator(), vars).toString());
+      assert.equal(expected, expr.walk_with(new Evaluator(), vars).toString());
     });
   }); 
 });

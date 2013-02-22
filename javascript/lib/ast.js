@@ -3,8 +3,8 @@ module.exports = {
     this.left = left;
     this.right = right;
 
-    this.describeTo = function(visitor, args) {
-      return visitor.and(this, args);
+    this.walk_with = function(walker, args) {
+      return walker.walk_and(this, args);
     }
   },
 
@@ -12,24 +12,24 @@ module.exports = {
     this.left = left;
     this.right = right;
 
-    this.describeTo = function(visitor, args) {
-      return visitor.or(this, args);
+    this.walk_with = function(walker, args) {
+      return walker.walk_or(this, args);
     }
   },
 
   Not: function Not(refnode) {
     this.refnode = refnode;
 
-    this.describeTo = function(visitor, args) {
-      return visitor.not(this, args);
+    this.walk_with = function(walker, args) {
+      return walker.walk_not(this, args);
     }
   },
 
   Var: function Var(name) {
     this.name = name;
 
-    this.describeTo = function(visitor, args) {
-      return visitor.var(this, args);
+    this.walk_with = function(walker, args) {
+      return walker.walk_var(this, args);
     }
   }
 };

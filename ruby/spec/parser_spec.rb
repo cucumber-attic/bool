@@ -5,11 +5,11 @@ require 'minitest/autorun'
 describe 'Bool' do
 
   def evaluate(vars)
-    ast.describe_to(Bool::Evaluator.new, vars)
+    ast.walk_with(Bool::Evaluator.new, vars)
   end
 
-  def renderer
-    ast.describe_to(Bool::Renderer.new, nil)
+  def render
+    ast.walk_with(Bool::Renderer.new, nil)
   end
 
   let(:ast) { Bool.parse(expression) }
@@ -80,7 +80,7 @@ describe 'Bool' do
     let(:expression) { "a && b || c" } # (a && b) || c
 
     it "expression should be equivalent to its explicit rendering" do
-      renderer.must_equal "((a && b) || c)"
+      render.must_equal "((a && b) || c)"
     end
   end
 
@@ -88,7 +88,7 @@ describe 'Bool' do
     let(:expression) { "c || a && b" } # c || (a && b)
     
     it "expression should be equivalent to its explicit rendering" do
-      renderer.must_equal "(c || (a && b))"
+      render.must_equal "(c || (a && b))"
     end
   end
 
@@ -97,7 +97,7 @@ describe 'Bool' do
     let(:expression) { "!(c || a && !b)" } # c || (a && b)
     
     it "expression should be equivalent to its explicit rendering" do
-      renderer.must_equal "!(c || (a && !b))"
+      render.must_equal "!(c || (a && !b))"
     end
   end
 

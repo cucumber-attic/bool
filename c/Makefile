@@ -28,7 +28,7 @@ run_tests: test/test
 	test/test
 
 test/test: $(TEST_OBJECTS) libparse.a
-	$(CC) -o $@ test/*.o libparse.a
+	$(CC) -o $@ test/*.o *.o libparse.a
 
 lexer.h lexer.c: lexer.l
 	PATH=$(FLEX_PATH):$(PATH) flex --version

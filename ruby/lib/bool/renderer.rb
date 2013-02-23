@@ -13,20 +13,20 @@ module Bool
       end
 
       def and(node, vars)
-        "(" + renderer(node.left) + " && " + renderer(node.right) + ")"
+        "(" + render(node.left) + " && " + render(node.right) + ")"
       end
 
       def or(node, vars)
-        "(" + renderer(node.left) + " || " + renderer(node.right) + ")"
+        "(" + render(node.left) + " || " + render(node.right) + ")"
       end
 
       def not(node, vars)
-        "!" + renderer(node.other)
+        "!" + render(node.other)
       end
 
       private
 
-      def renderer(node)
+      def render(node)
         node.describe_to(self, nil)
       end
     end

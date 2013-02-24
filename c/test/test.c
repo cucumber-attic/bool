@@ -16,6 +16,7 @@ YYLTYPE yylloc;
 yyscan_t scanner;
 #define SOURCE(src) yylex_init(&scanner); yy_scan_string(src, scanner)
 #define YYLEX yylex(&yylval, &yylloc, scanner)
+#define YYTEXT yyget_text(scanner)
 
 void test_valid_expression()
 {
@@ -117,8 +118,10 @@ void test_lex_2()
     SOURCE("a || b");
 
     ASSERT_EQUALS(TOKEN_VAR, YYLEX);
+    ASSERT_STRING_EQUALS("a", YYTEXT);
     ASSERT_EQUALS(TOKEN_OR, YYLEX);
     ASSERT_EQUALS(TOKEN_VAR, YYLEX);
+    ASSERT_STRING_EQUALS("b", YYTEXT);
 }
 
 int main()

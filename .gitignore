@@ -9,3 +9,6 @@ flex-2.5.37/
 csharp/**/bin/**
 csharp/**/obj/**
 csharp/packages/*/*
+csharp/Grammar/parser.lst
+csharp/Grammar/parser.dat
+csharp/**/*.user

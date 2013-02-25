@@ -10,21 +10,16 @@ public class EvaluatorTest {
     public void test_and_or_expression() throws IOException {
         Parser parser = new Parser(new Lexer("a && b || c"));
         Expr expr = parser.parseExpr();
-        assertTrue("a && b || c given a, b should be true",
-                expr.describeTo(new Evaluator(), asList("a", "b")));
-        assertTrue("a && b || c given a, c should be true",
-                expr.describeTo(new Evaluator(), asList("a", "c")));
-
+        assertTrue(expr.describeTo(new Evaluator(), asList("a", "b")));
+        assertTrue(expr.describeTo(new Evaluator(), asList("a", "c")));
     }
 
     @Test
     public void test_or_and_expression() throws IOException {
         Parser parser = new Parser(new Lexer("a || b && c"));
         Expr expr = parser.parseExpr();
-        assertTrue("a || b && c given a, b should be true",
-                expr.describeTo(new Evaluator(), asList("a", "b")));
-        assertTrue("a || b && c given a, c should be true",
-                expr.describeTo(new Evaluator(), asList("a", "c")));
+        assertTrue(expr.describeTo(new Evaluator(), asList("a", "b")));
+        assertTrue(expr.describeTo(new Evaluator(), asList("a", "c")));
     }
 
 }

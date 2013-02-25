@@ -57,3 +57,4 @@ Node* create_or(Node* left, Node* right);
 Node* create_not(Node* other);
 
 #endif
+

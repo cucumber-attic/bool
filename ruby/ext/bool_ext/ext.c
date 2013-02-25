@@ -69,3 +69,4 @@ void Init_bool_ext() {
 
     rb_define_singleton_method(mBool, "parse", Bool_parse, 1);
 }
+

@@ -11,7 +11,6 @@ public class RendererTest {
         Parser parser = new Parser(new Lexer("a && b || c"));
         Expr expr = parser.parseExpr();
         assertThat(expr.describeTo(new Renderer(), null), is("((a && b) || c)"));
-
     }
 
     @Test

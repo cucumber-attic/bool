@@ -1,9 +1,4 @@
-if RUBY_VERSION =~ /^1.8/
-  STDERR.print "\e[31m"
-  STDERR.puts "You'll need at least Ruby 1.9.3. You have ruby #{RUBY_VERSION}. Read #{File.expand_path('../README.md', __FILE__)}."
-  STDERR.print "\e[0m"
-  exit 1
-end
+require 'rbconfig'
 require 'rake/testtask'
 require 'rake/clean'
 require 'bundler/gem_helper'
@@ -29,6 +24,16 @@ if RUBY_PLATFORM =~ /java/
 
   task :test => native_lib_jar
 else
+  supported_ruby_versions = %w[1.9.3 2.0.0]
+  ruby_version_with_patch = "#{RUBY_VERSION}-p#{RbConfig::CONFIG["PATCHLEVEL"]}"
+
+  if !supported_ruby_versions.index(RUBY_VERSION)
+    STDERR.print "\e[31m"
+    STDERR.puts "You'll need Ruby 1.9.3 or 2.0.0. You have ruby #{ruby_version_with_patch}. Read #{File.expand_path('../README.md', __FILE__)}."
+    STDERR.print "\e[0m"
+    exit 1
+  end
+
   task :clean do
     Dir.chdir('../c') do
       sh 'make clean'
@@ -61,12 +66,11 @@ else
 
   task :test => :compile
 
-  cross_ruby_version = '1.9.3-p362' # The Windows ruby version we're compiling for
-  cross_ruby = "#{ENV['HOME']}/.rake-compiler/ruby/ruby-#{cross_ruby_version}"
+  cross_ruby = "#{ENV['HOME']}/.rake-compiler/ruby/ruby-#{ruby_version_with_patch}"
   # Ideally we'd just define task :compile => :install_cross_ruby but the 
   # :cross task fails if the ruby doesn't exist when the task is defined.
   if !File.directory?(cross_ruby) && ARGV.index('cross')
-    sh "bundle exec rake-compiler cross-ruby VERSION=#{cross_ruby_version}"
+    sh "bundle exec rake-compiler cross-ruby VERSION=#{ruby_version_with_patch}"
   end
 
   begin

@@ -5,11 +5,11 @@ require 'minitest/autorun'
 describe 'Bool' do
 
   def evaluate(vars)
-    ast.describe_to(Bool::Evaluator.new, vars)
+    ast.accept(Bool::Evaluator.new, vars)
   end
 
   def renderer
-    ast.describe_to(Bool::Renderer.new, nil)
+    ast.accept(Bool::Renderer.new, nil)
   end
 
   let(:ast) { Bool.parse(expression) }

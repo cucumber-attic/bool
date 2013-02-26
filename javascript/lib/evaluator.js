@@ -1,17 +1,23 @@
 module.exports = function Evaluator() {
-  this.var = function(var_node, vars) {
-    return vars.indexOf(var_node.name) != -1;
+  var self = this;
+
+  this.visit_var = function(node, vars) {
+    return vars.indexOf(node.name) != -1;
   };
 
-  this.and = function(and_node, vars) {
-    return and_node.left.describeTo(this, vars) && and_node.right.describeTo(this, vars);
+  this.visit_and = function(node, vars) {
+    return evaluate(node.left, vars) && evaluate(node.right, vars);
   };
 
-  this.or = function(or_node, vars) {
-    return or_node.left.describeTo(this, vars) || or_node.right.describeTo(this, vars);
+  this.visit_or = function(node, vars) {
+    return evaluate(node.left, vars) || evaluate(node.right, vars);
   };
 
-  this.not = function(not_node, vars) {
-    return !not_node.refnode.describeTo(this, vars);
+  this.visit_not = function(node, vars) {
+    return !evaluate(node.refnode, vars);
   };
+
+  function evaluate(node, vars) {
+    return node.accept(self, vars)
+  }
 };

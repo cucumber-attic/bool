@@ -10,7 +10,7 @@ public class Or implements Expr {
     }
 
     @Override
-    public <R, A> R describeTo(Visitor<R, A> visitor, A arg) {
-        return visitor.or(this, arg);
+    public <R, A> R accept(Visitor<R, A> visitor, A arg) {
+        return visitor.visit(this, arg);
     }
 }

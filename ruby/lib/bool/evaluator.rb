@@ -8,26 +8,26 @@ module Bool
       end
 
     else
-      def var(node, vars)
+      def visit_var(node, vars)
         !!vars.index(node.name)
       end
 
-      def and(node, vars)
+      def visit_and(node, vars)
         evaluate(node.left, vars) && evaluate(node.right, vars)
       end
 
-      def or(node, vars)
+      def visit_or(node, vars)
         evaluate(node.left, vars) || evaluate(node.right, vars)
       end
 
-      def not(node, vars)
+      def visit_not(node, vars)
         !evaluate(node.other, vars)
       end
 
-      private
+    private
 
       def evaluate(node, vars)
-        node.describe_to(self, vars)
+        node.accept(self, vars)
       end
     end
   end

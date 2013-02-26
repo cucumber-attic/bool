@@ -4,26 +4,26 @@ import java.util.List;
 
 public class Evaluator implements Visitor<Boolean, List<String>> {
     @Override
-    public Boolean var(Var var, List<String> vars) {
+    public Boolean visit(Var var, List<String> vars) {
         return vars.contains(var.name);
     }
 
     @Override
-    public Boolean and(And and, List<String> vars) {
+    public Boolean visit(And and, List<String> vars) {
         return evaluate(and.left, vars) && evaluate(and.right, vars);
     }
 
     @Override
-    public Boolean or(Or or, List<String> vars) {
+    public Boolean visit(Or or, List<String> vars) {
         return evaluate(or.left, vars) || evaluate(or.right, vars);
     }
 
     @Override
-    public Boolean not(Not not, List<String> vars) {
+    public Boolean visit(Not not, List<String> vars) {
         return !evaluate(not.operand, vars);
     }
 
     private Boolean evaluate(Expr expr, List<String> vars) {
-        return expr.describeTo(this, vars);
+        return expr.accept(this, vars);
     }
 }

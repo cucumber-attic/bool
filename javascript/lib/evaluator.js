@@ -14,7 +14,7 @@ module.exports = function Evaluator() {
   };
 
   this.visit_not = function(node, vars) {
-    return !evaluate(node.refnode, vars);
+    return !evaluate(node.operand, vars);
   };
 
   function evaluate(node, vars) {

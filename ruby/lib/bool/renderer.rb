@@ -21,7 +21,7 @@ module Bool
       end
 
       def visit_not(node, vars)
-        "!" + render(node.other)
+        "!" + render(node.operand)
       end
 
     private

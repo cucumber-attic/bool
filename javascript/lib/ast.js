@@ -1,4 +1,12 @@
 module.exports = {
+  Var: function Var(name) {
+    this.name = name;
+
+    this.accept = function(visitor, args) {
+      return visitor.visit_var(this, args);
+    }
+  },
+
   And: function And(left, right) {
     this.left = left;
     this.right = right;
@@ -17,19 +25,11 @@ module.exports = {
     }
   },
 
-  Not: function Not(refnode) {
-    this.refnode = refnode;
+  Not: function Not(operand) {
+    this.operand = operand;
 
     this.accept = function(visitor, args) {
       return visitor.visit_not(this, args);
-    }
-  },
-
-  Var: function Var(name) {
-    this.name = name;
-
-    this.accept = function(visitor, args) {
-      return visitor.visit_var(this, args);
     }
   }
 };

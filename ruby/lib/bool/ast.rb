@@ -39,10 +39,10 @@ module Bool
     end
 
     class Not
-      attr_reader :other
+      attr_reader :operand
 
-      def initialize(other)
-        @other = other
+      def initialize(operand)
+        @operand = operand
       end
 
       def accept(visitor, arg)

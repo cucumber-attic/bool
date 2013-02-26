@@ -12,6 +12,6 @@ module.exports = function Renderer() {
   };
 
   this.visit_not = function(node, vars) {
-    return "!" + node.refnode.accept(this, vars);
+    return "!" + node.operand.accept(this, vars);
   };
 };

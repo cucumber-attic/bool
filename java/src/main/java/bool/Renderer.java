@@ -2,7 +2,7 @@ package bool;
 
 import java.util.List;
 
-public class Renderer implements Visitor< String, List<String>> {
+public class Renderer implements Visitor<String, List<String>> {
 
     @Override
     public String var(Var var, List<String> notused) {
@@ -21,10 +21,10 @@ public class Renderer implements Visitor< String, List<String>> {
 
     @Override
     public String not(Not not, List<String> notused) {
-        return "!" + explicit(not.operand); 
+        return "!" + explicit(not.operand);
     }
-    
-    private String explicit (Expr expr) {
+
+    private String explicit(Expr expr) {
         return expr.describeTo(this, null);
     }
 

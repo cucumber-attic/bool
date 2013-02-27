@@ -14,9 +14,13 @@ else
 SEDI = sed -i''
 endif
 
-all: libparse.o run_tests
+all: libparse.o libparse.a run_tests
+
+libparse.a: $(OBJECTS)
+	$(AR) rcs $@ $(OBJECTS)
 
 libparse.o: $(OBJECTS)
+	$(CC) --version
 	$(CC) -shared -o $@ $(OBJECTS)
 
 lexer.o: parser.o
@@ -24,8 +28,8 @@ lexer.o: parser.o
 run_tests: test/test
 	test/test
 
-test/test: $(TEST_OBJECTS) libparse.o
-	$(CC) -o $@ test/*.o libparse.o
+test/test: $(TEST_OBJECTS) libparse.a
+	$(CC) -o $@ test/*.o libparse.a
 
 lexer.h lexer.c: lexer.l
 	PATH=$(FLEX_PATH):$(PATH) flex --version

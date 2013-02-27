@@ -20,6 +20,7 @@ libparse.a: $(OBJECTS)
 	$(AR) rcs $@ $(OBJECTS)
 
 libparse.o: $(OBJECTS)
+	$(CC) --version
 	$(CC) -shared -o $@ $(OBJECTS)
 
 lexer.o: parser.o

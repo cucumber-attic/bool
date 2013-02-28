@@ -1,3 +1,7 @@
+## [Git master](https://github.com/cucumber/bool/compare/v1.0.11...master)
+
+* Added `./bison` and `./flex` wrapper scripts, improving the build process.
+
 ## [1.0.11](https://github.com/cucumber/bool/compare/v1.0.10...v1.0.11)
 
 * [jruby] Bugfix: jruby gem can't be loaded [#30](https://github.com/cucumber/bool/issues/30)

@@ -3,9 +3,6 @@ LDSHARED?=$(CC) -shared
 OBJECTS = lexer.o parser.o ast.o
 TEST_OBJECTS = test/test.o
 CFLAGS = -fPIC -O2 -Werror -Wall -Wextra
-# Keep in sync with ../Makefile
-BISON_PATH := $(shell pwd)/../bison-2.7/tests
-FLEX_PATH := $(shell pwd)/../flex-2.5.37
 
 # http://stackoverflow.com/questions/5694228/sed-in-place-flag-that-works-both-on-mac-and-linux
 ifeq ($(UNAME), Darwin)
@@ -32,8 +29,7 @@ test/test: $(TEST_OBJECTS) libparse.a
 	$(CC) -o $@ test/*.o libparse.a
 
 lexer.h lexer.c: lexer.l
-	PATH=$(FLEX_PATH):$(PATH) flex --version
-	PATH=$(FLEX_PATH):$(PATH) flex lexer.l
+	../flex lexer.l
 	
 	# Modify flex-generated lexer.c with surgical precision.
 
@@ -50,8 +46,8 @@ lexer.h lexer.c: lexer.l
 	$(SEDI) -e 's/for ( i = 0; i < _yybytes_len; ++i )/for ( i = 0; i < (int)_yybytes_len; ++i )/g' lexer.c
 
 parser.h parser.c: parser.y
-	PATH=$(BISON_PATH):$(PATH) bison --version
-	PATH=$(BISON_PATH):$(PATH) bison parser.y
+	../bison parser.y
 
 clean:
 	rm -f lexer.h lexer.c parser.h parser.c *.o *.a test/test test/*.o
+

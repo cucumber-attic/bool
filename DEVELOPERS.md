@@ -9,10 +9,8 @@ If you're lucky and already have all the needed software installed you can just 
 make
 ```
 
-If you don't already have Flex 2.5.37 and Bison 2.7 then they will be downloaded and compiled locally under `./flex-2.5.37` and `./bison-2.7`.
-
-If the build fails after compiling flex and bison, don't worry. Follow the OS-specific instructions below and try again. 
-If you still run into problems, see the relevant `README.md` files in the sub directories.
+If the build fails, don't worry. Pay close attention to the error message and follow the OS-specific instructions
+below and try again. If you still run into problems, see the `README.md` file of the sub component that failed to build.
 
 ### Ubuntu
 
@@ -183,3 +181,4 @@ When you have made your first successful release, confirm in the ticket and clos
 * Ilan Pillemer
 * Matt Wynne
 * Seb Rose
+

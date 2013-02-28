@@ -22,7 +22,7 @@ The purpose of this library is twofold.
 
 First, it serves as a simple example of how to build a custom interpreted language with a fast lexer/parser that builds a 
 visitor-traversable AST, and that runs on many different platforms. People who want to build a bigger cross-platform language could 
-leverage the structure and build files in this project. For example, the [Gherkin](https://github.com/cucumber/gherkin) 3.0 project will use this 
+leverage the structure and build files in this project. For example, the [Gherkin](https://github.com/cucumber/gherkin3) 3.0 project will use this 
 project as a template.
 
 Second, this project will be used by Cucumber to evaluate _tag expressions_ in a more elegant way.

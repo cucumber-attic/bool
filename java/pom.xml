@@ -106,7 +106,7 @@
                             <goal>exec</goal>
                         </goals>
                         <configuration>
-                            <executable>bison</executable>
+                            <executable>${basedir}/../bison</executable>
                             <arguments>
                                 <argument>--output</argument>
                                 <argument>

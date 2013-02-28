@@ -4,8 +4,6 @@ You need:
 
 * `make`
 * A C compiler such as `gcc` or `clang`
-* `flex` 2.5.35 or newer
-* `bison` 2.5 or newer
 
 To compile, just run
 

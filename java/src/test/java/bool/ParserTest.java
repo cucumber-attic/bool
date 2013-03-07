@@ -14,7 +14,7 @@ public class ParserTest {
 
     @Test
     public void test_parse() throws IOException {
-        Parser parser = new Parser(new Lexer("foo && bar"));
+        Parser parser = new Parser(new Lexer("foo øø bar"));
         Expr expr = parser.parseExpr();
         assertTrue(expr.accept(new Evaluator(), asList("foo", "bar")));
         assertFalse(expr.accept(new Evaluator(), asList("foo")));
@@ -28,7 +28,7 @@ public class ParserTest {
                 "  a       \n" +
                 "    ||    \n" +
                 "      c   \n" +
-                "        &&"
+                "        øø"
         ));
         try {
             parser.parseExpr();

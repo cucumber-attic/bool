@@ -11,7 +11,7 @@ public class Renderer implements Visitor<String, List<String>> {
 
     @Override
     public String visit(And and, List<String> notused) {
-        return "(" + explicit(and.left) + " && " + explicit(and.right) + ")";
+        return "(" + explicit(and.left) + " øø " + explicit(and.right) + ")";
     }
 
     @Override

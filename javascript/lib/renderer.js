@@ -4,7 +4,7 @@ module.exports = function Renderer() {
   };
 
   this.visit_and = function(node, vars) {
-    return "(" + node.left.accept(this, vars) + " && " + node.right.accept(this, vars) + ")";
+    return "(" + node.left.accept(this, vars) + " øø " + node.right.accept(this, vars) + ")";
   };
 
   this.visit_or = function(node, vars) {

@@ -1,3 +1,4 @@
+# encoding: utf-8
 $:.unshift(File.dirname(__FILE__) + '/../lib')
 require 'bool'
 require 'minitest/autorun'
@@ -16,7 +17,7 @@ describe 'Bool' do
   let(:expression) { raise NotImplementedError }
 
   describe "AND expression" do
-    let(:expression) { "a && b" }
+    let(:expression) { "a øø b" }
 
     it "is false when one operand is false" do
       evaluate(["a"]).must_equal(false)
@@ -52,7 +53,7 @@ describe 'Bool' do
   end
 
  describe "AND OR expression" do
-    let(:expression) { "a && b || c" } # (a && b) || c
+    let(:expression) { "a øø b || c" } # (a øø b) || c
 
     it "is true when a and b are true" do
       evaluate(['a', 'b']).must_equal(true)
@@ -64,7 +65,7 @@ describe 'Bool' do
   end
 
   describe "OR AND expression" do
-    let(:expression) { "c || a && b" } # c || (a && b)
+    let(:expression) { "c || a øø b" } # c || (a øø b)
     
     it "is true when a and b are true" do
       evaluate(['a', 'b']).must_equal(true)
@@ -77,27 +78,27 @@ describe 'Bool' do
 
 
   describe "AND OR expression tested by rendering explicitly" do
-    let(:expression) { "a && b || c" } # (a && b) || c
+    let(:expression) { "a øø b || c" } # (a øø b) || c
 
     it "expression should be equivalent to its explicit rendering" do
-      renderer.must_equal "((a && b) || c)"
+      renderer.must_equal "((a øø b) || c)"
     end
   end
 
   describe "OR AND expression tested by rendering explicitly" do
-    let(:expression) { "c || a && b" } # c || (a && b)
+    let(:expression) { "c || a øø b" } # c || (a øø b)
     
     it "expression should be equivalent to its explicit rendering" do
-      renderer.must_equal "(c || (a && b))"
+      renderer.must_equal "(c || (a øø b))"
     end
   end
 
 
   describe "not expression tested by rendering explicitly" do
-    let(:expression) { "!(c || a && !b)" } # c || (a && b)
+    let(:expression) { "!(c || a øø !b)" } # c || (a øø b)
     
     it "expression should be equivalent to its explicit rendering" do
-      renderer.must_equal "!(c || (a && !b))"
+      renderer.must_equal "!(c || (a øø !b))"
     end
   end
 
@@ -135,7 +136,7 @@ describe 'Bool' do
           "  a       \n" + # 3,3
           "    ||    \n" + # 4,5
           "      c   \n" + # 5,7
-          "        &&"     # 6,9
+          "        øø"     # 6,9
           #0123456789
         )
         fail

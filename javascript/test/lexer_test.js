@@ -8,10 +8,10 @@ function lex() {
 
 describe('Lexer', function() {
   it('tokenizes a good stream', function() {
-    lexer.setInput("  a   &&  b  ");
+    lexer.setInput("  a   øø  b  ");
 
     assert.deepEqual([ 'TOKEN_VAR', 'a' ], lex());
-    assert.deepEqual([ 'TOKEN_AND', '&&' ], lex());
+    assert.deepEqual([ 'TOKEN_AND', 'øø' ], lex());
     assert.deepEqual([ 'TOKEN_VAR', 'b' ], lex());
   });
 });

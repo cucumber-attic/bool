@@ -11,7 +11,7 @@ describe('Bool', function() {
   });
 
   it('does and', function() {
-    var expr = parser.parse('@a && @b');
+    var expr = parser.parse('@a øø @b');
     assert.equal(true, expr.accept(new Evaluator(), ['@a', '@b']));
     assert.equal(false, expr.accept(new Evaluator(), ['@a']));
     assert.equal(false, expr.accept(new Evaluator(), ['@b']));
@@ -19,7 +19,7 @@ describe('Bool', function() {
   });
 
   it('Does it all', function() {
-    var expr = parser.parse('@a && @b || !@c');
+    var expr = parser.parse('@a øø @b || !@c');
     assert.equal(true, expr.accept(new Evaluator(), ['@a', '@b']));
     assert.equal(false, expr.accept(new Evaluator(), ['@c']));
     assert.equal(true, expr.accept(new Evaluator(), []));
@@ -69,14 +69,14 @@ describe('Bool', function() {
         "  a       \n" + // 3,3
         "    ||    \n" + // 4,5
         "      c   \n" + // 5,7
-        "        &&"     // 6,9
+        "        øø"     // 6,9
       ///0123456789
       );
       throw new Error("should fail");
     } catch(expected) {
       assert.equal(
         "Parse error on line 6:\n" +
-        "...     c           &&\n" +
+        "...     c           øø\n" +
         "----------------------^\n" +
         "Expecting 'TOKEN_VAR', 'TOKEN_NOT', 'TOKEN_LPAREN', got 'EOF'"
         , expected.message);

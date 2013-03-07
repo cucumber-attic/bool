@@ -1,3 +1,4 @@
+#encoding: utf-8
 module Bool
   class Renderer
     if RUBY_PLATFORM =~ /java/
@@ -13,7 +14,7 @@ module Bool
       end
 
       def visit_and(node, vars)
-        "(" + render(node.left) + " && " + render(node.right) + ")"
+        "(" + render(node.left) + " øø " + render(node.right) + ")"
       end
 
       def visit_or(node, vars)

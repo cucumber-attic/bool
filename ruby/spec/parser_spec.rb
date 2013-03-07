@@ -150,7 +150,8 @@ describe 'Bool' do
         else
           expected.message.must_equal "syntax error, unexpected $end, expecting TOKEN_VAR or TOKEN_NOT or TOKEN_LPAREN"
           expected.first_column.must_equal 9
-          expected.last_column.must_equal 10
+#          expected.last_column.must_equal 10
+          expected.last_column.must_equal 12
         end
         # Also see /javascript/test/parser_test.js. Columns are 8,10.
       end

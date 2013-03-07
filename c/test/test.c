@@ -21,7 +21,7 @@ yyscan_t scanner;
 void test_valid_expression()
 {
     Node* ast = parse_ast(
-        "a && b");
+        "a øø b");
         
     ASSERT("AST should not have returned NULL", ast);
     ASSERT_EQUALS(eAND, ast->type);
@@ -33,12 +33,13 @@ void test_line_and_column()
         "      \n"
         "      \n"
         "      \n"
-        "   && \n");
+        "   øø \n");
     ASSERT_EQUALS(NULL, ast);
     ASSERT_EQUALS(4, last_error.first_line);
     ASSERT_EQUALS(4, last_error.last_line);
     ASSERT_EQUALS(4, last_error.first_column);
-    ASSERT_EQUALS(5, last_error.last_column);
+//    ASSERT_EQUALS(5, last_error.last_column);
+    ASSERT_EQUALS(7, last_error.last_column);
     ASSERT_STRING_EQUALS(
         "syntax error, unexpected TOKEN_AND, expecting TOKEN_VAR or TOKEN_NOT or TOKEN_LPAREN", 
         last_error.message);
@@ -92,13 +93,14 @@ void test_invalid_long_statement()
         "  a       \n"
         "    ||    \n"
         "      c   \n"
-        "        &&");
+        "        øø");
        //01234567890
     ASSERT_EQUALS(NULL, ast);
     ASSERT_EQUALS(6, last_error.first_line);
     ASSERT_EQUALS(6, last_error.last_line);
     ASSERT_EQUALS(9, last_error.first_column);
-    ASSERT_EQUALS(10, last_error.last_column);
+//    ASSERT_EQUALS(10, last_error.last_column);
+    ASSERT_EQUALS(12, last_error.last_column);
     ASSERT_STRING_EQUALS(
         "syntax error, unexpected $end, expecting TOKEN_VAR or TOKEN_NOT or TOKEN_LPAREN", 
         last_error.message);
@@ -106,7 +108,7 @@ void test_invalid_long_statement()
 
 void test_lex_1()
 {
-    SOURCE("a && b");
+    SOURCE("a øø b");
 
     ASSERT_EQUALS(TOKEN_VAR, YYLEX);
     ASSERT_EQUALS(TOKEN_AND, YYLEX);

@@ -22,7 +22,7 @@
 [ \r\t]*               { /* skip whitespace */ }
 [\n]                   { yylloc->first_column = yylloc->last_column = 0; }
 [A-Za-z0-9_\-@]+       { yylval->value = strdup(yytext); return TOKEN_VAR; }
-"&&"                   { return TOKEN_AND; }
+"øø"                   { return TOKEN_AND; }
 "||"                   { return TOKEN_OR; }
 "!"                    { return TOKEN_NOT; }
 "("                    { return TOKEN_LPAREN; }

@@ -6,7 +6,7 @@ We appreciate that. But before you do, please learn our basic rules:
 * Do you have a feature request? Then don't expect it to be implemented unless you or someone else sends a [pull request](https://help.github.com/articles/using-pull-requests).
 * Reporting a bug? We need to know what java/ruby/node.js etc. runtime you have, and what jar/gem/npm package versions you are using. Bugs with [pull requests](https://help.github.com/articles/using-pull-requests) get fixed quicker. Some bugs may never be fixed.
 * You have to tell us how to reproduce a bug. Bonus point for a [pull request](https://help.github.com/articles/using-pull-requests) with a failing test that tickles it.
-* Want to paste some code or output? *Please* use [GFM](https://help.github.com/articles/github-flavored-markdown)'s *Fenced Code Blocks* (triple backticks).
+* Want to paste some code or output? Put \`\`\` on a line above and below your code/output. See [GFM](https://help.github.com/articles/github-flavored-markdown)'s *Fenced Code Blocks* for details.
 * We love [pull requests](https://help.github.com/articles/using-pull-requests). But if you don't have a test to go with it we probably won't merge it.
 
 ## Contributing
@@ -196,4 +196,3 @@ When you have made your first successful release, confirm in the ticket and clos
 * Ilan Pillemer
 * Matt Wynne
 * Seb Rose
-

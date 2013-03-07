@@ -1,4 +1,19 @@
-## Building for all platforms
+## About to create a new Github Issue?
+
+We appreciate that. But before you do, please learn our basic rules:
+
+* This is not a support forum. If you have a question, please go to [The Cukes Google Group](groups.google.com/group/cukes)
+* Do you have a feature request? Then don't expect it to be implemented unless you or someone else sends a [pull request](https://help.github.com/articles/using-pull-requests).
+* Reporting a bug? We need to know what java/ruby/node.js etc. runtime you have, and what jar/gem/npm package versions you are using. Bugs with [pull requests](https://help.github.com/articles/using-pull-requests) get fixed quicker. Some bugs may never be fixed.
+* You have to tell us how to reproduce a bug. Bonus point for a [pull request](https://help.github.com/articles/using-pull-requests) with a failing test that tickles it.
+* Want to paste some code or output? *Please* use [GFM](https://help.github.com/articles/github-flavored-markdown)'s *Fenced Code Blocks* (triple backticks).
+* We love [pull requests](https://help.github.com/articles/using-pull-requests). But if you don't have a test to go with it we probably won't merge it.
+
+## Contributing
+
+Before you can contribute, you have to be able to build the source and run tests.
+
+### Building for all platforms
 
 You'll need Linux or OS X to build this project. It's not a goal to build *on* Windows, but the build files
 will build *for* Windows using MinGW.
@@ -12,7 +27,7 @@ make
 If the build fails, don't worry. Pay close attention to the error message and follow the OS-specific instructions
 below and try again. If you still run into problems, see the `README.md` file of the sub component that failed to build.
 
-### Ubuntu
+#### Ubuntu
 
 Ubuntu users can install additional required software with:
 
@@ -20,7 +35,7 @@ Ubuntu users can install additional required software with:
 sudo apt-get install wget nodejs mingw32
 ```
 
-### Fedora
+#### Fedora
 
 Fedora 18 users can install additional required software with:
 
@@ -36,7 +51,7 @@ yum --enablerepo=updates-testing install nodejs
 
 However, I (David Kowis) wasn't able to make this work, and I just installed node's binary distribution from http://nodejs.org/download/ and symlinked the necessary binaries into `~/bin`.
 
-## The Github Process
+### The Github Process
 
 The process for using git/github as we all start collaborating on bool and other Cucumber projects is similar to the [Github-Flow](http://scottchacon.com/2011/08/31/github-flow.html)
 
@@ -53,7 +68,7 @@ The process for using git/github as we all start collaborating on bool and other
 
 Here is an [Example](https://github.com/cucumber/bool/pull/12) of this process in action
 
-### Tips for good commits
+#### Tips for good commits
 
 1. Read up on [Github Flavored Markdown](https://help.github.com/articles/github-flavored-markdown)
     + especially links and syntax highlighting. GFM can be used in tickets as well as commit messages (e.g. put "#4" somewhere in a commit message to link ticket 4 to that commit.
@@ -74,7 +89,7 @@ Here is an [Example](https://github.com/cucumber/bool/pull/12) of this process i
 8. Travis continously builds the master branch and any branch that starts with `ticket` or `fix`. See [.travis.yml](https://github.com/cucumber/bool/blob/master/.travis.yml)
 This is a good reminder for everyone to give branches descriptive names.
 
-## Making a release
+### Making a release
 
 * Bump the version in `VERSION` and run `make version`. This updates the version in the package descriptors for all platforms.
 * Next, update HISTORY.md, especially the header link and date.
@@ -93,7 +108,7 @@ There is one manual step after uploading packages. You have to:
 * Check your bundle and *Close* it (no Description necessary).
 * Check your bundle and *Release* it (no Description necessary).
 
-### The first time you release
+#### The first time you release
 
 You need an account at:
 

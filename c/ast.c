@@ -70,6 +70,7 @@ void free_ast(Node* node) {
         case eAND:
         {
             And* and = (And*) node;
+            free(and->value);
             free_ast(and->left);
             free_ast(and->right);
             free(and);
@@ -78,6 +79,7 @@ void free_ast(Node* node) {
         case eOR:
         {
             Or* or = (Or*) node;
+            free(or->value);
             free_ast(or->left);
             free_ast(or->right);
             free(or);
@@ -86,7 +88,8 @@ void free_ast(Node* node) {
         case eNOT:
         {
             Not* not = (Not*) node;
-            free_ast(not->other);
+            free(not->value);
+            free_ast(not->operand);
             free(not);
             break;
         }
@@ -104,32 +107,35 @@ Node* create_var(char* value) {
     return (Node*) node;
 }
 
-Node* create_and(Node* left, Node* right) {
+Node* create_and(char* value, Node* left, Node* right) {
     And* node = (And*) malloc(sizeof* node);
     if (node == NULL) return NULL;
  
     node->type = eAND;
+    node->value = strdup(value);
     node->left = left;
     node->right = right;
     return (Node*) node;
 }
 
-Node* create_or(Node* left, Node* right) {
+Node* create_or(char* value, Node* left, Node* right) {
     Or* node = (Or*) malloc(sizeof* node);
     if (node == NULL) return NULL;
  
     node->type = eOR;
+    node->value = strdup(value);
     node->left = left;
     node->right = right;
     return (Node*) node;
 }
 
-Node* create_not(Node* other) {
+Node* create_not(char* value, Node* operand) {
     Not* node = (Not*) malloc(sizeof* node);
     if (node == NULL) return NULL;
  
     node->type = eNOT;
-    node->other = other;
+    node->value = strdup(value);
+    node->operand = operand;
     return (Node*) node;
 }
 

@@ -16,11 +16,11 @@ static VALUE transform(Node *node) {
     case eVAR:
         return rb_funcall(cVar, rb_intern("new"), 1, rb_str_new2(((Var*)node)->value));
     case eAND:
-        return rb_funcall(cAnd, rb_intern("new"), 2, transform(((And*)node)->left), transform(((And*)node)->right));
+        return rb_funcall(cAnd, rb_intern("new"), 3, rb_str_new2(((And*)node)->value), transform(((And*)node)->left), transform(((And*)node)->right));
     case eOR:
-        return rb_funcall(cOr,  rb_intern("new"), 2, transform(((Or*)node)->left), transform(((Or*)node)->right));
+        return rb_funcall(cOr,  rb_intern("new"), 3, rb_str_new2(((Or*)node) ->value), transform(((Or*)node)->left), transform(((Or*)node)->right));
     case eNOT:
-        return rb_funcall(cNot, rb_intern("new"), 1, transform(((Not*)node)->other));
+        return rb_funcall(cNot, rb_intern("new"), 2, rb_str_new2(((Not*)node)->value), transform(((Not*)node)->operand));
     default:
         rb_raise(rb_eArgError, "Should never happen");
         return 0;

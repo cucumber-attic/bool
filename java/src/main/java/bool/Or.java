@@ -1,10 +1,12 @@
 package bool;
 
 public class Or implements Expr {
+    public final String value;
     public final Expr left;
     public final Expr right;
 
-    public Or(Expr left, Expr right) {
+    public Or(String value, Expr left, Expr right) {
+        this.value = value;
         this.left = left;
         this.right = right;
     }

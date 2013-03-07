@@ -3,10 +3,11 @@ module Bool
     # AST classes defined in bool_ext.jar
   else
     class Var
-      attr_reader :name
+      attr_reader :value
 
-      def initialize(name)
-        @name = name
+      def initialize(value)
+        puts "VAR:#{value}"
+        @value = value
       end
 
       def accept(visitor, arg)
@@ -15,10 +16,11 @@ module Bool
     end
 
     class And
-      attr_reader :left, :right
+      attr_reader :value, :left, :right
 
-      def initialize(left, right)
-        @left, @right = left, right
+      def initialize(value, left, right)
+        puts "AND:#{value}"
+        @value, @left, @right = value, left, right
       end
 
       def accept(visitor, arg)
@@ -27,10 +29,11 @@ module Bool
     end
 
     class Or
-      attr_reader :left, :right
+      attr_reader :value, :left, :right
 
-      def initialize(left, right)
-        @left, @right = left, right
+      def initialize(value, left, right)
+        puts "OR:#{value}"
+        @value, @left, @right = value, left, right
       end
 
       def accept(visitor, arg)
@@ -39,10 +42,11 @@ module Bool
     end
 
     class Not
-      attr_reader :operand
+      attr_reader :value, :operand
 
-      def initialize(operand)
-        @operand = operand
+      def initialize(value, operand)
+        puts "NOT:#{value}"
+        @value, @operand = value, operand
       end
 
       def accept(visitor, arg)

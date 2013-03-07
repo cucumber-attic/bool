@@ -36,25 +36,28 @@ typedef struct Var {
 
 typedef struct And {
     NodeType type;
+    char* value;
     Node* left;
     Node* right;
 } And;
 
 typedef struct Or {
     NodeType type;
+    char* value;
     Node* left;
     Node* right;
 } Or;
 
 typedef struct Not {
     NodeType type;
-    Node* other;
+    char* value;
+    Node* operand;
 } Not;
 
 Node* create_var(char* value);
-Node* create_and(Node* left, Node* right);
-Node* create_or(Node* left, Node* right);
-Node* create_not(Node* other);
+Node* create_and(char* value, Node* left, Node* right);
+Node* create_or(char* value, Node* left, Node* right);
+Node* create_not(char* value, Node* operand);
 
 #endif
 

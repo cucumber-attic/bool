@@ -1,9 +1,11 @@
 package bool;
 
 public class Not implements Expr {
+    public final String value;
     public final Expr operand;
 
-    public Not(Expr operand) {
+    public Not(String value, Expr operand) {
+        this.value = value;
         this.operand = operand;
     }
 

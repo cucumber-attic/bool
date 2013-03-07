@@ -7,7 +7,7 @@ import java.io.IOException;
 %language "Java"
 %name-prefix ""
 %define public
-%define stype "Expr"
+//%define stype "Expr"
 %error-verbose
 
 %code {
@@ -37,14 +37,14 @@ import java.io.IOException;
 %%
 
 input
-    : expr  { expr = $1; }
+    : expr  { expr = (Expr)$1; }
     ;
 
 expr
     : TOKEN_VAR                       { $$ = yylexer.getLVal(); }
-    | expr TOKEN_AND expr             { $$ = new And($1, $3); }
-    | expr TOKEN_OR expr              { $$ = new Or($1, $3); }
-    | TOKEN_NOT expr %prec UNOT       { $$ = new Not($2); }
+    | expr TOKEN_AND expr             { $$ = new And((String)$2, (Expr)$1, (Expr)$3); }
+    | expr TOKEN_OR expr              { $$ = new Or((String)$2, (Expr)$1, (Expr)$3); }
+    | TOKEN_NOT expr %prec UNOT       { $$ = new Not((String)$1, (Expr)$2); }
     | TOKEN_LPAREN expr TOKEN_RPAREN  { $$ = $2; }
     ;
 

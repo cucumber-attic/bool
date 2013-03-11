@@ -67,12 +67,15 @@ else
 
   task :test => :compile
 
-  cross_ruby = "#{ENV['HOME']}/.rake-compiler/ruby/ruby-#{ruby_version_with_patch_or_rc}"
-  # Ideally we'd just define task :compile => :install_cross_ruby but the 
-  # :cross task fails if the ruby doesn't exist when the task is defined.
-  if !File.directory?(cross_ruby) && ARGV.index('cross')
-    sh "bundle exec rake-compiler cross-ruby VERSION=#{ruby_version_with_patch_or_rc}"
-    tmp_dir = "tmp/x86-mingw32/bool_ext/#{ruby_version_with_patch_or_rc}/win32"
+  if ARGV.index('cross')
+    cross_ruby = "#{ENV['HOME']}/.rake-compiler/ruby/ruby-#{ruby_version_with_patch_or_rc}"
+    # Ideally we'd just define task :compile => :install_cross_ruby but the 
+    # :cross task fails if the ruby doesn't exist when the task is defined.
+    if !File.directory?(cross_ruby)
+      sh "bundle exec rake-compiler cross-ruby VERSION=#{ruby_version_with_patch_or_rc}"
+    end
+
+    tmp_dir = "tmp/x86-mingw32/bool_ext/#{RUBY_VERSION}/win32"
     mkdir_p(tmp_dir)
     cp 'resolv.rb', tmp_dir
   end

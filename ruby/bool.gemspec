@@ -6,7 +6,7 @@ Gem::Specification.new do |s|
   
   s.files = Dir.glob("lib/**/*.rb")
   s.add_development_dependency('rake')
-  s.add_development_dependency('bundler', '~> 1.3.0.pre')
+  s.add_development_dependency('bundler', '~> 1.3.0')
   
   if ENV['RUBY_PLATFORM'] == 'java' || RUBY_PLATFORM =~ /java/
     s.platform = "java"

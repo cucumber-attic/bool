@@ -17,6 +17,6 @@ Gem::Specification.new do |s|
   else
     s.extensions << "ext/bool_ext/extconf.rb"
     s.files += Dir.glob("ext/**/*.{c,h,rb}")
-    s.add_development_dependency('rake-compiler', '>= 0.8.2')
+    s.add_development_dependency('rake-compiler', '>= 0.8.3')
   end
 end

@@ -18,3 +18,17 @@ end
 
 create_makefile(extension_name)
 
+# https://github.com/cucumber/bool/issues/37
+Dir.mkdir('win32')
+File.open('win32/resolv.rb', 'w') do |io|
+  io.write(<<-EOF)
+module Win32
+  module Resolv
+    def get_hosts_path
+      '/etc/hosts'
+    end
+    module_function :get_hosts_path
+  end
+end
+  EOF
+end

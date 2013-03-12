@@ -3,13 +3,16 @@ require 'rake/testtask'
 require 'rake/clean'
 require 'bundler/gem_helper'
 
-native_lib_win     = 'lib/bool_ext.so'
-native_lib_jar     = 'lib/bool_ext.jar'
-native_lib_jar_mvn = '../java/target/bool.jar'
+name = 'bool'
+
+native_lib_win     = "lib/#{name}_ext.so"
+native_lib_jar     = "lib/#{name}_ext.jar"
+native_lib_jar_mvn = "../java/target/#{name}.jar"
 CLEAN << native_lib_win
 CLEAN << native_lib_jar
+CLEAN << 'tmp'
 
-spec = Gem::Specification.load('bool.gemspec')
+spec = Gem::Specification.load("#{name}.gemspec")
 
 if RUBY_PLATFORM =~ /java/
   file native_lib_jar => native_lib_jar_mvn do
@@ -45,7 +48,7 @@ else
 
   %w[ast.h ast.c lexer.h lexer.c parser.h parser.c unused.h].each do |f|
     gen  = "../c/#{f}"
-    copy = "ext/bool_ext/#{f}"
+    copy = "ext/#{name}_ext/#{f}"
 
     file copy => gen do
       cp gen, copy
@@ -75,7 +78,7 @@ else
       sh "bundle exec rake-compiler cross-ruby VERSION=#{ruby_version_with_patch_or_rc}"
     end
 
-    tmp_dir = "tmp/x86-mingw32/bool_ext/#{RUBY_VERSION}/win32"
+    tmp_dir = "tmp/x86-mingw32/#{name}_ext/#{RUBY_VERSION}/win32"
     mkdir_p(tmp_dir)
     cp 'resolv.rb', tmp_dir
   end
@@ -89,7 +92,7 @@ else
     exit 1
   end
   # defines :compile task
-  Rake::ExtensionTask.new('bool_ext', spec) do |ext|
+  Rake::ExtensionTask.new("#{name}_ext", spec) do |ext|
     ext.cross_compile = true
     ext.cross_platform = 'x86-mingw32'
   end
@@ -103,3 +106,4 @@ end
 task :default => :test
 
 Bundler::GemHelper.install_tasks
+

@@ -29,5 +29,5 @@ Second, this project will be used by Cucumber to evaluate _tag expressions_ in a
 
 ## Building
 
-See `DEVELOPERS.md`
+See `CONTRIBUTING.md`
 

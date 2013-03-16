@@ -1,6 +1,6 @@
 {
     "name": "bool",
-    "version": "1.0.13",
+    "version": "1.0.14",
     "description": "Boolean expression evaluator",
     "keywords": [ "boolean", "logic" ],
     "homepage": "http://github.com/cucumber/bool",

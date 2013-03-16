@@ -1,6 +1,6 @@
-## [1.0.12](https://github.com/cucumber/bool/compare/v1.0.11...v1.0.12)
+## [1.0.12-1.0.13](https://github.com/cucumber/bool/compare/v1.0.11...v1.0.13) (15 March 2013)
 
-* Practicing release
+* Practicing releases
 * Added `./bison` and `./flex` wrapper scripts, improving the build process.
 
 ## [1.0.11](https://github.com/cucumber/bool/compare/v1.0.10...v1.0.11)

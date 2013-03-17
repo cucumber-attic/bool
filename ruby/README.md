@@ -44,3 +44,24 @@ Now just run
 ```
 rake
 ```
+
+### rbenv with JRuby
+
+If you are using rbenv to build the JRuby tests, you might get a message like this:
+
+```
+rbenv: jruby: command not found
+
+The `jruby' command exists in these Ruby versions:
+  jruby-1.7.3
+```
+
+This is because the `jruby` wrapper in the  doesn't exist on the path for the default version of ruby you are using. One possible workaround is to add your own `jruby` shell wrapper to your own `~/bin` directory, containing the following:
+
+```
+#!/bin/sh
+
+RBENV_VERSION=`rbenv versions | grep jruby | tail -1 | perl -pe 's/^.*(jruby-[^\s]+).*$/$1/'` ~/.rbenv/shims/jruby "$@"
+```
+
+This will temporarily switch to using JRuby if the `jruby` command is used. Make sure that your `~/bin` directory is ahead of the rbenv shims directory.

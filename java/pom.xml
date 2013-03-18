@@ -60,6 +60,7 @@
                         <phase>generate-sources</phase>
                         <configuration>
                             <target>
+                                <mkdir dir="${project.build.directory}/generated-sources/ragel/bool"/>
                                 <mkdir dir="${project.build.directory}/generated-sources/bison/bool"/>
                             </target>
                         </configuration>
@@ -83,24 +84,31 @@
                 </executions>
             </plugin>
             <plugin>
-                <groupId>de.jflex</groupId>
-                <artifactId>maven-jflex-plugin</artifactId>
-                <version>1.4.3</version>
-                <executions>
-                    <execution>
-                        <goals>
-                            <goal>generate</goal>
-                        </goals>
-                    </execution>
-                </executions>
-            </plugin>
-            <plugin>
                 <groupId>org.codehaus.mojo</groupId>
                 <artifactId>exec-maven-plugin</artifactId>
                 <version>1.2.1</version>
                 <executions>
                     <execution>
-                        <id>bison-grammar</id>
+                        <id>ragel-lexer</id>
+                        <phase>generate-sources</phase>
+                        <goals>
+                            <goal>exec</goal>
+                        </goals>
+                        <configuration>
+                            <executable>ragel</executable>
+                            <arguments>
+                                <argument>-J</argument>
+                                <argument>-o</argument>
+                                <argument>
+                                    ${project.build.directory}/generated-sources/ragel/bool/Lexer.java
+                                </argument>
+                                <argument>${basedir}/src/main/ragel/lexer.rl</argument>
+                            </arguments>
+                        </configuration>
+                    </execution>
+
+                    <execution>
+                        <id>bison-parser</id>
                         <phase>generate-sources</phase>
                         <goals>
                             <goal>exec</goal>
@@ -132,6 +140,7 @@
                         </goals>
                         <configuration>
                             <sources>
+                                <source>${project.build.directory}/generated-sources/ragel</source>
                                 <source>${project.build.directory}/generated-sources/bison</source>
                             </sources>
                         </configuration>

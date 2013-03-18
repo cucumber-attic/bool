@@ -27,7 +27,15 @@ expr
 
 %%
 
+// Load our AST code
 var ast = require('./ast');
 
+// Install more detailed error reporting
+var SyntaxError = require('./syntax_error');
+parser.parseError = function parseError(message, hash) {
+    throw new SyntaxError(message, hash);
+};
+
+// Hook up our lexer
 var lexer = require('./lexer');
 parser.lexer = lexer;

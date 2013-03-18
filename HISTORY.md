@@ -1,5 +1,6 @@
-## [Git master](https://github.com/cucumber/bool/compare/v1.0.11...master)
+## [1.0.12-1.0.14](https://github.com/cucumber/bool/compare/v1.0.11...v1.0.14) (15 March 2013)
 
+* Practicing releases
 * Added `./bison` and `./flex` wrapper scripts, improving the build process.
 
 ## [1.0.11](https://github.com/cucumber/bool/compare/v1.0.10...v1.0.11)

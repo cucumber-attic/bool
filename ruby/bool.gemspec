@@ -1,12 +1,12 @@
 Gem::Specification.new do |s|
   s.name    = "bool"
-  s.version = "1.0.11"
+  s.version = "1.0.14"
   s.summary = "Boolean expression evaluator"
   s.author  = "Aslak Hellesøy"
   
   s.files = Dir.glob("lib/**/*.rb")
   s.add_development_dependency('rake')
-  s.add_development_dependency('bundler', '~> 1.3.0.pre')
+  s.add_development_dependency('bundler', '~> 1.3.0')
   
   if ENV['RUBY_PLATFORM'] == 'java' || RUBY_PLATFORM =~ /java/
     s.platform = "java"
@@ -17,6 +17,6 @@ Gem::Specification.new do |s|
   else
     s.extensions << "ext/bool_ext/extconf.rb"
     s.files += Dir.glob("ext/**/*.{c,h,rb}")
-    s.add_development_dependency('rake-compiler', '>= 0.8.2')
+    s.add_development_dependency('rake-compiler', '>= 0.8.3')
   end
 end

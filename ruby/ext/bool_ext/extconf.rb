@@ -17,4 +17,3 @@ unless find_header('ast.h')
 end
 
 create_makefile(extension_name)
-

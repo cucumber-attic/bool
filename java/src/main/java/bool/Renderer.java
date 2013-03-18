@@ -6,7 +6,7 @@ public class Renderer implements Visitor<String, List<String>> {
 
     @Override
     public String visit(Var var, List<String> notused) {
-        return var.name;
+        return var.value;
     }
 
     @Override

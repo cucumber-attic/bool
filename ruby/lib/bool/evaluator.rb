@@ -9,7 +9,7 @@ module Bool
 
     else
       def visit_var(node, vars)
-        !!vars.index(node.name)
+        !!vars.index(node.value)
       end
 
       def visit_and(node, vars)

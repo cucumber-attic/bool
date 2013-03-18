@@ -1,10 +1,10 @@
 package bool;
 
 public class Var implements Expr {
-    public final String name;
+    public final String value;
 
-    public Var(String name) {
-        this.name = name;
+    public Var(String value) {
+        this.value = value;
     }
 
     @Override

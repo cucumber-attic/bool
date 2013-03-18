@@ -3,10 +3,10 @@ module Bool
     # AST classes defined in bool_ext.jar
   else
     class Var
-      attr_reader :name
+      attr_reader :value
 
-      def initialize(name)
-        @name = name
+      def initialize(value)
+        @value = value
       end
 
       def accept(visitor, arg)

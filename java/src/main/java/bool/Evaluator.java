@@ -5,7 +5,7 @@ import java.util.List;
 public class Evaluator implements Visitor<Boolean, List<String>> {
     @Override
     public Boolean visit(Var var, List<String> vars) {
-        return vars.contains(var.name);
+        return vars.contains(var.value);
     }
 
     @Override

@@ -3,7 +3,7 @@ var lexer = require('../lib/lexer');
 // Install our own parseError function that doesn't depend on the parser.
 var SyntaxError = require('../lib/syntax_error');
 lexer.parseError = function(message, hash){
-  throw new SyntaxError(message, hash)
+  throw new SyntaxError(message, hash);
 };
 
 function lex() {
@@ -11,22 +11,19 @@ function lex() {
 }
 
 describe('Lexer', function() {
-  it('tokenizes a good stream', function() {
-    lexer.setInput("  a   &&  b  ");
+  it('tokenizes a feature keyword', function() {
+    lexer.setInput("  \n  Feature:");
 
-    assert.deepEqual([ 'TOKEN_VAR', 'a' ], lex());
-    assert.deepEqual([ 'TOKEN_AND', '&&' ], lex());
-    assert.deepEqual([ 'TOKEN_VAR', 'b' ], lex());
+    assert.deepEqual([ 'TOKEN_FEATURE', 'Feature:' ], lex());
   });
 
-  it('complains when input cannot be scanned', function() {
-    lexer.setInput("???");
-    try {
-      lex();
-      throw new Error('should fail');
-    } catch(expected) {
-      assert.equal('Lexical error on line 1. Unrecognized text.\n???\n^', expected.message);
-    }
+  it('tokenizes a named feature with given', function() {
+    lexer.setInput("Feature:     Hello\n  Given ");
+
+    assert.deepEqual([ 'TOKEN_FEATURE', 'Feature:' ], lex());
+    assert.deepEqual([ 'TOKEN_NAME', 'Hello' ], lex());
+    assert.deepEqual([ 'TOKEN_STEP', 'Given ' ], lex());
   });
+
 });
 

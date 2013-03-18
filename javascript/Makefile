@@ -19,11 +19,11 @@ clobber:
 	git clean -dfx
 .PHONY: clobber
 
-lib/parser.js: lib/parser.jison lib/lexer.js node_modules
-	./node_modules/.bin/jison -o $@ lib/parser.jison
+lib/parser.js: lib/parser.y lib/lexer.js node_modules
+	./node_modules/.bin/jison -o $@ lib/parser.y
 
-lib/lexer.js: lib/lexer.jisonlex lib/lexer.jisonlex node_modules
-	./node_modules/.bin/jison-lex -o $@ lib/lexer.jisonlex
+lib/lexer.js: lib/lexer.l node_modules
+	./node_modules/.bin/jison-lex -o $@ lib/lexer.l
 
 node_modules: package.json
 	npm install

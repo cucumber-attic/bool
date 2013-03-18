@@ -1,9 +1,8 @@
-var parser = require('../lib');
+var lexer = require('../lib/lexer');
 var assert = require('assert');
-var lexer = parser.parser.lexer;
 
 function lex() {
-  return [parser.parser.terminals_[lexer.lex()], lexer.yytext];
+  return [lexer.lex(), lexer.yytext];
 }
 
 describe('Lexer', function() {

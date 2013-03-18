@@ -8,3 +8,7 @@
 "("                   { return 'TOKEN_LPAREN'; }
 ")"                   { return 'TOKEN_RPAREN'; }
 <<EOF>>               { return 'EOF'; }
+
+%%
+
+module.exports = lexer;

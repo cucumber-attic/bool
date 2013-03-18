@@ -1,3 +1,5 @@
 /node_modules/
 npm-debug.log
 lib/parser.js
+lib/lexer.js
+

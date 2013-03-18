@@ -28,3 +28,6 @@ expr
 %%
 
 var ast = require('./ast');
+
+var lexer = require('./lexer');
+parser.lexer = lexer;

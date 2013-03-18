@@ -2,7 +2,7 @@ module.exports = function Evaluator() {
   var self = this;
 
   this.visit_var = function(node, vars) {
-    return vars.indexOf(node.name) != -1;
+    return vars.indexOf(node.value) != -1;
   };
 
   this.visit_and = function(node, vars) {

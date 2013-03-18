@@ -10,6 +10,10 @@ mocha: node_modules lib/parser.js lib/lexer.js
 	@NODE_PATH=lib ./node_modules/.bin/mocha
 .PHONY: mocha
 
+test-lex: node_modules lib/lexer.js
+	@NODE_PATH=lib ./node_modules/.bin/mocha test/lexer_test.js
+.PHONY: mocha
+
 clean:
 	rm -f lib/parser.js
 	rm -f lib/lexer.js

@@ -1,6 +1,6 @@
 module.exports = function Renderer() {
   this.visit_var = function(node, vars) {
-    return node.name;
+    return node.value;
   };
 
   this.visit_and = function(node, vars) {

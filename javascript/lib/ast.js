@@ -1,6 +1,6 @@
 module.exports = {
-  Var: function Var(name) {
-    this.name = name;
+  Var: function Var(value) {
+    this.value = value;
 
     this.accept = function(visitor, args) {
       return visitor.visit_var(this, args);

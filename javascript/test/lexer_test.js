@@ -17,12 +17,27 @@ describe('Lexer', function() {
     assert.deepEqual([ 'TOKEN_FEATURE', 'Feature:' ], lex());
   });
 
-  it('tokenizes a named feature with given', function() {
-    lexer.setInput("Feature:     Hello\n  Given ");
+  it('tokenizes a named feature with given when', function() {
+    lexer.setInput("Feature:     Hello\n" +
+                   "  Given I have 4 cukes in my belly\n" +
+                   "  When I go shopping\n"
+                   );
 
     assert.deepEqual([ 'TOKEN_FEATURE', 'Feature:' ], lex());
     assert.deepEqual([ 'TOKEN_NAME', 'Hello' ], lex());
     assert.deepEqual([ 'TOKEN_STEP', 'Given ' ], lex());
+    assert.deepEqual([ 'TOKEN_NAME', 'I have 4 cukes in my belly' ], lex());
+    assert.deepEqual([ 'TOKEN_STEP', 'When ' ], lex());
+    assert.deepEqual([ 'TOKEN_NAME', 'I go shopping' ], lex());
+  });
+
+  it('tokenizes a named feature with description', function() {
+    lexer.setInput("Feature:     Hello\n  This is a description\n  and so is this");
+
+    assert.deepEqual([ 'TOKEN_FEATURE', 'Feature:' ], lex());
+    assert.deepEqual([ 'TOKEN_NAME', 'Hello' ], lex());
+    assert.deepEqual([ 'TOKEN_DESCRIPTION_LINE', 'This is a description' ], lex());
+    assert.deepEqual([ 'TOKEN_DESCRIPTION_LINE', 'and so is this' ], lex());
   });
 
 });

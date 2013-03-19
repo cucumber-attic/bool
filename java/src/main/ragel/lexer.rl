@@ -8,7 +8,8 @@ public class Lexer implements Parser.Lexer {
         alphtype char;
 
         main := |*
-            [ \r\n\t]*;
+            [ \t]*;
+            ('\n' | '\r\n')   => {lineNumber++; lastNewline = p + 1;};
             [A-Za-z0-9_\-@]+  => {state = Parser.TOKEN_VAR;    fbreak;};
             '&&'              => {state = Parser.TOKEN_AND;    fbreak;};
             '||'              => {state = Parser.TOKEN_OR;     fbreak;};
@@ -19,6 +20,9 @@ public class Lexer implements Parser.Lexer {
     }%%
 
     %%write data noerror;
+
+    private int lineNumber = 1;
+    private int lastNewline = 0;
 
     private int cs, ts, te, p, act;
     private final int pe, eof;
@@ -41,6 +45,18 @@ public class Lexer implements Parser.Lexer {
         return new String(data, ts, te-ts);
     }
 
+    public int getLineNumber() {
+        return lineNumber;
+    }
+
+    public int getColumnNumber() {
+        return p - lastNewline;
+    }
+
+    public String remaining() {
+        return new String(data, p, data.length-p);
+    }
+
     @Override
     public Expr getLVal() {
         return new Var(yytext());
@@ -50,13 +66,17 @@ public class Lexer implements Parser.Lexer {
     public final int yylex() throws IOException {
         int state = -1;
         %% write exec;
+
+        if(cs < lexer_first_final) {
+            yyerror("syntax error: " + remaining());
+        }
+
         return state;
     }
 
     @Override
-    public void yyerror(String s) {
-//        throw new SyntaxError(s, lexer.getYyline() + 1, lexer.getYycolumn() + 1);
-        throw new SyntaxError(s, 1000, 10000);
+    public void yyerror(String message) {
+        throw new SyntaxError(message, getLineNumber(), getColumnNumber());
     }
 
 

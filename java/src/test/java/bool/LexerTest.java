@@ -71,7 +71,7 @@ public class LexerTest {
             lexer.yylex();
             fail();
         } catch (SyntaxError expected) {
-            assertEquals("Unexpected character: ?", expected.getMessage());
+            assertEquals("syntax error: ?     \n", expected.getMessage());
             assertEquals(4, expected.getLine());
             assertEquals(4, expected.getColumn());
         }

@@ -23,9 +23,9 @@
         </license>
     </licenses>
     <scm>
-        <connection>scm:git:git://github.com/cucumber/gherkin.git</connection>
-        <developerConnection>scm:git:git@github.com:cucumber/gherkin.git</developerConnection>
-        <url>git://github.com/cucumber/gherkin.git</url>
+        <connection>scm:git:git://github.com/cucumber/bool.git</connection>
+        <developerConnection>scm:git:git@github.com:cucumber/bool.git</developerConnection>
+        <url>git://github.com/cucumber/bool.git</url>
     </scm>
 
     <dependencies>
@@ -95,7 +95,7 @@
                             <goal>exec</goal>
                         </goals>
                         <configuration>
-                            <executable>ragel</executable>
+                            <executable>${basedir}/../ragel</executable>
                             <arguments>
                                 <argument>-J</argument>
                                 <argument>-o</argument>

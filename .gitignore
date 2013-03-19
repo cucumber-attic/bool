@@ -2,5 +2,6 @@
 mingw/
 bison-2.7/
 flex-2.5.37/
+ragel-6.8/
 .project
 *~

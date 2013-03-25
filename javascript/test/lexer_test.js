@@ -41,13 +41,29 @@ describe('Lexer', function() {
   });
 
   it ('tokenizes descriptions and given when then even when description is long', function() {
-    lexer.setInput("Feature:     description1\n  this is a longer description than the given step\n  Given a step");
+    lexer.setInput("Feature:     Hello\n  this is a longer description than the given step\n  Given a step");
 
     assert.deepEqual([ 'TOKEN_FEATURE', 'Feature:' ], lex());
-    assert.deepEqual([ 'TOKEN_NAME', 'description1' ], lex());
+    assert.deepEqual([ 'TOKEN_NAME', 'Hello' ], lex());
     assert.deepEqual([ 'TOKEN_DESCRIPTION_LINE', 'this is a longer description than the given step' ], lex());
     assert.deepEqual([ 'TOKEN_STEP', 'Given ' ], lex());
     assert.deepEqual([ 'TOKEN_NAME', 'a step' ], lex());
   });
+
+  it ('tokenizes descriptions and given/when/then when the steps are longer than the descriptions', function() {
+    lexer.setInput("Feature:     Hello\n  description\nmore\n  Given a reasonably long step\n  When I do something interesting\n  Then stuff happens");
+
+    assert.deepEqual([ 'TOKEN_FEATURE', 'Feature:' ], lex());
+    assert.deepEqual([ 'TOKEN_NAME', 'Hello' ], lex());
+    assert.deepEqual([ 'TOKEN_DESCRIPTION_LINE', 'description' ], lex());
+    assert.deepEqual([ 'TOKEN_DESCRIPTION_LINE', 'more' ], lex());
+    assert.deepEqual([ 'TOKEN_STEP', 'Given ' ], lex());
+    assert.deepEqual([ 'TOKEN_NAME', 'a reasonably long step' ], lex());
+    assert.deepEqual([ 'TOKEN_STEP', 'When ' ], lex());
+    assert.deepEqual([ 'TOKEN_NAME', 'I do something interesting' ], lex());
+    assert.deepEqual([ 'TOKEN_STEP', 'Then ' ], lex());
+    assert.deepEqual([ 'TOKEN_NAME', 'stuff happens' ], lex());
+  });
+
 });
 

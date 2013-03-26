@@ -42,6 +42,16 @@ describe('Lexer', function() {
     assert.deepEqual([ 'TOKEN_DESCRIPTION_LINE', 'and so is this' ], lex());
   });
 
+  it('does not recognise a spaceless keyword', function() {
+    lexer.setInput("Feature: Hello\n" +
+                   "  Whenny is not a keyword\n"
+                   );
+
+    assert.deepEqual([ 'TOKEN_FEATURE', 'Feature:' ], lex());
+    assert.deepEqual([ 'TOKEN_NAME', 'Hello' ], lex());
+    assert.deepEqual([ 'TOKEN_DESCRIPTION_LINE', 'Whenny is not a keyword' ], lex());
+  });
+
   it ('tokenizes descriptions and given when then even when description is long', function() {
     lexer.setInput("Feature:     Hello\n" +
                    "  this is a longer description than the given step\n" +

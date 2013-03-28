@@ -14,7 +14,7 @@
 #define SOURCE(src) scan_init(src)
 #define YYLEX yylex()
 #define YYTEXT yytext()
-/*
+
 void test_valid_expression()
 {
     Node* ast = parse_ast(
@@ -41,6 +41,7 @@ void test_line_and_column()
         last_error.message);
 }
 
+/*
 void test_invalid_symbol()
 {
     Node* ast = parse_ast(
@@ -123,7 +124,7 @@ void test_lex_2()
 
 int main()
 {
-//    RUN(test_valid_expression);
+    RUN(test_valid_expression);
 //    RUN(test_line_and_column);
 //    RUN(test_invalid_symbol);
 //    RUN(test_invalid_token);

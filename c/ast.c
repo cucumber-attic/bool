@@ -99,6 +99,7 @@ void free_ast(Node* node) {
 //// AST specific node creation functions
 
 Node* create_var(char* value) {
+    printf("VALUE:%s\n", value);
     Var* node = (Var*) malloc(sizeof* node);
     if (node == NULL) return NULL;
  

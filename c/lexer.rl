@@ -34,6 +34,10 @@ void scan_init(char* data)  {
     %% write init;
 }
 
+char* yytext(void) {
+    return strndup(ts, te-ts);
+}
+
 int yylex(void) {
     int state = -1;
     %% write exec;
@@ -42,9 +46,7 @@ int yylex(void) {
         //yyerror("syntax error: " + remaining());
     }
 
-    return state;
-}
+    yylval.value = yytext();
 
-char* yytext(void) {
-    return strndup(ts, te-ts);
+    return state;
 }

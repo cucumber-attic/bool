@@ -1,84 +1,50 @@
-package bool;
+#include <string.h>
+#include <stdio.h>
+#include "parser.h"
 
-import java.io.IOException;
+%%{
+    machine lexer;
+    alphtype char;
 
-public class Lexer implements Parser.Lexer {
-    %%{
-        machine lexer;
-        alphtype char;
+    main := |*
+        [ \t]*;
+        ('\n' | '\r\n')   => {};
+        [A-Za-z0-9_\-@]+  => { state = TOKEN_VAR;    fbreak; };
+        '&&'              => { state = TOKEN_AND;    fbreak; };
+        '||'              => { state = TOKEN_OR;     fbreak; };
+        '!'               => { state = TOKEN_NOT;    fbreak; };
+        '('               => { state = TOKEN_LPAREN; fbreak; };
+        ')'               => { state = TOKEN_RPAREN; fbreak; };
+    *|;
+}%%
 
-        main := |*
-            [ \t]*;
-            ('\n' | '\r\n')   => {lineNumber++; lastNewline = p + 1;};
-            [A-Za-z0-9_\-@]+  => {state = Parser.TOKEN_VAR;    fbreak;};
-            '&&'              => {state = Parser.TOKEN_AND;    fbreak;};
-            '||'              => {state = Parser.TOKEN_OR;     fbreak;};
-            '!'               => {state = Parser.TOKEN_NOT;    fbreak;};
-            '('               => {state = Parser.TOKEN_LPAREN; fbreak;};
-            ')'               => {state = Parser.TOKEN_RPAREN; fbreak;};
-        *|;
-    }%%
+%%write data noerror;
 
-    %%write data noerror;
+char *p;
+char *pe;
+char *ts;
+char *te;
+char *eof;
+int cs;
+int act;
 
-    private int lineNumber = 1;
-    private int lastNewline = 0;
+void scan_init(char* data)  {
+    p = data;
 
-    private int cs, ts, te, p, act;
-    private final int pe, eof;
-    private final char[] data;
-
-    public Lexer(char[] data)  {
-        this.data = data;
-
-        pe = data.length;
-        eof = pe;
-
-        %% write init;
-    }
-
-    public Lexer(String data) {
-        this(data.toCharArray());
-    }
-
-    public String yytext() {
-        return new String(data, ts, te-ts);
-    }
-
-    public int getLineNumber() {
-        return lineNumber;
-    }
-
-    public int getColumnNumber() {
-        return p - lastNewline;
-    }
-
-    public String remaining() {
-        return new String(data, p, data.length-p);
-    }
-
-    @Override
-    public Expr getLVal() {
-        return new Var(yytext());
-    }
-
-    @Override
-    public final int yylex() throws IOException {
-        int state = -1;
-        %% write exec;
-
-        if(cs < lexer_first_final) {
-            yyerror("syntax error: " + remaining());
-        }
-
-        return state;
-    }
-
-    @Override
-    public void yyerror(String message) {
-        throw new SyntaxError(message, getLineNumber(), getColumnNumber());
-    }
-
-
+    %% write init;
 }
 
+int yylex(void) {
+    int state = -1;
+    %% write exec;
+
+    if(cs < lexer_first_final) {
+        //yyerror("syntax error: " + remaining());
+    }
+
+    return state;
+}
+
+char* yytext(void) {
+    return strndup(ts, te-ts);
+}

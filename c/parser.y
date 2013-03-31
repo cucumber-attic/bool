@@ -1,5 +1,6 @@
 %{
 
+#define YY_LOCATION_PRINT
 #include "parser.h"
 #include "lexer.h"
  
@@ -15,6 +16,7 @@
 %parse-param { Node** node }
 
 %error-verbose
+%locations
 
 %union {
     char* value;

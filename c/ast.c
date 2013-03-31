@@ -21,15 +21,14 @@ void yyerror(Node** node, const char* msg) {
         last_error.message = malloc(sizeof(char) * (strlen(message) + strlen(last_error.token) + 1));
         sprintf(last_error.message, "%s%s", message, last_error.token); 
     }
-/*
-    last_error.first_line   = locp->first_line;
-    last_error.last_line    = locp->last_line;
-    last_error.first_column = locp->first_column;
-    last_error.last_column  = locp->last_column;
-*/
+
+    last_error.first_line   = yylloc.first_line;
+    last_error.last_line    = yylloc.last_line;
+    last_error.first_column = yylloc.first_column;
+    last_error.last_column  = yylloc.last_column;
 }
 
-Node* parse_ast(const char* source) {
+Node* parse_ast(char* source) {
     int error = 0;
     Node* node;
 
@@ -99,7 +98,6 @@ void free_ast(Node* node) {
 //// AST specific node creation functions
 
 Node* create_var(char* value) {
-    printf("VALUE:%s\n", value);
     Var* node = (Var*) malloc(sizeof* node);
     if (node == NULL) return NULL;
  

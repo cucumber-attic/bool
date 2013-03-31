@@ -1,5 +1,6 @@
 #include <string.h>
 #include <stdio.h>
+#include "lexer.h"
 #include "parser.h"
 
 %%{
@@ -7,14 +8,14 @@
     alphtype char;
 
     main := |*
-        [ \t]*;
-        ('\n' | '\r\n')   => {};
-        [A-Za-z0-9_\-@]+  => { state = TOKEN_VAR;    fbreak; };
-        '&&'              => { state = TOKEN_AND;    fbreak; };
-        '||'              => { state = TOKEN_OR;     fbreak; };
-        '!'               => { state = TOKEN_NOT;    fbreak; };
-        '('               => { state = TOKEN_LPAREN; fbreak; };
-        ')'               => { state = TOKEN_RPAREN; fbreak; };
+        [ \t\r]*;
+        '\n'              => { ++yylloc.first_line; };
+        [A-Za-z0-9_\-@]+  => { ret = TOKEN_VAR;    fbreak; };
+        '&&'              => { ret = TOKEN_AND;    fbreak; };
+        '||'              => { ret = TOKEN_OR;     fbreak; };
+        '!'               => { ret = TOKEN_NOT;    fbreak; };
+        '('               => { ret = TOKEN_LPAREN; fbreak; };
+        ')'               => { ret = TOKEN_RPAREN; fbreak; };
     *|;
 }%%
 
@@ -28,9 +29,10 @@ char *eof;
 int cs;
 int act;
 
-void scan_init(char* data)  {
+void scan_init(char* data) {
     p = data;
 
+    yylloc.first_line = 1;
     %% write init;
 }
 
@@ -39,14 +41,15 @@ char* yytext(void) {
 }
 
 int yylex(void) {
-    int state = -1;
+    int ret = -1;
     %% write exec;
-
-    if(cs < lexer_first_final) {
-        //yyerror("syntax error: " + remaining());
-    }
 
     yylval.value = yytext();
 
-    return state;
+    if(cs < lexer_first_final) {
+        last_error.token = yytext();
+        yyerror(NULL, yytext());
+    }
+
+    return ret;
 }

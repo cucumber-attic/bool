@@ -11,17 +11,11 @@ SyntaxError last_error;
 void yyerror(Node** node, const char* msg) {
     UNUSED(node);
 
-    if (last_error.token == 0)
-    {
-        last_error.message = strdup(msg);
-    }
-    else
-    {
-        char message[] = "Unexpected character: ";
-        last_error.message = malloc(sizeof(char) * (strlen(message) + strlen(last_error.token) + 1));
-        sprintf(last_error.message, "%s%s", message, last_error.token); 
+    if(last_error.message != NULL) {
+        return;
     }
 
+    last_error.message      = strdup(msg);
     last_error.first_line   = yylloc.first_line;
     last_error.last_line    = yylloc.last_line;
     last_error.first_column = yylloc.first_column;
@@ -30,6 +24,7 @@ void yyerror(Node** node, const char* msg) {
 
 Node* parse_ast(char* source) {
     int error = 0;
+    last_error.message = NULL;
     Node* node;
 
     scan_init(source);
@@ -48,7 +43,7 @@ Node* parse_ast(char* source) {
         // error parsing
         error = 1;
     }
-    if (last_error.token)
+    if (last_error.message)
     {
         // error lexing
         error = 1;

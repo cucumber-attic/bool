@@ -1,3 +1,4 @@
+#include <stdlib.h>
 #include <string.h>
 #include <stdio.h>
 #include "lexer.h"
@@ -22,19 +23,20 @@
 %%write data noerror;
 
 char *p;
-char *pe;
 char *ts;
 char *te;
+const char *pe;
 const char *eof;
 int cs;
 int act;
 int data_len;
 
-int at_eof = 0;
+int at_eof;
 
 void scan_init(char* data) {
     p = data;
-    eof = data + strlen(data);
+    eof = pe = data + strlen(data);
+    at_eof = 0;
 
     yylloc.first_line = 1;
     %% write init;
@@ -57,7 +59,13 @@ int yylex(void) {
         at_eof = 1;
     }
 
-    if(at_eof && ret == 0) {
+    if(ret == 0) {
+        char* prefix = "Unexpected: ";
+        char* unexp = strndup(p, pe-p);
+        
+        char* message = malloc(sizeof(char) * (strlen(prefix) + strlen(unexp) + 1));
+        sprintf(message, "%s%s", prefix, unexp);
+        yyerror(NULL, message);
         yylval.value = NULL;
     } else {
         yylval.value = yytext();

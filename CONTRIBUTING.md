@@ -126,7 +126,7 @@ You need an account at:
 Distributing your key:
 
 ```
-gpg list-public-keys
+gpg --list-public-keys
 gpg --keyserver hkp://pool.sks-keyservers.net/ --send-keys <YOUR PUBLIC KEY ID>
 ```
 

@@ -2,25 +2,28 @@
 #include "ast.h"
 #include "unused.h"
 
+VALUE eSyntaxError;
+VALUE cToken;
 VALUE cVar;
 VALUE cAnd;
 VALUE cOr;
 VALUE cNot;
-VALUE eSyntaxError;
 
 /**
  * Transforms the C AST to a Ruby AST.
  */
 static VALUE transform(Node *node) {
+    VALUE token = rb_funcall(cToken, rb_intern("new"), 1, rb_str_new2(node->token->value));
+    
     switch (node->type) {
     case eVAR:
-        return rb_funcall(cVar, rb_intern("new"), 1, rb_str_new2(((Var*)node)->value));
+        return rb_funcall(cVar, rb_intern("new"), 1, token);
     case eAND:
-        return rb_funcall(cAnd, rb_intern("new"), 2, transform(((And*)node)->left), transform(((And*)node)->right));
+        return rb_funcall(cAnd, rb_intern("new"), 3, token, transform(((And*)node)->left), transform(((And*)node)->right));
     case eOR:
-        return rb_funcall(cOr,  rb_intern("new"), 2, transform(((Or*)node)->left), transform(((Or*)node)->right));
+        return rb_funcall(cOr,  rb_intern("new"), 3, token, transform(((Or*)node)->left), transform(((Or*)node)->right));
     case eNOT:
-        return rb_funcall(cNot, rb_intern("new"), 1, transform(((Not*)node)->other));
+        return rb_funcall(cNot, rb_intern("new"), 2, token, transform(((Not*)node)->other));
     default:
         rb_raise(rb_eArgError, "Should never happen");
         return 0;
@@ -55,17 +58,20 @@ static VALUE Bool_parse(VALUE klass, VALUE r_expr) {
 }
 
 void Init_bool_ext() {
-    VALUE mBool; 
+    VALUE mBool;
+    VALUE cNode;
     VALUE rb_eStandardError;
 
-    rb_eStandardError = rb_const_get(rb_cObject, rb_intern("StandardError"));
     mBool = rb_define_module("Bool");
+    rb_eStandardError = rb_const_get(rb_cObject, rb_intern("StandardError"));
     eSyntaxError = rb_define_class_under(mBool, "SyntaxError", rb_eStandardError);
+    cNode = rb_define_class_under(mBool, "Node", rb_cObject);
 
-    cVar    = rb_define_class_under(mBool, "Var", rb_cObject);
-    cAnd    = rb_define_class_under(mBool, "And", rb_cObject);
-    cOr     = rb_define_class_under(mBool, "Or",  rb_cObject);
-    cNot    = rb_define_class_under(mBool, "Not", rb_cObject);
+    cToken  = rb_define_class_under(mBool, "Token", rb_cObject);
+    cVar    = rb_define_class_under(mBool, "Var", cNode);
+    cAnd    = rb_define_class_under(mBool, "And", cNode);
+    cOr     = rb_define_class_under(mBool, "Or",  cNode);
+    cNot    = rb_define_class_under(mBool, "Not", cNode);
 
     rb_define_singleton_method(mBool, "parse", Bool_parse, 1);
 }

@@ -19,7 +19,7 @@ module Bool
     def parse(source)
       lexer = Java::Bool::Lexer.new(source)
       parser = Java::Bool::Parser.new(lexer)
-      parser.parseExpr()
+      parser.buildAst()
     rescue => e
       raise SyntaxError.new(e.message, e.first_line, e.last_line, e.first_column, e.last_column)
     end

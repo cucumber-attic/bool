@@ -1,9 +1,10 @@
 package bool;
 
-public class Not implements Expr {
-    public final Expr operand;
+public class Not extends Node {
+    public final Node operand;
 
-    public Not(Expr operand) {
+    public Not(Token token, Node operand) {
+        super(token);
         this.operand = operand;
     }
 

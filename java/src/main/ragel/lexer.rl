@@ -44,13 +44,9 @@ public class Lexer implements Parser.Lexer {
         return new String(data, ts, te-ts);
     }
 
-    private int firstColumn() {
-        return p - lineStart + 1;
-    }
-
     @Override
-    public Expr getLVal() {
-        return new Var(yytext());
+    public Union getLVal() {
+        return new Token(yytext());
     }
 
     @Override

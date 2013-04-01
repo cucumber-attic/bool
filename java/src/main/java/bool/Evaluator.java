@@ -5,7 +5,7 @@ import java.util.List;
 public class Evaluator implements Visitor<Boolean, List<String>> {
     @Override
     public Boolean visit(Var var, List<String> vars) {
-        return vars.contains(var.value);
+        return vars.contains(var.token.value);
     }
 
     @Override
@@ -23,7 +23,7 @@ public class Evaluator implements Visitor<Boolean, List<String>> {
         return !evaluate(not.operand, vars);
     }
 
-    private Boolean evaluate(Expr expr, List<String> vars) {
-        return expr.accept(this, vars);
+    private Boolean evaluate(Node node, List<String> vars) {
+        return node.accept(this, vars);
     }
 }

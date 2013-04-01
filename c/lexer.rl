@@ -9,7 +9,7 @@
     alphtype char;
 
     main := |*
-        [ \t\r]*;
+        [ \t\r];
         '\n'              => { ++yylloc.first_line; line_start = p + 1; };
         [A-Za-z0-9_\-@]+  => { ret = TOKEN_VAR;    fbreak; };
         '&&'              => { ret = TOKEN_AND;    fbreak; };
@@ -50,22 +50,21 @@ int yylex(void) {
         at_eof = 1;
     }
 
+    yylloc.last_line = yylloc.first_line;
+
     if(ret == 0) {
         const char* prefix = "syntax error: ";
         char* message = malloc(sizeof(char) * (strlen(prefix) + pe - p + 1));
         strcpy(message, prefix);
         strcpy(message + strlen(prefix), p);
 
-        yylloc.last_line    = yylloc.first_line;
-        yylloc.first_column = (int)(p - line_start) + 1;
-        yylloc.last_column  = (int)(p - line_start) + 1;
+        yylloc.first_column = yylloc.last_column = (int)(p - line_start) + 1;
 
         yyerror(NULL, message);
     } else {
         yylval.value = malloc(sizeof(char) * (te - ts + 1));
         strncpy(yylval.value, ts, te - ts);
 
-        yylloc.last_line    = yylloc.first_line;
         yylloc.first_column = (int)(ts - line_start) + 1;
         yylloc.last_column  = (int)(te - line_start) + 1;
     }

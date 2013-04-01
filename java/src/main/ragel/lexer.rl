@@ -9,7 +9,7 @@ public class Lexer implements Parser.Lexer {
 
         main := |*
             [ \t\r];
-            '\n'              => { lineNumber++; line_start = p + 1; };
+            '\n'              => { ++firstLine; lineStart = p + 1; };
             [A-Za-z0-9_\-@]+  => { ret = Parser.TOKEN_VAR;    fbreak; };
             '&&'              => { ret = Parser.TOKEN_AND;    fbreak; };
             '||'              => { ret = Parser.TOKEN_OR;     fbreak; };
@@ -21,17 +21,17 @@ public class Lexer implements Parser.Lexer {
 
     %%write data noerror;
 
-    private int lineNumber = 1;
-    private int line_start = 0;
+    private int firstLine = 1, lastLine = 1, firstColumn = 1, lastColumn = 1;
+    private int lineStart = 0;
 
     private int cs, ts, te, p, act;
     private final int pe, eof;
     private final char[] data;
+    private boolean atEof = false;
 
     public Lexer(char[] data)  {
         this.data = data;
-        pe = data.length;
-        eof = pe;
+        eof = pe = data.length;
 
         %% write init;
     }
@@ -44,12 +44,8 @@ public class Lexer implements Parser.Lexer {
         return new String(data, ts, te-ts);
     }
 
-    private int columnNumber() {
-        return p - line_start + 1;
-    }
-
-    public String remaining() {
-        return new String(data, p, pe-p);
+    private int firstColumn() {
+        return p - lineStart + 1;
     }
 
     @Override
@@ -60,10 +56,25 @@ public class Lexer implements Parser.Lexer {
     @Override
     public final int yylex() throws IOException {
         int ret = Parser.EOF;
+
+        if (atEof) {
+            return ret;
+        }
+
         %% write exec;
 
-        if(cs < lexer_first_final) {
-            yyerror("syntax error: " + remaining());
+        if (p == eof) {
+            atEof = true;
+        }
+
+        lastLine = firstLine;
+
+        if(ret == Parser.EOF) {
+            firstColumn = lastColumn = p - lineStart + 1;
+            yyerror("syntax error: " + new String(data, p, pe - p));
+        } else {
+            firstColumn = ts - lineStart + 1;
+            lastColumn  = te - lineStart + 1;
         }
 
         return ret;
@@ -71,7 +82,7 @@ public class Lexer implements Parser.Lexer {
 
     @Override
     public void yyerror(String message) {
-        throw new SyntaxError(message, lineNumber, columnNumber());
+        throw new SyntaxError(message, firstLine, lastLine, firstColumn, lastColumn);
     }
 }
 

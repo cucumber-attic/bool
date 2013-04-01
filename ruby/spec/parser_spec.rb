@@ -130,11 +130,14 @@ describe 'Bool' do
           "    ||    \n" + # 4,5
           "      c   \n" + # 5,7
           "        &&"     # 6,9
-          #0123456789
+          #1234567890
         )
         fail
       rescue Bool::SyntaxError => expected
         expected.first_line.must_equal 6
+        expected.last_line.must_equal 6
+        expected.first_column.must_equal 9
+        expected.last_column.must_equal 11
         if RUBY_PLATFORM =~ /java/
           expected.message.must_equal "syntax error, unexpected end of input, expecting TOKEN_VAR or TOKEN_NOT or TOKEN_LPAREN"
         else

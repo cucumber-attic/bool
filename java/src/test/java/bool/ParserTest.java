@@ -29,14 +29,16 @@ public class ParserTest {
                 "    ||    \n" +
                 "      c   \n" +
                 "        &&"
+               //1234567890
         ));
         try {
             parser.parseExpr();
             fail();
         } catch (SyntaxError expected) {
             assertEquals("syntax error, unexpected end of input, expecting TOKEN_VAR or TOKEN_NOT or TOKEN_LPAREN", expected.getMessage());
-            assertEquals(6, expected.getLine());
-            assertEquals(11, expected.getColumn());
+            assertEquals(6, expected.getFirstLine());
+            assertEquals(9, expected.getFirstColumn());
+            assertEquals(11, expected.getLastColumn());
         }
     }
 }

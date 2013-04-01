@@ -22,7 +22,7 @@ void yyerror(Node** node, const char* msg) {
     last_error.last_column  = yylloc.last_column;
 }
 
-Node* parse_ast(char* source) {
+Node* parse_ast(const char* source) {
     Node* node;
     int error = 0;
     last_error.message = NULL;

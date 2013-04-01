@@ -24,7 +24,7 @@ typedef struct Node {
     NodeType type;
 } Node;
 
-extern Node* parse_ast(char* source);
+extern Node* parse_ast(const char* source);
 extern void free_ast(Node* node);
 extern SyntaxError last_error;
 

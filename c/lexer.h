@@ -1,6 +1,6 @@
 #include "ast.h"
 
-void scan_init(char* data);
+void scan_init(const char* data);
 
 int yylex(void);
 

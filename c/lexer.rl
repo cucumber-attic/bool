@@ -22,19 +22,10 @@
 
 %%write data noerror;
 
-char *p;
-char *ts;
-char *te;
-const char *pe;
-const char *eof;
-int cs;
-int act;
-int data_len;
-char *line_start;
+const char *p, *ts, *te, *pe, *eof, *line_start;
+int cs, act, at_eof;
 
-int at_eof;
-
-void scan_init(char* data) {
+void scan_init(const char* data) {
     p = data;
     eof = pe = data + strlen(data);
     at_eof = 0;

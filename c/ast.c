@@ -11,7 +11,9 @@ SyntaxError last_error;
 void yyerror(Node** node, const char* msg) {
     UNUSED(node);
 
-    if(last_error.message != NULL) {
+    if(last_error.message) {
+        // When we get an error from the scanner, we'll also get one from the parser.
+        // Discard the 2nd one from the parser in that case!
         return;
     }
 

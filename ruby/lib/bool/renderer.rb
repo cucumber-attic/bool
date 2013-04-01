@@ -9,19 +9,19 @@ module Bool
 
     else
       def visit_var(node, vars)
-        node.value
+        node.token.value
       end
 
       def visit_and(node, vars)
-        "(" + render(node.left) + " && " + render(node.right) + ")"
+        "(#{render(node.left)} #{node.token.value} #{render(node.right)})"
       end
 
       def visit_or(node, vars)
-        "(" + render(node.left) + " || " + render(node.right) + ")"
+        "(#{render(node.left)} #{node.token.value} #{render(node.right)})"
       end
 
       def visit_not(node, vars)
-        "!" + render(node.operand)
+        "#{node.token.value}#{render(node.operand)}"
       end
 
     private

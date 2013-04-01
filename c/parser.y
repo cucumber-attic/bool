@@ -1,43 +1,34 @@
 %{
 
+#include <stdio.h>
 #include "parser.h"
 #include "lexer.h"
- 
-void yyerror(YYLTYPE *locp, yyscan_t scanner, Node** node, const char* msg);
  
 %}
 
 %code requires {
-
 #include "ast.h"
-#ifndef YY_TYPEDEF_YY_SCANNER_T
-#define YY_TYPEDEF_YY_SCANNER_T
-typedef void* yyscan_t;
-#endif
 }
 
 %output  "parser.c"
 %defines "parser.h"
 
-%define api.pure
-%lex-param   { yyscan_t scanner }
 %parse-param { Node** node }
-%parse-param { yyscan_t scanner }
 
 %error-verbose
 %locations
 
 %union {
-    char* value;
+    Token* token;
     Node* node;
 }
  
-%token <value> TOKEN_VAR
-%token TOKEN_AND
-%token TOKEN_OR
-%token TOKEN_NOT
-%token TOKEN_LPAREN
-%token TOKEN_RPAREN
+%token <token> TOKEN_VAR
+%token <token> TOKEN_AND
+%token <token> TOKEN_OR
+%token <token> TOKEN_NOT
+%token <token> TOKEN_LPAREN
+%token <token> TOKEN_RPAREN
 
 %left TOKEN_OR
 %left TOKEN_AND
@@ -48,14 +39,14 @@ typedef void* yyscan_t;
 %%
 
 input
-    : expr  { *node = $1; }
+    : expr { *node = $1; }
     ;
 
 expr
     : TOKEN_VAR                       { $$ = create_var($1); }
-    | expr TOKEN_AND expr             { $$ = create_and($1, $3); }
-    | expr TOKEN_OR expr              { $$ = create_or($1, $3); }
-    | TOKEN_NOT expr %prec UNOT       { $$ = create_not($2); }
+    | expr TOKEN_AND expr             { $$ = create_and($2, $1, $3); }
+    | expr TOKEN_OR expr              { $$ = create_or($2, $1, $3); }
+    | TOKEN_NOT expr %prec UNOT       { $$ = create_not($1, $2); }
     | TOKEN_LPAREN expr TOKEN_RPAREN  { $$ = $2; }
     ;
 

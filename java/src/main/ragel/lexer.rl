@@ -9,7 +9,7 @@ public class Lexer implements Parser.Lexer {
 
         main := |*
             [ \t\r];
-            '\n'              => { lineNumber++; lastNewline = p + 1; };
+            '\n'              => { lineNumber++; line_start = p + 1; };
             [A-Za-z0-9_\-@]+  => { ret = Parser.TOKEN_VAR;    fbreak; };
             '&&'              => { ret = Parser.TOKEN_AND;    fbreak; };
             '||'              => { ret = Parser.TOKEN_OR;     fbreak; };
@@ -22,7 +22,7 @@ public class Lexer implements Parser.Lexer {
     %%write data noerror;
 
     private int lineNumber = 1;
-    private int lastNewline = 0;
+    private int line_start = 0;
 
     private int cs, ts, te, p, act;
     private final int pe, eof;
@@ -45,7 +45,7 @@ public class Lexer implements Parser.Lexer {
     }
 
     private int columnNumber() {
-        return p - lastNewline;
+        return p - line_start + 1;
     }
 
     public String remaining() {

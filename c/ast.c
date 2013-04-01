@@ -28,23 +28,12 @@ Node* parse_ast(char* source) {
     last_error.message = NULL;
 
     scan_init(source);
-/*
-    if (yylex_init(&scanner)) {
-        // couldn't initialize
-        return NULL;
-    }
-*/
-    last_error.token = 0;
-
-    // TODO: Check state here?
-    //state = yy_scan_string(source, scanner);
 
     if (yyparse(&node)) {
         // error parsing
         error = 1;
     }
-    if (last_error.message)
-    {
+    if (last_error.message) {
         // error lexing
         error = 1;
     }

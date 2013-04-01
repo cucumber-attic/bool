@@ -12,9 +12,6 @@
 #include <stdlib.h>
 
 extern int yydebug;
-#define SOURCE(src) scan_init(src)
-#define YYLEX yylex()
-#define YYTEXT yylval.value
 
 void test_valid_expression()
 {
@@ -32,9 +29,13 @@ void test_line_and_column()
         "      \n"
         "      \n"
         "   && \n");
+       //12345678
     ASSERT_EQUALS(NULL, ast);
 
     ASSERT_EQUALS(4, last_error.first_line);
+    ASSERT_EQUALS(4, last_error.last_line);
+    ASSERT_EQUALS(4, last_error.first_column);
+    ASSERT_EQUALS(6, last_error.last_column);
     ASSERT_STRING_EQUALS(
         "syntax error, unexpected TOKEN_AND, expecting TOKEN_VAR or TOKEN_NOT or TOKEN_LPAREN", 
         last_error.message);
@@ -46,11 +47,13 @@ void test_invalid_symbol()
         "      \n"
         "      \n"
         "      \n"
-        "   ^^ \n");
+        "    ^^\n");
+       //12345678
 
     ASSERT_EQUALS(NULL, ast);
     ASSERT_EQUALS(4, last_error.first_line);
-    ASSERT_STRING_EQUALS("syntax error: ^^ \n", last_error.message);
+    ASSERT_EQUALS(5, last_error.first_column);
+    ASSERT_STRING_EQUALS("syntax error: ^^\n", last_error.message);
 }
 
 void test_invalid_token()
@@ -84,6 +87,8 @@ void test_invalid_long_statement()
         "        &&");
     ASSERT_EQUALS(NULL, ast);
     ASSERT_EQUALS(6, last_error.first_line);
+    ASSERT_EQUALS(9, last_error.first_column);
+    ASSERT_EQUALS(11, last_error.last_column);
     ASSERT_STRING_EQUALS(
         "syntax error, unexpected $end, expecting TOKEN_VAR or TOKEN_NOT or TOKEN_LPAREN", 
         last_error.message);
@@ -91,22 +96,22 @@ void test_invalid_long_statement()
 
 void test_lex_1()
 {
-    SOURCE("a && b");
+    scan_init("a && b");
 
-    ASSERT_EQUALS(TOKEN_VAR, YYLEX);
-    ASSERT_EQUALS(TOKEN_AND, YYLEX);
-    ASSERT_EQUALS(TOKEN_VAR, YYLEX);
+    ASSERT_EQUALS(TOKEN_VAR, yylex());
+    ASSERT_EQUALS(TOKEN_AND, yylex());
+    ASSERT_EQUALS(TOKEN_VAR, yylex());
 }
 
 void test_lex_2()
 {
-    SOURCE("a || b");
+    scan_init("a || b");
 
-    ASSERT_EQUALS(TOKEN_VAR, YYLEX);
-    ASSERT_STRING_EQUALS("a", YYTEXT);
-    ASSERT_EQUALS(TOKEN_OR, YYLEX);
-    ASSERT_EQUALS(TOKEN_VAR, YYLEX);
-    ASSERT_STRING_EQUALS("b", YYTEXT);
+    ASSERT_EQUALS(TOKEN_VAR, yylex());
+    ASSERT_STRING_EQUALS("a", yylval.value);
+    ASSERT_EQUALS(TOKEN_OR, yylex());
+    ASSERT_EQUALS(TOKEN_VAR, yylex());
+    ASSERT_STRING_EQUALS("b", yylval.value);
 }
 
 int main()

@@ -4,7 +4,7 @@ UNAME := $(shell uname)
 LDSHARED?=$(CC) -shared
 OBJECTS = lexer.o parser.o ast.o
 TEST_OBJECTS = test/test.o
-CFLAGS = -fPIC -O2 -Werror -Wall -Wextra -DYYDEBUG
+CFLAGS = -fPIC -O2 -Werror -Wall -Wshorten-64-to-32 -Wextra -DYYDEBUG
 
 all: libparse.o libparse.a run_tests
 

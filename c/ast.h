@@ -7,7 +7,6 @@ typedef struct SyntaxError {
     int last_line;
     int first_column;
     int last_column;
-    char* token;
 } SyntaxError;
 
 typedef enum NodeType {

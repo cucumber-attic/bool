@@ -10,7 +10,7 @@
 
     main := |*
         [ \t\r]*;
-        '\n'              => { ++yylloc.first_line; };
+        '\n'              => { ++yylloc.first_line; line_start = p + 1; };
         [A-Za-z0-9_\-@]+  => { ret = TOKEN_VAR;    fbreak; };
         '&&'              => { ret = TOKEN_AND;    fbreak; };
         '||'              => { ret = TOKEN_OR;     fbreak; };
@@ -30,6 +30,7 @@ const char *eof;
 int cs;
 int act;
 int data_len;
+char *line_start;
 
 int at_eof;
 
@@ -39,6 +40,9 @@ void scan_init(char* data) {
     at_eof = 0;
 
     yylloc.first_line = 1;
+    yylloc.first_column = 1;
+    yylloc.last_line = 1;
+    yylloc.last_column = 1;
     %% write init;
 }
 
@@ -58,14 +62,21 @@ int yylex(void) {
     if(ret == 0) {
         const char* prefix = "syntax error: ";
         char* message = malloc(sizeof(char) * (strlen(prefix) + pe - p + 1));
-
         strcpy(message, prefix);
         strcpy(message + strlen(prefix), p);
-        yylval.value = NULL;
+
+        yylloc.last_line    = yylloc.first_line;
+        yylloc.first_column = (int)(p - line_start) + 1;
+        yylloc.last_column  = (int)(p - line_start) + 1;
+
         yyerror(NULL, message);
     } else {
         yylval.value = malloc(sizeof(char) * (te - ts + 1));
         strncpy(yylval.value, ts, te - ts);
+
+        yylloc.last_line    = yylloc.first_line;
+        yylloc.first_column = (int)(ts - line_start) + 1;
+        yylloc.last_column  = (int)(te - line_start) + 1;
     }
 
     return ret;

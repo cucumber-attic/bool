@@ -42,16 +42,6 @@ void scan_init(char* data) {
     %% write init;
 }
 
-void substring(const char* text, int start, int stop) {
-   printf("%.*s\n", stop - start, &text[start]);
-}
-
-/*
-char* yytext(void) {
-    return strndup(ts, te-ts);
-}
-*/
-
 int yylex(void) {
     int ret = 0;
 
@@ -70,9 +60,9 @@ int yylex(void) {
         char* message = malloc(sizeof(char) * (strlen(prefix) + pe - p + 1));
 
         strcpy(message, prefix);
-        strcpy(message+strlen(prefix), p);
-        yyerror(NULL, message);
+        strcpy(message + strlen(prefix), p);
         yylval.value = NULL;
+        yyerror(NULL, message);
     } else {
         yylval.value = malloc(sizeof(char) * (te - ts + 1));
         strncpy(yylval.value, ts, te - ts);

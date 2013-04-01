@@ -45,11 +45,12 @@ Node* parse_ast(const char* source) {
 
 void free_ast(Node* node) {
     
+    free(node->token->value);
+    free(node->token);
     switch (node->type) {
         case eVAR: 
         {
             Var* var = (Var*) node;
-            free(var->value);
             free(var);
             break;
         }
@@ -79,42 +80,50 @@ void free_ast(Node* node) {
     }
 }
 
+Token* create_token() {
+    Token* tok = (Token*) malloc(sizeof* tok);
+    return tok;
+}
+
 //// AST specific node creation functions
 
-Node* create_var(char* value) {
+Node* create_var(Token* token) {
     Var* node = (Var*) malloc(sizeof* node);
     if (node == NULL) return NULL;
  
     node->type = eVAR;
-    node->value = strdup(value);
+    node->token = token;
     return (Node*) node;
 }
 
-Node* create_and(Node* left, Node* right) {
+Node* create_and(Token* token, Node* left, Node* right) {
     And* node = (And*) malloc(sizeof* node);
     if (node == NULL) return NULL;
  
     node->type = eAND;
+    node->token = token;
     node->left = left;
     node->right = right;
     return (Node*) node;
 }
 
-Node* create_or(Node* left, Node* right) {
+Node* create_or(Token* token, Node* left, Node* right) {
     Or* node = (Or*) malloc(sizeof* node);
     if (node == NULL) return NULL;
  
     node->type = eOR;
+    node->token = token;
     node->left = left;
     node->right = right;
     return (Node*) node;
 }
 
-Node* create_not(Node* other) {
+Node* create_not(Token* token, Node* other) {
     Not* node = (Not*) malloc(sizeof* node);
     if (node == NULL) return NULL;
  
     node->type = eNOT;
+    node->token = token;
     node->other = other;
     return (Node*) node;
 }

@@ -108,10 +108,10 @@ void test_lex_2()
     scan_init("a || b");
 
     ASSERT_EQUALS(TOKEN_VAR, yylex());
-    ASSERT_STRING_EQUALS("a", yylval.value);
+    ASSERT_STRING_EQUALS("a", yylval.token->value);
     ASSERT_EQUALS(TOKEN_OR, yylex());
     ASSERT_EQUALS(TOKEN_VAR, yylex());
-    ASSERT_STRING_EQUALS("b", yylval.value);
+    ASSERT_STRING_EQUALS("b", yylval.token->value);
 }
 
 int main()

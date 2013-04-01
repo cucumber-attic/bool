@@ -54,8 +54,6 @@ Node* parse_ast(char* source) {
         error = 1;
     }
 
-//    yy_delete_buffer(state, scanner);
-//    yylex_destroy(scanner);
     return error ? NULL : node;
 }
 

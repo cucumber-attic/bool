@@ -39,7 +39,7 @@
 %%
 
 input
-    : expr  { *node = $1; }
+    : expr { *node = $1; }
     ;
 
 expr

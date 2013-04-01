@@ -64,7 +64,7 @@ public class Lexer implements Parser.Lexer {
 
     @Override
     public final int yylex() throws IOException {
-        int state = -1;
+        int state = Parser.EOF;
         %% write exec;
 
         if(cs < lexer_first_final) {

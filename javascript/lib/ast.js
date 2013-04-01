@@ -1,13 +1,14 @@
 module.exports = {
-  Var: function Var(value) {
-    this.value = value;
+  Var: function Var(token) {
+    this.token = token;
 
     this.accept = function(visitor, args) {
       return visitor.visit_var(this, args);
     }
   },
 
-  And: function And(left, right) {
+  And: function And(token, left, right) {
+    this.token = token;
     this.left = left;
     this.right = right;
 
@@ -16,7 +17,8 @@ module.exports = {
     }
   },
 
-  Or: function Or(left, right) {
+  Or: function Or(token, left, right) {
+    this.token = token;
     this.left = left;
     this.right = right;
 
@@ -25,7 +27,8 @@ module.exports = {
     }
   },
 
-  Not: function Not(operand) {
+  Not: function Not(token, operand) {
+    this.token = token;
     this.operand = operand;
 
     this.accept = function(visitor, args) {

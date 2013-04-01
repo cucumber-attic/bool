@@ -60,7 +60,7 @@ typedef struct Or {
 typedef struct Not {
     NodeType type;
     Token* token;
-    Node* other;
+    Node* operand;
 } Not;
 
 Node* create_var(Token* token);

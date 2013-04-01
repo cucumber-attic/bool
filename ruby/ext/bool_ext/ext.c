@@ -23,7 +23,7 @@ static VALUE transform(Node *node) {
     case eOR:
         return rb_funcall(cOr,  rb_intern("new"), 3, token, transform(((Or*)node)->left), transform(((Or*)node)->right));
     case eNOT:
-        return rb_funcall(cNot, rb_intern("new"), 2, token, transform(((Not*)node)->other));
+        return rb_funcall(cNot, rb_intern("new"), 2, token, transform(((Not*)node)->operand));
     default:
         rb_raise(rb_eArgError, "Should never happen");
         return 0;

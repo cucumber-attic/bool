@@ -73,7 +73,7 @@ void free_ast(Node* node) {
         case eNOT:
         {
             Not* not = (Not*) node;
-            free_ast(not->other);
+            free_ast(not->operand);
             free(not);
             break;
         }
@@ -118,13 +118,13 @@ Node* create_or(Token* token, Node* left, Node* right) {
     return (Node*) node;
 }
 
-Node* create_not(Token* token, Node* other) {
+Node* create_not(Token* token, Node* operand) {
     Not* node = (Not*) malloc(sizeof* node);
     if (node == NULL) return NULL;
  
     node->type = eNOT;
     node->token = token;
-    node->other = other;
+    node->operand = operand;
     return (Node*) node;
 }
 

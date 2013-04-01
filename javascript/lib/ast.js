@@ -1,4 +1,8 @@
 module.exports = {
+  Token: function Token(value) {
+    this.value = value;
+  },
+
   Var: function Var(token) {
     this.token = token;
 

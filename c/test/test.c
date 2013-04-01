@@ -11,6 +11,7 @@
 #include <errno.h>
 #include <stdlib.h>
 
+extern int yydebug;
 #define SOURCE(src) scan_init(src)
 #define YYLEX yylex()
 #define YYTEXT yytext()
@@ -108,8 +109,9 @@ void test_lex_2()
 
 int main()
 {
-    RUN(test_valid_expression);
-//    RUN(test_invalid_symbol);
+    yydebug = 1;
+//    RUN(test_valid_expression);
+    RUN(test_invalid_symbol);
 /*
     RUN(test_line_and_column);
     RUN(test_invalid_token);

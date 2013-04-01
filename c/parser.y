@@ -1,6 +1,6 @@
 %{
 
-#define YY_LOCATION_PRINT
+#include <stdio.h>
 #include "parser.h"
 #include "lexer.h"
  

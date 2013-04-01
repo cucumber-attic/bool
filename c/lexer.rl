@@ -46,24 +46,22 @@ char* yytext(void) {
 
 int yylex(void) {
     int ret = 0;
-    %% write exec;
 
-    printf("  CS:%d,%d\n", cs, lexer_first_final);
-    // cs < lexer_first_final && 
-    if(at_eof && ret == 0) {
-        yylval.value = NULL;
-        printf("ERR[%s] = %d\n", yytext(), ret);
-        last_error.token = yytext();
-        yyerror(NULL, yytext());
-    } else {
-        yylval.value = yytext();
-
-        printf("TOKEN[%s] = %d\n", yylval.value, ret);
+    if (at_eof) {
+        return ret;
     }
+
+    %% write exec;
 
     if (p == eof) {
         at_eof = 1;
-        printf("  EOF\n");
     }
+
+    if(at_eof && ret == 0) {
+        yylval.value = NULL;
+    } else {
+        yylval.value = yytext();
+    }
+
     return ret;
 }

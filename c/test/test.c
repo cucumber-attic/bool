@@ -11,6 +11,8 @@
 #include <errno.h>
 #include <stdlib.h>
 
+extern int yydebug;
+
 YYSTYPE yylval;
 YYLTYPE yylloc;
 yyscan_t scanner;
@@ -126,6 +128,7 @@ void test_lex_2()
 
 int main()
 {
+    //yydebug = 1;
     RUN(test_valid_expression);
     RUN(test_line_and_column);
     RUN(test_invalid_symbol);

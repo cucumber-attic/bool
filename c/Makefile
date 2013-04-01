@@ -2,7 +2,7 @@ UNAME := $(shell uname)
 LDSHARED?=$(CC) -shared
 OBJECTS = lexer.o parser.o ast.o
 TEST_OBJECTS = test/test.o
-CFLAGS = -fPIC -O2 -Werror -Wall -Wextra
+CFLAGS = -fPIC -O2 -Werror -Wall -Wextra -DYYDEBUG
 
 # http://stackoverflow.com/questions/5694228/sed-in-place-flag-that-works-both-on-mac-and-linux
 ifeq ($(UNAME), Darwin)

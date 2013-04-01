@@ -42,9 +42,15 @@ void scan_init(char* data) {
     %% write init;
 }
 
+void substring(const char* text, int start, int stop) {
+   printf("%.*s\n", stop - start, &text[start]);
+}
+
+/*
 char* yytext(void) {
     return strndup(ts, te-ts);
 }
+*/
 
 int yylex(void) {
     int ret = 0;
@@ -60,15 +66,16 @@ int yylex(void) {
     }
 
     if(ret == 0) {
-        char* prefix = "Unexpected: ";
-        char* unexp = strndup(p, pe-p);
-        
-        char* message = malloc(sizeof(char) * (strlen(prefix) + strlen(unexp) + 1));
-        sprintf(message, "%s%s", prefix, unexp);
+        const char* prefix = "syntax error: ";
+        char* message = malloc(sizeof(char) * (strlen(prefix) + pe - p + 1));
+
+        strcpy(message, prefix);
+        strcpy(message+strlen(prefix), p);
         yyerror(NULL, message);
         yylval.value = NULL;
     } else {
-        yylval.value = yytext();
+        yylval.value = malloc(sizeof(char) * (te - ts + 1));
+        strncpy(yylval.value, ts, te - ts);
     }
 
     return ret;

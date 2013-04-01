@@ -54,7 +54,7 @@ public class Lexer implements Parser.Lexer {
     }
 
     public String remaining() {
-        return new String(data, p, data.length-p);
+        return new String(data, p, pe-p);
     }
 
     @Override

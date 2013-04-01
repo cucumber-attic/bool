@@ -60,7 +60,7 @@ else
     CLEAN << copy
 
     if f =~ /(lexer|parser)/
-      file gen => ["../c/lexer.l", "../c/parser.y"] do
+      file gen => ["../c/lexer.rl", "../c/parser.y"] do
         Dir.chdir('../c') do
           sh "make #{f}"
         end

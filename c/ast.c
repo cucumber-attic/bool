@@ -23,9 +23,9 @@ void yyerror(Node** node, const char* msg) {
 }
 
 Node* parse_ast(char* source) {
+    Node* node;
     int error = 0;
     last_error.message = NULL;
-    Node* node;
 
     scan_init(source);
 /*

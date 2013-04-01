@@ -14,7 +14,7 @@
 extern int yydebug;
 #define SOURCE(src) scan_init(src)
 #define YYLEX yylex()
-#define YYTEXT yytext()
+#define YYTEXT yylval.value
 
 void test_valid_expression()
 {
@@ -50,7 +50,7 @@ void test_invalid_symbol()
 
     ASSERT_EQUALS(NULL, ast);
     ASSERT_EQUALS(4, last_error.first_line);
-    ASSERT_STRING_EQUALS("Unexpected: ^^ \n", last_error.message);
+    ASSERT_STRING_EQUALS("syntax error: ^^ \n", last_error.message);
 }
 
 void test_invalid_token()
@@ -60,7 +60,7 @@ void test_invalid_token()
 
     ASSERT_EQUALS(NULL, ast);
     ASSERT_EQUALS(1, last_error.first_line);
-    ASSERT_STRING_EQUALS("Unexpected: ^£$", last_error.message);
+    ASSERT_STRING_EQUALS("syntax error: ^£$", last_error.message);
 }
 
 void test_invalid_statement()
@@ -70,7 +70,7 @@ void test_invalid_statement()
     
     ASSERT_EQUALS(NULL, ast);
     ASSERT_EQUALS(1, last_error.first_line);
-    ASSERT_STRING_EQUALS("Unexpected: ^ e", last_error.message);
+    ASSERT_STRING_EQUALS("syntax error: ^ e", last_error.message);
 }
 
 void test_invalid_long_statement()

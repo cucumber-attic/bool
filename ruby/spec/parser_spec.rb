@@ -107,14 +107,17 @@ describe 'Bool' do
         Bool.parse(        # line,token_start_col
           "          \n" + # 1
           "          \n" + # 2
-          "          \n" + # 3,3
+          "          \n" + # 3
           "    ^^    \n"   # 4,5
-          #0123456789
+          #123456789
         )
         fail
       rescue Bool::SyntaxError => expected
         expected.message.must_equal "syntax error: ^^    \n"
         expected.first_line.must_equal 4
+        expected.last_line.must_equal 4
+        expected.first_column.must_equal 5
+        expected.last_column.must_equal 5
       end
     end
 

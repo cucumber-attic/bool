@@ -2,22 +2,33 @@ module Bool
   if RUBY_PLATFORM =~ /java/
     # AST classes defined in bool_ext.jar
   else
-    class Var
-      attr_reader :value
+    class Token
+      attr_reader :value, :first_line, :last_line, :first_column, :last_column
 
-      def initialize(value)
-        @value = value
+      def initialize(value, first_line, last_line, first_column, last_column)
+        @value, @first_line, @last_line, @first_column, @last_column = value, first_line, last_line, first_column, last_column
       end
+    end
 
+    class Node
+      attr_reader :token
+
+      def initialize(token)
+        @token = token
+      end
+    end
+
+    class Var < Node
       def accept(visitor, arg)
         visitor.visit_var(self, arg)
       end
     end
 
-    class And
+    class And < Node
       attr_reader :left, :right
 
-      def initialize(left, right)
+      def initialize(token, left, right)
+        super(token)
         @left, @right = left, right
       end
 
@@ -26,10 +37,11 @@ module Bool
       end
     end
 
-    class Or
+    class Or < Node
       attr_reader :left, :right
 
-      def initialize(left, right)
+      def initialize(token, left, right)
+        super(token)
         @left, @right = left, right
       end
 
@@ -38,10 +50,11 @@ module Bool
       end
     end
 
-    class Not
+    class Not < Node
       attr_reader :operand
 
-      def initialize(operand)
+      def initialize(token, operand)
+        super(token)
         @operand = operand
       end
 

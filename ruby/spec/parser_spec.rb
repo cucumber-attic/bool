@@ -75,7 +75,6 @@ describe 'Bool' do
     end
   end
 
-
   describe "AND OR expression tested by rendering explicitly" do
     let(:expression) { "a && b || c" } # (a && b) || c
 
@@ -92,7 +91,6 @@ describe 'Bool' do
     end
   end
 
-
   describe "not expression tested by rendering explicitly" do
     let(:expression) { "!(c || a && !b)" } # c || (a && b)
     
@@ -101,7 +99,26 @@ describe 'Bool' do
     end
   end
 
+  describe "location" do
+    let(:expression) {
+      "          \n" + # 1
+      "          \n" + # 2
+      "  a       \n" + # 3,3
+      "    ||    \n" + # 4,5
+      "      c"        # 5,7
+      #1234567890
+    }
+
+    it "is stored for each token" do
+      ast.right.token.first_line.must_equal 5
+      ast.right.token.last_line.must_equal 5
+      ast.right.token.first_column.must_equal 7
+      ast.right.token.last_column.must_equal 8
+    end
+  end
+
   describe "SyntaxError" do
+
     it 'is raised on scanner error' do
       begin
         Bool.parse(        # line,token_start_col
@@ -114,10 +131,10 @@ describe 'Bool' do
         fail
       rescue Bool::SyntaxError => expected
         expected.message.must_equal "syntax error: ^^    \n"
-        expected.first_line.must_equal 4
-        expected.last_line.must_equal 4
-        expected.first_column.must_equal 5
-        expected.last_column.must_equal 5
+        expected.token.first_line.must_equal 4
+        expected.token.last_line.must_equal 4
+        expected.token.first_column.must_equal 5
+        expected.token.last_column.must_equal 5
       end
     end
 
@@ -134,10 +151,10 @@ describe 'Bool' do
         )
         fail
       rescue Bool::SyntaxError => expected
-        expected.first_line.must_equal 6
-        expected.last_line.must_equal 6
-        expected.first_column.must_equal 9
-        expected.last_column.must_equal 11
+        expected.token.first_line.must_equal 6
+        expected.token.last_line.must_equal 6
+        expected.token.first_column.must_equal 9
+        expected.token.last_column.must_equal 11
         if RUBY_PLATFORM =~ /java/
           expected.message.must_equal "syntax error, unexpected end of input, expecting TOKEN_VAR or TOKEN_NOT or TOKEN_LPAREN"
         else

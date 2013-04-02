@@ -1,10 +1,11 @@
 package bool;
 
-public class And implements Expr {
-    public final Expr left;
-    public final Expr right;
+public class And extends Node {
+    public final Node left;
+    public final Node right;
 
-    public And(Expr left, Expr right) {
+    public And(Token token, Node left, Node right) {
+        super(token);
         this.left = left;
         this.right = right;
     }

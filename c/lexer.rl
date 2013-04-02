@@ -26,7 +26,7 @@ const char *p, *ts, *te, *pe, *eof, *line_start;
 int cs, act, at_eof;
 
 void scan_init(const char* data) {
-    p = data;
+    p = line_start = data;
     eof = pe = data + strlen(data);
     at_eof = 0;
 
@@ -62,11 +62,13 @@ int yylex(void) {
 
         yyerror(NULL, message);
     } else {
-        yylval.value = malloc(sizeof(char) * (te - ts + 1));
-        strncpy(yylval.value, ts, te - ts);
-
         yylloc.first_column = (int)(ts - line_start) + 1;
         yylloc.last_column  = (int)(te - line_start) + 1;
+
+        yylval.token = create_token();
+        yylval.token->value = malloc(sizeof(char) * (te - ts + 1));
+        strncpy(yylval.token->value, ts, te - ts);
+        yylval.token->value[te - ts] = '\0';
     }
 
     return ret;

@@ -11,10 +11,7 @@ typedef struct Token {
 
 typedef struct SyntaxError {
     char* message;
-    int first_line;
-    int last_line;
-    int first_column;
-    int last_column;
+    Token* token;
 } SyntaxError;
 
 typedef enum NodeType {

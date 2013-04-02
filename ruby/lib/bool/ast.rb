@@ -3,10 +3,10 @@ module Bool
     # AST classes defined in bool_ext.jar
   else
     class Token
-      attr_reader :value
+      attr_reader :value, :first_line, :last_line, :first_column, :last_column
 
-      def initialize(value)
-        @value = value
+      def initialize(value, first_line, last_line, first_column, last_column)
+        @value, @first_line, @last_line, @first_column, @last_column = value, first_line, last_line, first_column, last_column
       end
     end
 

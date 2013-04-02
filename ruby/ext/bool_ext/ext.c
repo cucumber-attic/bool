@@ -9,12 +9,22 @@ VALUE cAnd;
 VALUE cOr;
 VALUE cNot;
 
+static VALUE transform_token(Token *token) {
+    return rb_funcall(cToken, rb_intern("new"), 5, 
+        rb_str_new2(token->value), 
+        INT2FIX(token->first_line),
+        INT2FIX(token->last_line),
+        INT2FIX(token->first_column),
+        INT2FIX(token->last_column)
+    );
+}
+
 /**
  * Transforms the C AST to a Ruby AST.
  */
 static VALUE transform(Node *node) {
-    VALUE token = rb_funcall(cToken, rb_intern("new"), 1, rb_str_new2(node->token->value));
-    
+    VALUE token = transform_token(node->token);
+
     switch (node->type) {
     case eVAR:
         return rb_funcall(cVar, rb_intern("new"), 1, token);
@@ -37,21 +47,20 @@ static VALUE Bool_parse(VALUE klass, VALUE r_expr) {
 
     UNUSED(klass);
 
-    // TODO: Verify that r_expr is a String
+    // TODO: Verify that r_expr really is a Ruby String
     expr = RSTRING_PTR(r_expr);
     ast = parse_ast(expr);
+
     if(ast != NULL) {
         VALUE result = transform(ast);
         free_ast(ast);
         return result;
     } else {
+        VALUE token = transform_token(last_error.token);
         exception = rb_funcall(
-            eSyntaxError, rb_intern("new"), 5,
-            rb_str_new(last_error.message, strlen(last_error.message)), 
-            INT2FIX(last_error.first_line), 
-            INT2FIX(last_error.last_line), 
-            INT2FIX(last_error.first_column), 
-            INT2FIX(last_error.last_column)
+            eSyntaxError, rb_intern("new"), 2,
+            rb_str_new2(last_error.message), 
+            token
         );
         rb_exc_raise(exception);
     }

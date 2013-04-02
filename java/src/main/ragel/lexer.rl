@@ -27,6 +27,8 @@ public class Lexer implements Parser.Lexer {
     private int cs, ts, te, p, act;
     private final int pe, eof;
     private final char[] data;
+
+    private String yytext = null;
     private boolean atEof = false;
 
     public Lexer(char[] data)  {
@@ -40,13 +42,9 @@ public class Lexer implements Parser.Lexer {
         this(data.toCharArray());
     }
 
-    String yytext() {
-        return new String(data, ts, te-ts);
-    }
-
     @Override
     public Union getLVal() {
-        return new Token(yytext());
+        return new Token(yytext, firstLine, lastLine, firstColumn, lastColumn);
     }
 
     @Override
@@ -67,10 +65,12 @@ public class Lexer implements Parser.Lexer {
 
         if(ret == Parser.EOF) {
             firstColumn = lastColumn = p - lineStart + 1;
-            yyerror("syntax error: " + new String(data, p, pe - p));
+            yytext = new String(data, p, pe - p);
+            yyerror("syntax error: " + yytext);
         } else {
             firstColumn = ts - lineStart + 1;
             lastColumn  = te - lineStart + 1;
+            yytext = new String(data, ts, te-ts);
         }
 
         return ret;
@@ -78,7 +78,8 @@ public class Lexer implements Parser.Lexer {
 
     @Override
     public void yyerror(String message) {
-        throw new SyntaxError(message, firstLine, lastLine, firstColumn, lastColumn);
+        Token token = new Token(yytext, firstLine, lastLine, firstColumn, lastColumn);
+        throw new SyntaxError(message, token);
     }
 }
 

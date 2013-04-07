@@ -56,11 +56,12 @@ However, I (David Kowis) wasn't able to make this work, and I just installed nod
 The process for using git/github as we all start collaborating on bool and other Cucumber projects is similar to the [Github-Flow](http://scottchacon.com/2011/08/31/github-flow.html)
 
 * **Anything** in the master branch is good enough to release
+* Push commits directly to master if they're small and / or you're confident in them.
 * Working on new features
-    + Create a descriptively named branch off of master (ie: new-oauth2-scopes)
+    + Create a descriptively named branch off of master (e.g. add-super-powers)
     + Commit to that branch locally and regularly
-    + Push your work to the same named branch on the server
-    + Regularly rebase this branch from master to keep it up to date.
+    + Push your work to the same named branch on origin
+    + Regularly rebase this branch from origin master to keep it up to date.
 * Open a pull request
     + When you need feedback or help
     + You think the branch is ready for merging (I do this using the [hub](https://github.com/defunkt/hub#git-pull-request) command-line tool -- @mattwynne)

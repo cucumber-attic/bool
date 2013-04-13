@@ -1,28 +1,19 @@
 %{
 
+#include <stdio.h>
 #include "parser.h"
 #include "lexer.h"
- 
-void yyerror(YYLTYPE *locp, yyscan_t scanner, Node** node, const char* msg);
  
 %}
 
 %code requires {
-
 #include "ast.h"
-#ifndef YY_TYPEDEF_YY_SCANNER_T
-#define YY_TYPEDEF_YY_SCANNER_T
-typedef void* yyscan_t;
-#endif
 }
 
 %output  "parser.c"
 %defines "parser.h"
 
-%define api.pure
-%lex-param   { yyscan_t scanner }
 %parse-param { Node** node }
-%parse-param { yyscan_t scanner }
 
 %error-verbose
 %locations
@@ -48,7 +39,7 @@ typedef void* yyscan_t;
 %%
 
 input
-    : expr  { *node = $1; }
+    : expr { *node = $1; }
     ;
 
 expr

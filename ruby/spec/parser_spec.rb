@@ -107,23 +107,17 @@ describe 'Bool' do
         Bool.parse(        # line,token_start_col
           "          \n" + # 1
           "          \n" + # 2
-          "          \n" + # 3,3
-          "    ^     \n"   # 4,5
-          #0123456789
+          "          \n" + # 3
+          "    ^^    \n"   # 4,5
+          #123456789
         )
         fail
       rescue Bool::SyntaxError => expected
-        expected.message.must_equal "Unexpected character: ^"
+        expected.message.must_equal "syntax error: ^^    \n"
         expected.first_line.must_equal 4
         expected.last_line.must_equal 4
-        if RUBY_PLATFORM =~ /java/
-          expected.first_column.must_equal 4
-          expected.last_column.must_equal 4
-        else
-          expected.first_column.must_equal 5
-          expected.last_column.must_equal 5
-        end
-        # Also see /javascript/test/parser_test.js. Columns are not reported.
+        expected.first_column.must_equal 5
+        expected.last_column.must_equal 5
       end
     end
 
@@ -136,22 +130,19 @@ describe 'Bool' do
           "    ||    \n" + # 4,5
           "      c   \n" + # 5,7
           "        &&"     # 6,9
-          #0123456789
+          #1234567890
         )
         fail
       rescue Bool::SyntaxError => expected
         expected.first_line.must_equal 6
         expected.last_line.must_equal 6
+        expected.first_column.must_equal 9
+        expected.last_column.must_equal 11
         if RUBY_PLATFORM =~ /java/
           expected.message.must_equal "syntax error, unexpected end of input, expecting TOKEN_VAR or TOKEN_NOT or TOKEN_LPAREN"
-          expected.first_column.must_equal 11
-          expected.last_column.must_equal 11
         else
           expected.message.must_equal "syntax error, unexpected $end, expecting TOKEN_VAR or TOKEN_NOT or TOKEN_LPAREN"
-          expected.first_column.must_equal 9
-          expected.last_column.must_equal 10
         end
-        # Also see /javascript/test/parser_test.js. Columns are 8,10.
       end
     end
 

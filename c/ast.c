@@ -1,3 +1,6 @@
+#include <stdlib.h>
+#include <string.h>
+#include <stdio.h>
 #include "ast.h"
 #include "parser.h"
 #include "lexer.h"
@@ -5,55 +8,38 @@
 
 SyntaxError last_error;
 
-void yyerror(YYLTYPE* locp, yyscan_t scanner, Node** node, const char* msg) {
-    UNUSED(scanner);
+void yyerror(Node** node, const char* msg) {
     UNUSED(node);
 
-    if (last_error.token == 0)
-    {
-        last_error.message = strdup(msg);
-    }
-    else
-    {
-        char message[] = "Unexpected character: ";
-        last_error.message = malloc(sizeof(char) * (strlen(message) + strlen(last_error.token) + 1));
-        sprintf(last_error.message, "%s%s", message, last_error.token); 
+    if(last_error.message) {
+        // When we get an error from the scanner, we'll also get one from the parser.
+        // Discard the 2nd one from the parser in that case!
+        return;
     }
 
-    last_error.first_line   = locp->first_line;
-    last_error.last_line    = locp->last_line;
-    last_error.first_column = locp->first_column;
-    last_error.last_column  = locp->last_column;
+    last_error.message      = strdup(msg);
+    last_error.first_line   = yylloc.first_line;
+    last_error.last_line    = yylloc.last_line;
+    last_error.first_column = yylloc.first_column;
+    last_error.last_column  = yylloc.last_column;
 }
 
 Node* parse_ast(const char* source) {
-    int error = 0;
     Node* node;
-    yyscan_t scanner;
-    YY_BUFFER_STATE state;
+    int error = 0;
+    last_error.message = NULL;
 
-    if (yylex_init(&scanner)) {
-        // couldn't initialize
-        return NULL;
-    }
+    scan_init(source);
 
-    last_error.token = 0;
-
-    // TODO: Check state here?
-    state = yy_scan_string(source, scanner);
-
-    if (yyparse(&node, scanner)) {
+    if (yyparse(&node)) {
         // error parsing
         error = 1;
     }
-    if (last_error.token)
-    {
+    if (last_error.message) {
         // error lexing
         error = 1;
     }
 
-    yy_delete_buffer(state, scanner);
-    yylex_destroy(scanner);
     return error ? NULL : node;
 }
 

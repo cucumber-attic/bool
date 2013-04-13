@@ -13,10 +13,6 @@ import java.io.IOException;
 %code {
     private Expr expr;
 
-    public Parser (bool.Lexer lexer) {
-        this(new LexerAdapter(lexer));
-    }
-
     public Expr parseExpr() throws SyntaxError, IOException {
         parse();
         return expr;

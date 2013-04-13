@@ -17,11 +17,8 @@ void yyerror(Node** node, const char* msg) {
         return;
     }
 
-    last_error.message      = strdup(msg);
-    last_error.first_line   = yylloc.first_line;
-    last_error.last_line    = yylloc.last_line;
-    last_error.first_column = yylloc.first_column;
-    last_error.last_column  = yylloc.last_column;
+    last_error.message = strdup(msg);
+    last_error.token   = create_token();
 }
 
 Node* parse_ast(const char* source) {
@@ -45,11 +42,12 @@ Node* parse_ast(const char* source) {
 
 void free_ast(Node* node) {
     
+    free(node->token->value);
+    free(node->token);
     switch (node->type) {
         case eVAR: 
         {
             Var* var = (Var*) node;
-            free(var->value);
             free(var);
             break;
         }
@@ -72,50 +70,63 @@ void free_ast(Node* node) {
         case eNOT:
         {
             Not* not = (Not*) node;
-            free_ast(not->other);
+            free_ast(not->operand);
             free(not);
             break;
         }
     }
 }
 
+Token* create_token() {
+    Token* tok = (Token*) malloc(sizeof* tok);
+    tok->first_line   = yylloc.first_line;
+    tok->last_line    = yylloc.last_line;
+    tok->first_column = yylloc.first_column;
+    tok->last_column  = yylloc.last_column;
+    tok->value        = strdup("");
+    return tok;
+}
+
 //// AST specific node creation functions
 
-Node* create_var(char* value) {
+Node* create_var(Token* token) {
     Var* node = (Var*) malloc(sizeof* node);
     if (node == NULL) return NULL;
  
     node->type = eVAR;
-    node->value = strdup(value);
+    node->token = token;
     return (Node*) node;
 }
 
-Node* create_and(Node* left, Node* right) {
+Node* create_and(Token* token, Node* left, Node* right) {
     And* node = (And*) malloc(sizeof* node);
     if (node == NULL) return NULL;
  
     node->type = eAND;
+    node->token = token;
     node->left = left;
     node->right = right;
     return (Node*) node;
 }
 
-Node* create_or(Node* left, Node* right) {
+Node* create_or(Token* token, Node* left, Node* right) {
     Or* node = (Or*) malloc(sizeof* node);
     if (node == NULL) return NULL;
  
     node->type = eOR;
+    node->token = token;
     node->left = left;
     node->right = right;
     return (Node*) node;
 }
 
-Node* create_not(Node* other) {
+Node* create_not(Token* token, Node* operand) {
     Not* node = (Not*) malloc(sizeof* node);
     if (node == NULL) return NULL;
  
     node->type = eNOT;
-    node->other = other;
+    node->token = token;
+    node->operand = operand;
     return (Node*) node;
 }
 

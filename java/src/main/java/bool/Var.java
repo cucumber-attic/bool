@@ -1,10 +1,8 @@
 package bool;
 
-public class Var implements Expr {
-    public final String value;
-
-    public Var(String value) {
-        this.value = value;
+public class Var extends Node {
+    public Var(Token token) {
+        super(token);
     }
 
     @Override

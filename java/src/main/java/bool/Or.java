@@ -1,10 +1,11 @@
 package bool;
 
-public class Or implements Expr {
-    public final Expr left;
-    public final Expr right;
+public class Or extends Node {
+    public final Node left;
+    public final Node right;
 
-    public Or(Expr left, Expr right) {
+    public Or(Token token, Node left, Node right) {
+        super(token);
         this.left = left;
         this.right = right;
     }

@@ -4,7 +4,7 @@
 
     <groupId>info.cukes</groupId>
     <artifactId>bool</artifactId>
-    <version>1.0.14</version>
+    <version>1.0.15</version>
     <packaging>jar</packaging>
     <name>Bool</name>
     <description>Boolean expression evaluator</description>

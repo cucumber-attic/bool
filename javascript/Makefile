@@ -1,4 +1,4 @@
-NODE_VERSION_LT_0_8 := $(shell node -e "console.log(process.version.match(/^v0\.[1-7]/) != null)")
+NODE_VERSION_LT_0_8 := $(shell node -e "console.log(process.version.match(/^v0\.[1-7]\./) != null)")
 
 ifeq ($(NODE_VERSION_LT_0_8),true)
 $(error Bad node version. Please install v0.8.11 or higher. You have node $(shell node --version))

@@ -1,3 +1,8 @@
+## [1.0.15](https://github.com/cucumber/bool/compare/v1.0.14...v1.0.15) (13 April 2013)
+
+* Switch from (J)Flex to Ragel.
+* Store column and line in tokens/AST nodes.
+
 ## [1.0.12-1.0.14](https://github.com/cucumber/bool/compare/v1.0.11...v1.0.14) (15 March 2013)
 
 * Practicing releases

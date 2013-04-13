@@ -197,3 +197,8 @@ When you have made your first successful release, confirm in the ticket and clos
 * Ilan Pillemer
 * Matt Wynne
 * Seb Rose
+
+### Good reads
+
+* http://www.cusec.net/archives/2008/adrian_thurston.pdf
+* 

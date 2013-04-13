@@ -1,0 +1,26 @@
+#!/bin/bash
+#
+# Wrapper script that ensures we'll run the required version.
+# If the required version is on the PATH, just use that.
+# If not, download and build a local version and use that.
+#
+set -e
+BASEDIR=$(cd `dirname $0` && /bin/pwd)
+REQUIRED_RAGEL_VERSION=6.8
+PATH=$BASEDIR/ragel-$REQUIRED_RAGEL_VERSION/ragel:$PATH
+RAGEL_VERSION=`ragel --version | grep ^Ragel | cut -d' ' -f6`
+
+if [ "$REQUIRED_RAGEL_VERSION" != "$RAGEL_VERSION" ] ; then
+  pushd $BASEDIR
+    echo "****** DOWNLOADING ragel-$REQUIRED_RAGEL_VERSION"
+    curl --silent --location http://www.complang.org/ragel/ragel-$REQUIRED_RAGEL_VERSION.tar.gz | tar xvz
+    echo "****** BUILDING ragel-$REQUIRED_FLEX_VERSION"
+    pushd ragel-$REQUIRED_RAGEL_VERSION
+      ./configure
+      make
+    popd
+  popd
+fi
+
+ragel $@
+

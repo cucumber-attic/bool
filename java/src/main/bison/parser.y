@@ -9,11 +9,12 @@ import java.io.IOException;
 %define public
 %define stype "Union"
 %error-verbose
+%define lex_throws SyntaxError
 
 %code {
     private Node expr;
 
-    public Node buildAst() throws SyntaxError, IOException {
+    public Node buildAst() throws SyntaxError {
         parse();
         return expr;
     }

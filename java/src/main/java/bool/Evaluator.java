@@ -23,7 +23,7 @@ public class Evaluator implements Visitor<Boolean, Collection<String>> {
         return !evaluate(node.operand, vars);
     }
 
-    private Boolean evaluate(Node node, Collection<String> vars) {
+    public Boolean evaluate(Node node, Collection<String> vars) {
         return node.accept(this, vars);
     }
 }

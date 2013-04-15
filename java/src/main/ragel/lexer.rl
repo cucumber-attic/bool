@@ -1,7 +1,5 @@
 package bool;
 
-import java.io.IOException;
-
 public class Lexer implements Parser.Lexer {
     %%{
         machine lexer;
@@ -48,7 +46,7 @@ public class Lexer implements Parser.Lexer {
     }
 
     @Override
-    public final int yylex() throws IOException {
+    public final int yylex() {
         int ret = Parser.EOF;
 
         if (atEof) {

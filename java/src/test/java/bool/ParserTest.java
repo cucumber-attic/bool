@@ -13,7 +13,7 @@ import static org.junit.Assert.fail;
 public class ParserTest {
 
     @Test
-    public void test_parse() throws IOException {
+    public void test_parse() {
         Parser parser = new Parser(new Lexer("foo && bar"));
         Node node = parser.buildAst();
         assertTrue(node.accept(new Evaluator(), asList("foo", "bar")));

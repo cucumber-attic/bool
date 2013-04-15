@@ -24,8 +24,6 @@ module Bool
         !evaluate(node.operand, vars)
       end
 
-    private
-
       def evaluate(node, vars)
         node.accept(self, vars)
       end

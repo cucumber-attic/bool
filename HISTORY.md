@@ -1,6 +1,7 @@
 ## [Git master](https://github.com/cucumber/bool/compare/v1.0.15...master) (Not released)
 
 * [java] Don't throw IOException.
+* Add public convenience methods to `Evaluator` and `Renderer`.
 
 ## [1.0.15](https://github.com/cucumber/bool/compare/v1.0.14...v1.0.15) (13 April 2013)
 

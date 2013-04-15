@@ -8,23 +8,21 @@ module Bool
       end
 
     else
-      def visit_var(node, vars)
+      def visit_var(node, _)
         node.token.value
       end
 
-      def visit_and(node, vars)
+      def visit_and(node, _)
         "(#{render(node.left)} #{node.token.value} #{render(node.right)})"
       end
 
-      def visit_or(node, vars)
+      def visit_or(node, _)
         "(#{render(node.left)} #{node.token.value} #{render(node.right)})"
       end
 
-      def visit_not(node, vars)
+      def visit_not(node, _)
         "#{node.token.value}#{render(node.operand)}"
       end
-
-    private
 
       def render(node)
         node.accept(self, nil)

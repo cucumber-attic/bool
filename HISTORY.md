@@ -1,4 +1,4 @@
-## [Git master](https://github.com/cucumber/bool/compare/v1.0.15...master) (Not released)
+## [1.0.16](https://github.com/cucumber/bool/compare/v1.0.15...v1.0.16) (15 April 2013)
 
 * [java] Don't throw IOException.
 * Add public convenience methods to `Evaluator` and `Renderer`.

@@ -28,21 +28,25 @@ That should create a `.so` file under `lib`.
 
 ## JRuby 
 
-You need JRuby 1.7.2 or newer. OS X and Linux users can install this easily with [RVM](https://rvm.io/).
+Before you can build the `ruby` module with JRuby you must ensure you can build the `java` module.
+You also need `jruby` 1.7.3 on your `PATH`. How to achieve this depends on whether you are using
+[RVM](https://rvm.io/) or [rbenv](https://github.com/sstephenson/rbenv/).
 
-If you have already managed to build the Java code you should be fine. You also need `jruby` on your `PATH`. RVM users can do this like so:
+### RVM
+
+RVM users can set up a `jruby` like so:
 
 ```
 mkdir ~/bin
-ln -s ~/.rvm/rubies/jruby-1.7.2/bin/jruby ~/bin/jruby
+ln -s ~/.rvm/rubies/jruby-1.7.3/bin/jruby ~/bin/jruby
 export PATH=$PATH:~/bin
-jruby -S gem install bundler --pre
 ```
 
-Now just run
+The ruby build should now pass with:
 
 ```
-rake
+jruby -S gem install bundler
+jruby -S rake
 ```
 
 ### rbenv with JRuby
@@ -64,4 +68,19 @@ This is because the `jruby` wrapper in the  doesn't exist on the path for the de
 RBENV_VERSION=`rbenv versions | grep jruby | tail -1 | perl -pe 's/^.*(jruby-[^\s]+).*$/$1/'` ~/.rbenv/shims/jruby "$@"
 ```
 
-This will temporarily switch to using JRuby if the `jruby` command is used. Make sure that your `~/bin` directory is ahead of the rbenv shims directory.
+Now make it executable:
+
+```
+chmod +x ~/bin/jruby
+```
+
+This will temporarily switch to using JRuby if the `jruby` command is used. Make sure that your `~/bin` directory is on your PATH and ahead of the rbenv shims directory.
+
+The ruby build should now pass with:
+
+```
+jruby -S gem install bundler
+jruby -S rake
+```
+
+

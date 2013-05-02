@@ -27,12 +27,16 @@ make
 If the build fails, don't worry. Pay close attention to the error message and follow the OS-specific instructions
 below and try again. If you still run into problems, see the `README.md` file of the sub component that failed to build.
 
+#### Installing Node.js
+
+See [Installing Node.js via package manager](https://github.com/joyent/node/wiki/Installing-Node.js-via-package-manager)
+
 #### Ubuntu
 
 Ubuntu users can install additional required software with:
 
 ```
-sudo apt-get install build-essential m4 curl nodejs mingw32
+sudo apt-get install build-essential m4 curl mingw32
 ```
 
 #### Fedora
@@ -42,14 +46,6 @@ Fedora 18 users can install additional required software with:
 ```
 yum install curl mingw32-gcc
 ```
-
-Supposedly nodejs can be installed via 
-
-```
-yum --enablerepo=updates-testing install nodejs
-````
-
-However, I (David Kowis) wasn't able to make this work, and I just installed node's binary distribution from http://nodejs.org/download/ and symlinked the necessary binaries into `~/bin`.
 
 ### The Github Process
 

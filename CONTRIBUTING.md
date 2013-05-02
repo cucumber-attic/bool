@@ -32,7 +32,7 @@ below and try again. If you still run into problems, see the `README.md` file of
 Ubuntu users can install additional required software with:
 
 ```
-sudo apt-get install wget nodejs mingw32
+sudo apt-get install curl nodejs mingw32
 ```
 
 #### Fedora
@@ -40,7 +40,7 @@ sudo apt-get install wget nodejs mingw32
 Fedora 18 users can install additional required software with:
 
 ```
-yum install wget mingw32-gcc
+yum install curl mingw32-gcc
 ```
 
 Supposedly nodejs can be installed via 

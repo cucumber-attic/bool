@@ -32,7 +32,7 @@ below and try again. If you still run into problems, see the `README.md` file of
 Ubuntu users can install additional required software with:
 
 ```
-sudo apt-get install curl nodejs mingw32
+sudo apt-get install build-essential m4 curl nodejs mingw32
 ```
 
 #### Fedora

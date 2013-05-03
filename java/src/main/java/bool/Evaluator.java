@@ -1,29 +1,29 @@
 package bool;
 
-import java.util.List;
+import java.util.Collection;
 
-public class Evaluator implements Visitor<Boolean, List<String>> {
+public class Evaluator implements Visitor<Boolean, Collection<String>> {
     @Override
-    public Boolean visit(Var var, List<String> vars) {
-        return vars.contains(var.value);
+    public Boolean visit(Var node, Collection<String> vars) {
+        return vars.contains(node.token.getValue());
     }
 
     @Override
-    public Boolean visit(And and, List<String> vars) {
-        return evaluate(and.left, vars) && evaluate(and.right, vars);
+    public Boolean visit(And node, Collection<String> vars) {
+        return evaluate(node.left, vars) && evaluate(node.right, vars);
     }
 
     @Override
-    public Boolean visit(Or or, List<String> vars) {
-        return evaluate(or.left, vars) || evaluate(or.right, vars);
+    public Boolean visit(Or node, Collection<String> vars) {
+        return evaluate(node.left, vars) || evaluate(node.right, vars);
     }
 
     @Override
-    public Boolean visit(Not not, List<String> vars) {
-        return !evaluate(not.operand, vars);
+    public Boolean visit(Not node, Collection<String> vars) {
+        return !evaluate(node.operand, vars);
     }
 
-    private Boolean evaluate(Expr expr, List<String> vars) {
-        return expr.accept(this, vars);
+    public Boolean evaluate(Node node, Collection<String> vars) {
+        return node.accept(this, vars);
     }
 }

@@ -28,40 +28,39 @@ That should create a `.so` file under `lib`.
 
 ## JRuby 
 
-You need JRuby 1.7.2 or newer. OS X and Linux users can install this easily with [RVM](https://rvm.io/).
+First, install the latest JRuby with [RVM](https://rvm.io/) or [rbenv](https://github.com/sstephenson/rbenv/).
 
-If you have already managed to build the Java code you should be fine. You also need `jruby` on your `PATH`. RVM users can do this like so:
+Second, we need to put a `jruby` executable your `PATH`:
 
 ```
 mkdir ~/bin
-ln -s ~/.rvm/rubies/jruby-1.7.2/bin/jruby ~/bin/jruby
-export PATH=$PATH:~/bin
-jruby -S gem install bundler --pre
+echo 'export PATH="$HOME/bin:$PATH"' >> ~/.bash_profile
 ```
 
-Now just run
+Third, create a `~/bin/jruby` script for either RVM or rbenv.
+
+### RVM
+
+RVM users can set up a `jruby` like so:
 
 ```
-rake
+ln -s ~/.rvm/rubies/jruby-1.7.3/bin/jruby ~/bin/jruby
 ```
 
-### rbenv with JRuby
+### rbenv
 
-If you are using rbenv to build the JRuby tests, you might get a message like this:
-
-```
-rbenv: jruby: command not found
-
-The `jruby' command exists in these Ruby versions:
-  jruby-1.7.3
-```
-
-This is because the `jruby` wrapper in the  doesn't exist on the path for the default version of ruby you are using. One possible workaround is to add your own `jruby` shell wrapper to your own `~/bin` directory, containing the following:
+rbenv users can set up a `jruby` like so:
 
 ```
-#!/bin/sh
-
-RBENV_VERSION=`rbenv versions | grep jruby | tail -1 | perl -pe 's/^.*(jruby-[^\s]+).*$/$1/'` ~/.rbenv/shims/jruby "$@"
+cp rbenv-jruby ~/bin/jruby
 ```
 
-This will temporarily switch to using JRuby if the `jruby` command is used. Make sure that your `~/bin` directory is ahead of the rbenv shims directory.
+### Testing with jruby
+
+
+The build should pass with:
+
+```
+jruby -S gem install bundler
+jruby -S rake
+```

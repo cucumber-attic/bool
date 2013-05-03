@@ -9,7 +9,7 @@ module Bool
 
     else
       def visit_var(node, vars)
-        !!vars.index(node.value)
+        !!vars.index(node.token.value)
       end
 
       def visit_and(node, vars)
@@ -23,8 +23,6 @@ module Bool
       def visit_not(node, vars)
         !evaluate(node.operand, vars)
       end
-
-    private
 
       def evaluate(node, vars)
         node.accept(self, vars)

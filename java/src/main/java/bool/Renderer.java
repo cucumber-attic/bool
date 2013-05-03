@@ -5,27 +5,27 @@ import java.util.List;
 public class Renderer implements Visitor<String, List<String>> {
 
     @Override
-    public String visit(Var var, List<String> notused) {
-        return var.value;
+    public String visit(Var var, List<String> _) {
+        return var.token.getValue();
     }
 
     @Override
-    public String visit(And and, List<String> notused) {
-        return "(" + explicit(and.left) + " && " + explicit(and.right) + ")";
+    public String visit(And and, List<String> _) {
+        return "(" + render(and.left) + " " + and.token.getValue() + " " + render(and.right) + ")";
     }
 
     @Override
-    public String visit(Or or, List<String> notused) {
-        return "(" + explicit(or.left) + " || " + explicit(or.right) + ")";
+    public String visit(Or or, List<String> _) {
+        return "(" + render(or.left) + " " + or.token.getValue() + " " + render(or.right) + ")";
     }
 
     @Override
-    public String visit(Not not, List<String> notused) {
-        return "!" + explicit(not.operand);
+    public String visit(Not not, List<String> _) {
+        return not.token.getValue() + render(not.operand);
     }
 
-    private String explicit(Expr expr) {
-        return expr.accept(this, null);
+    public String render(Node node) {
+        return node.accept(this, null);
     }
 
 }

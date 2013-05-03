@@ -4,20 +4,15 @@ package bool;
  * Common exception for both lex/scan and parse errors.
  */
 public class SyntaxError extends RuntimeException {
-    private final int line;
-    private final int column;
 
-    public SyntaxError(String message, int line, int column) {
+    private final Token token;
+
+    public SyntaxError(String message, Token token) {
         super(message);
-        this.line = line;
-        this.column = column;
+        this.token = token;
     }
 
-    public int getLine() {
-        return line;
-    }
-
-    public int getColumn() {
-        return column;
+    public Token getToken() {
+        return token;
     }
 }

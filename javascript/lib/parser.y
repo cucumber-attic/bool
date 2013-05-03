@@ -18,10 +18,10 @@ expressions
     ;
 
 expr
-    : TOKEN_VAR                       { $$ = new ast.Var(yytext); }
-    | expr TOKEN_AND expr             { $$ = new ast.And($1, $3); }
-    | expr TOKEN_OR expr              { $$ = new ast.Or($1, $3); }
-    | TOKEN_NOT expr %prec UNOT       { $$ = new ast.Not($2); }
+    : TOKEN_VAR                       { $$ = new ast.Var(new ast.Token($1)); }
+    | expr TOKEN_AND expr             { $$ = new ast.And(new ast.Token($2), $1, $3); }
+    | expr TOKEN_OR expr              { $$ = new ast.Or(new ast.Token($2), $1, $3); }
+    | TOKEN_NOT expr %prec UNOT       { $$ = new ast.Not(new ast.Token($1), $2); }
     | TOKEN_LPAREN expr TOKEN_RPAREN  { $$ = $2; }
     ;
 

@@ -27,12 +27,16 @@ make
 If the build fails, don't worry. Pay close attention to the error message and follow the OS-specific instructions
 below and try again. If you still run into problems, see the `README.md` file of the sub component that failed to build.
 
+#### Installing Node.js
+
+See [Installing Node.js via package manager](https://github.com/joyent/node/wiki/Installing-Node.js-via-package-manager)
+
 #### Ubuntu
 
 Ubuntu users can install additional required software with:
 
 ```
-sudo apt-get install wget nodejs mingw32
+sudo apt-get install build-essential m4 curl mingw32
 ```
 
 #### Fedora
@@ -40,27 +44,20 @@ sudo apt-get install wget nodejs mingw32
 Fedora 18 users can install additional required software with:
 
 ```
-yum install wget mingw32-gcc
+yum install curl mingw32-gcc
 ```
-
-Supposedly nodejs can be installed via 
-
-```
-yum --enablerepo=updates-testing install nodejs
-````
-
-However, I (David Kowis) wasn't able to make this work, and I just installed node's binary distribution from http://nodejs.org/download/ and symlinked the necessary binaries into `~/bin`.
 
 ### The Github Process
 
 The process for using git/github as we all start collaborating on bool and other Cucumber projects is similar to the [Github-Flow](http://scottchacon.com/2011/08/31/github-flow.html)
 
 * **Anything** in the master branch is good enough to release
+* Push commits directly to master if they're small and / or you're confident in them.
 * Working on new features
-    + Create a descriptively named branch off of master (ie: new-oauth2-scopes)
+    + Create a descriptively named branch off of master (e.g. add-super-powers)
     + Commit to that branch locally and regularly
-    + Push your work to the same named branch on the server
-    + Regularly rebase this branch from master to keep it up to date.
+    + Push your work to the same named branch on origin
+    + Regularly rebase this branch from origin master to keep it up to date.
 * Open a pull request
     + When you need feedback or help
     + You think the branch is ready for merging (I do this using the [hub](https://github.com/defunkt/hub#git-pull-request) command-line tool -- @mattwynne)
@@ -126,7 +123,7 @@ You need an account at:
 Distributing your key:
 
 ```
-gpg list-public-keys
+gpg --list-public-keys
 gpg --keyserver hkp://pool.sks-keyservers.net/ --send-keys <YOUR PUBLIC KEY ID>
 ```
 
@@ -196,3 +193,8 @@ When you have made your first successful release, confirm in the ticket and clos
 * Ilan Pillemer
 * Matt Wynne
 * Seb Rose
+
+### Good reads
+
+* http://www.cusec.net/archives/2008/adrian_thurston.pdf
+* 

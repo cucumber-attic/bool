@@ -19,7 +19,7 @@ if RUBY_PLATFORM =~ /java/
     cp native_lib_jar_mvn, native_lib_jar
   end
 
-  file native_lib_jar_mvn => Dir['../java/src/main/**/*.{java,jflex,y}'] do
+  file native_lib_jar_mvn => Dir['../java/src/main/**/*.{java,rl,y}'] do
     Dir.chdir('../java') do
       sh 'mvn package'
     end
@@ -60,7 +60,7 @@ else
     CLEAN << copy
 
     if f =~ /(lexer|parser)/
-      file gen => ["../c/lexer.l", "../c/parser.y"] do
+      file gen => ["../c/lexer.rl", "../c/parser.y"] do
         Dir.chdir('../c') do
           sh "make #{f}"
         end

@@ -1,3 +1,13 @@
+## [1.0.16](https://github.com/cucumber/bool/compare/v1.0.15...v1.0.16) (15 April 2013)
+
+* [java] Don't throw IOException.
+* Add public convenience methods to `Evaluator` and `Renderer`.
+
+## [1.0.15](https://github.com/cucumber/bool/compare/v1.0.14...v1.0.15) (13 April 2013)
+
+* Switch from (J)Flex to Ragel.
+* Store column and line in tokens/AST nodes.
+
 ## [1.0.12-1.0.14](https://github.com/cucumber/bool/compare/v1.0.11...v1.0.14) (15 March 2013)
 
 * Practicing releases

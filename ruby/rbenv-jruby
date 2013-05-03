@@ -1,0 +1,3 @@
+#!/bin/sh
+
+RBENV_VERSION=`rbenv versions | grep jruby | tail -1 | perl -pe 's/^.*(jruby-[^\s]+).*$/$1/'` ~/.rbenv/shims/jruby "$@"

@@ -1,28 +1,24 @@
-%token TOKEN_VAR
-%token TOKEN_AND
-%token TOKEN_OR
-%token TOKEN_NOT
-%token TOKEN_LPAREN
-%token TOKEN_RPAREN
+%token TOKEN_FEATURE
+%token TOKEN_NAME
 
-%left TOKEN_OR
-%left TOKEN_AND
-%left UNOT
-
-%start expressions
+%start main
 
 %%
 
-expressions
-    : expr EOF      { return $1; }
-    ;
+main
+  : feature EOF      { return $1; }
+  ;
 
-expr
-    : TOKEN_VAR                       { $$ = new ast.Var(new ast.Token($1)); }
-    | expr TOKEN_AND expr             { $$ = new ast.And(new ast.Token($2), $1, $3); }
-    | expr TOKEN_OR expr              { $$ = new ast.Or(new ast.Token($2), $1, $3); }
-    | TOKEN_NOT expr %prec UNOT       { $$ = new ast.Not(new ast.Token($1), $2); }
-    | TOKEN_LPAREN expr TOKEN_RPAREN  { $$ = $2; }
+feature
+  : TOKEN_FEATURE TOKEN_NAME description_lines
+    { $$ = new ast.Feature(new ast.Token($1), new ast.Token($2), $3); }
+  ;
+
+description_lines
+    : description_lines TOKEN_DESCRIPTION_LINE
+      { $1.push(new ast.Token($2)); }
+    | TOKEN_DESCRIPTION_LINE
+      { $$ = [new ast.Token($1)]; }
     ;
 
 %%

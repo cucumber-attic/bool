@@ -9,7 +9,6 @@ module.exports = {
     this.keyword           = keyword;
     this.name              = name;
     this.description_lines = description_lines;
-    console.log('oo',description_lines);
 
     this.accept = function(visitor, args) {
       return visitor.visit_feature(this, args);

@@ -10,7 +10,7 @@ describe('Testdata', function() {
     var source = fs.readFileSync(path.join(dir, f), 'UTF-8');
     it(f, function() {
       var feature = parser.parse(source);
-      var rendered = feature.accept(new Renderer(), null);
+      var rendered = feature.accept(new Renderer(), "");
       assert.equal(source, rendered);
     });
   });

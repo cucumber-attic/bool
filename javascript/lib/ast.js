@@ -27,12 +27,21 @@ module.exports = {
     };
   },
 
-  Step: function Step(keyword, name) {
-    this.keyword           = keyword;
-    this.name              = name;
+  Step: function Step(keyword, name, multiline_arg) {
+    this.keyword       = keyword;
+    this.name          = name;
+    this.multiline_arg = multiline_arg;
 
     this.accept = function(visitor, args) {
       return visitor.visit_step(this, args);
+    };
+  },
+
+  DocString: function DocString(string) {
+    this.string = string;
+
+    this.accept = function(visitor, args) {
+      return visitor.visit_doc_string(this, args);
     };
   }
 };

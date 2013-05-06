@@ -91,7 +91,9 @@ describe('Lexer', function() {
                    "  a DocString\n" +
                    "  \"\"\"\n");
 
+    assert.deepEqual([ 'TOKEN_TREBLE_QUOTE', '"""  \n  ' ], lex());
     assert.deepEqual([ 'TOKEN_DOC_STRING', 'This is\n  a DocString\n  ' ], lex());
+    assert.deepEqual([ 'TOKEN_TREBLE_QUOTE', '"""' ], lex());
   });
 });
 

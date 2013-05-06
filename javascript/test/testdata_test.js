@@ -11,6 +11,7 @@ describe('Testdata', function() {
     it(f, function() {
       var feature = parser.parse(source);
       var rendered = new Renderer().render(feature, "");
+      console.log(rendered);
       assert.equal(source, rendered);
     });
   });

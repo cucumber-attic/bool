@@ -37,7 +37,7 @@ module.exports = function Renderer() {
 
   this.visit_doc_string = function(node, out) {
     out += '      """\n';
-    out += node.string;
+    out += node.string + '\n';
     out += '      """\n';
     return out;
   };

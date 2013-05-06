@@ -65,9 +65,9 @@ describe('Lexer', function() {
   });
 
   it ('tokenizes descriptions and given/when/then when the steps are longer than the descriptions', function() {
-    lexer.setInput("Feature:     Hello\n" + 
-                   "  description\n" + 
-                   "more\n" + 
+    lexer.setInput("Feature:     Hello\n" +
+                   "  description\n" +
+                   "more\n" +
                    "  Given a reasonably long step\n" +
                    "  When I do something interesting\n" +
                    "  Then stuff happens"
@@ -85,5 +85,13 @@ describe('Lexer', function() {
     assert.deepEqual([ 'TOKEN_NAME', 'stuff happens' ], lex());
   });
 
+  it ('lexes a DocString', function() {
+    lexer.setInput("  \"\"\"  \n" +
+                   "  This is\n" +
+                   "  a DocString\n" +
+                   "  \"\"\"\n");
+
+    assert.deepEqual([ 'TOKEN_DOC_STRING', 'This is\n  a DocString\n  ' ], lex());
+  });
 });
 

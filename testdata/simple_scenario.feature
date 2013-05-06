@@ -8,3 +8,8 @@ Feature: Hello
     on 3 lines
 
     Given I have 3 cukes in my belly
+      """
+      Look
+      Ma
+      DocString
+      """

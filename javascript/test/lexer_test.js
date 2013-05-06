@@ -95,5 +95,23 @@ describe('Lexer', function() {
     assert.deepEqual([ 'TOKEN_DOC_STRING', '\n  This is\n   a DocString' ], lex());
     assert.deepEqual([ 'TOKEN_TREBLE_QUOTE', '\n  """' ], lex());
   });
+
+  it ('lexes cells', function() {
+    lexer.setInput("|foo|bar|");
+
+    assert.deepEqual([ 'TOKEN_PIPE', '|' ], lex());
+    assert.deepEqual([ 'TOKEN_CELL', 'foo' ], lex());
+    assert.deepEqual([ 'TOKEN_PIPE', '|' ], lex());
+    assert.deepEqual([ 'TOKEN_CELL', 'bar' ], lex());
+    assert.deepEqual([ 'TOKEN_PIPE', '|' ], lex());
+  });
+
+  it ('lexes empty cells', function() {
+    lexer.setInput("|||");
+
+    assert.deepEqual([ 'TOKEN_PIPE', '|' ], lex());
+    assert.deepEqual([ 'TOKEN_PIPE', '|' ], lex());
+    assert.deepEqual([ 'TOKEN_PIPE', '|' ], lex());
+  });
 });
 

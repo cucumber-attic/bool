@@ -2,6 +2,7 @@ var parser = require('../lib').parser;
 var Evaluator = require('../lib/evaluator');
 var assert = require('assert');
 
+/*
 describe('Bool', function() {
   it('sole tag', function() {
     var expr = parser.parse('@a');
@@ -90,4 +91,4 @@ describe('Bool', function() {
     }
   });
 });
-
+*/

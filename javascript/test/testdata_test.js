@@ -7,13 +7,21 @@ var path = require('path');
 describe('Testdata', function() {
   var dir = path.join(__dirname, '../../testdata');
   fs.readdirSync(dir).forEach(function(f) {
-    var source = fs.readFileSync(path.join(dir, f), 'UTF-8');
-    it(f, function() {
-      var feature = parser.parse(source);
-      var rendered = new Renderer().render(feature, "");
-      //console.log(rendered);
-      assert.equal(source, rendered);
-    });
+  	if(f.match(/\.feature/)) {
+      var source = fs.readFileSync(path.join(dir, f), 'UTF-8');
+      it(f, function() {
+        var feature = parser.parse(source);
+        var rendered = new Renderer().render(feature, "");
+        if(false) {
+          console.log("---");
+          console.log(rendered);
+          console.log("===");
+        }
+        // TODO: assert.nodiff(source, rendered);
+        // Make it async?
+        assert.equal(source, rendered);
+      });
+  	}
   });
 });
 

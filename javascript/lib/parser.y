@@ -30,7 +30,13 @@ feature_elements
     ;
 
 feature_element
-    : scenario
+    : background
+    | scenario
+    ;
+
+background
+    : TOKEN_BACKGROUND TOKEN_NAME description_lines steps
+        { $$ = new ast.Background(new ast.Token($1), new ast.Token($2), $3, $4); }
     ;
 
 scenario

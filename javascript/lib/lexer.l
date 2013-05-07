@@ -7,6 +7,7 @@
 
 ^\s+                                                    { /* skip leading whitespace */ }
 "Feature:"                                              { this.begin('AFTER_KEYWORD'); return 'TOKEN_FEATURE'; }
+"Background:"                                           { this.begin('AFTER_KEYWORD'); return 'TOKEN_BACKGROUND'; }
 "Scenario:"                                             { this.begin('AFTER_KEYWORD'); return 'TOKEN_SCENARIO'; }
 '"""'[ \t]*                                             { this.begin('DOC_STRING'); return 'TOKEN_TREBLE_QUOTE'; }
 <DOC_STRING>(.|\s)+(?=\n\s*\"\"\")                      { return 'TOKEN_DOC_STRING'; }
@@ -21,7 +22,7 @@
                                                             }
                                                         }
 <CELL>'|'                                               { return 'TOKEN_PIPE'; }
-^(?:(?!(Feature:|Scenario:|Given\u0020|When\u0020|Then\u0020|'"""'|\|))).+
+^(?:(?!(Feature:|Background:|Scenario:|Given\u0020|When\u0020|Then\u0020|'"""'|\|))).+
 														{ return 'TOKEN_DESCRIPTION_LINE'; }
 "Given\u0020"|"When\u0020"|"Then\u0020"                 { this.begin('AFTER_KEYWORD'); return 'TOKEN_STEP'; }
 <AFTER_KEYWORD>\s*                                      { /* skip whitespace after keyword */ this.begin('NAME'); }

@@ -6,7 +6,6 @@ module.exports = function Renderer() {
     node.description_lines.forEach(function(description_line) {
       out += '  ' + description_line.value + '\n';
     });
-    out += '\n';
 
     node.feature_elements.forEach(function(feature_element) {
       out = self.render(feature_element, out);
@@ -14,18 +13,25 @@ module.exports = function Renderer() {
     return out;
   };
 
-  this.visit_scenario = function(node, out) {
+  function render_background_or_scenario(node, out) {
+    out += '\n';
     out += '  ' + node.keyword.value + ' ' + node.name.value + '\n';
     node.description_lines.forEach(function(description_line) {
       out += '    ' + description_line.value + '\n';
     });
-    out += '\n';
+    if(node.description_lines.length > 0) {
+      out += '\n';
+    }
 
     node.steps.forEach(function(step) {
       out = self.render(step, out);
     });
     return out;
-  };
+  }
+
+  this.visit_background = render_background_or_scenario;
+
+  this.visit_scenario = render_background_or_scenario;
 
   this.visit_step = function(node, out) {
     out += '    ' + node.keyword.value + node.name.value + '\n';

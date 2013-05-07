@@ -16,6 +16,17 @@ module.exports = {
     };
   },
 
+  Background: function Background(keyword, name, description_lines, steps) {
+    this.keyword           = keyword;
+    this.name              = name;
+    this.description_lines = description_lines;
+    this.steps             = steps;
+
+    this.accept = function(visitor, args) {
+      return visitor.visit_background(this, args);
+    };
+  },
+
   Scenario: function Scenario(keyword, name, description_lines, steps) {
     this.keyword           = keyword;
     this.name              = name;

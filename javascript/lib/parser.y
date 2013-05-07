@@ -32,6 +32,7 @@ feature_elements
 feature_element
     : background
     | scenario
+    | scenario_outline
     ;
 
 background
@@ -42,6 +43,23 @@ background
 scenario
     : TOKEN_SCENARIO TOKEN_NAME description_lines steps
         { $$ = new ast.Scenario(new ast.Token($1), new ast.Token($2), $3, $4); }
+    ;
+
+scenario_outline
+    : TOKEN_SCENARIO_OUTLINE TOKEN_NAME description_lines steps examples_list
+        { $$ = new ast.ScenarioOutline(new ast.Token($1), new ast.Token($2), $3, $4, $5); }
+    ;
+
+examples_list
+  :
+        { $$ = []; }
+    | examples_list examples
+        { $1.push($2); }
+    ;
+
+examples
+    : TOKEN_EXAMPLES TOKEN_NAME description_lines table
+        { $$ = new ast.Examples(new ast.Token($1), new ast.Token($2), $3, new ast.Table($4)); }
     ;
 
 steps
@@ -60,7 +78,7 @@ multiline_arg
   	:
     | doc_string
     | table
-        { $$ = new ast.DataTable($1); }
+        { $$ = new ast.Table($1); }
   	;
 
 doc_string

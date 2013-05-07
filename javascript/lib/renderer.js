@@ -13,15 +13,20 @@ module.exports = function Renderer() {
     return out;
   };
 
-  function render_background_or_scenario(node, out) {
+  function render_described_element(node, out, ind) {
     out += '\n';
-    out += '  ' + node.keyword.value + ' ' + node.name.value + '\n';
+    out += ind + node.keyword.value + ' ' + node.name.value + '\n';
     node.description_lines.forEach(function(description_line) {
-      out += '    ' + description_line.value + '\n';
+      out += ind + '  ' + description_line.value + '\n';
     });
     if(node.description_lines.length > 0) {
       out += '\n';
     }
+    return out;
+  }
+
+  function render_feature_element(node, out) {
+    out = render_described_element(node, out, '  ');
 
     node.steps.forEach(function(step) {
       out = self.render(step, out);
@@ -29,9 +34,23 @@ module.exports = function Renderer() {
     return out;
   }
 
-  this.visit_background = render_background_or_scenario;
+  this.visit_background = render_feature_element;
 
-  this.visit_scenario = render_background_or_scenario;
+  this.visit_scenario = render_feature_element;
+
+  this.visit_scenario_outline = function(node, out) {
+    out = render_feature_element(node, out);
+    node.examples_list.forEach(function(examples) {
+      out = self.render(examples, out);
+    });
+    return out;
+  }
+
+  this.visit_examples = function(node, out) {
+    out = render_described_element(node, out, '    ');
+    out = self.render(node.table, out);
+    return out;
+  }
 
   this.visit_step = function(node, out) {
     out += '    ' + node.keyword.value + node.name.value + '\n';
@@ -48,7 +67,7 @@ module.exports = function Renderer() {
     return out;
   };
 
-  this.visit_data_table = function(node, out) {
+  this.visit_table = function(node, out) {
     node.cell_rows.forEach(function(cell_row) {
       out = self.render(cell_row, out);
     });

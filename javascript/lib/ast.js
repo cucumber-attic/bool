@@ -38,6 +38,29 @@ module.exports = {
     };
   },
 
+  ScenarioOutline: function ScenarioOutline(keyword, name, description_lines, steps, examples_list) {
+    this.keyword           = keyword;
+    this.name              = name;
+    this.description_lines = description_lines;
+    this.steps             = steps;
+    this.examples_list     = examples_list;
+
+    this.accept = function(visitor, args) {
+      return visitor.visit_scenario_outline(this, args);
+    };
+  },
+
+  Examples: function Examples(keyword, name, description_lines, table) {
+    this.keyword           = keyword;
+    this.name              = name;
+    this.description_lines = description_lines;
+    this.table             = table;
+
+    this.accept = function(visitor, args) {
+      return visitor.visit_examples(this, args);
+    };
+  },
+
   Step: function Step(keyword, name, multiline_arg) {
     this.keyword       = keyword;
     this.name          = name;
@@ -72,11 +95,11 @@ module.exports = {
     };
   },
 
-  DataTable: function DataTable(cell_rows) {
+  Table: function Table(cell_rows) {
     this.cell_rows = cell_rows;
 
     this.accept = function(visitor, args) {
-      return visitor.visit_data_table(this, args);
+      return visitor.visit_table(this, args);
     };
   }
 };

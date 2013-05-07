@@ -11,8 +11,15 @@
 '"""'[ \t]*                                             { this.begin('DOC_STRING'); return 'TOKEN_TREBLE_QUOTE'; }
 <DOC_STRING>(.|\s)+(?=\n\s*\"\"\")                      { return 'TOKEN_DOC_STRING'; }
 <DOC_STRING>\n\s*'"""'                                  { this.popState(); return 'TOKEN_TREBLE_QUOTE'; }
-'|'                                                     { this.begin('CELL'); return 'TOKEN_PIPE'; }
-<CELL>[^\|]+                                            { return 'TOKEN_CELL'; }
+'|'                                                     { this.begin('CELL'); }
+<CELL>[^\|]+                                            {
+                                                            if(yytext.indexOf('\n') == -1) {
+                                                                return 'TOKEN_CELL';
+                                                            } else {
+                                                                this.popState();
+                                                                return 'TOKEN_EOL';
+                                                            }
+                                                        }
 <CELL>'|'                                               { return 'TOKEN_PIPE'; }
 ^(?:(?!(Feature:|Scenario:|Given\u0020|When\u0020|Then\u0020|'"""'|\|))).+
 														{ return 'TOKEN_DESCRIPTION_LINE'; }

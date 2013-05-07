@@ -43,5 +43,29 @@ module.exports = {
     this.accept = function(visitor, args) {
       return visitor.visit_doc_string(this, args);
     };
+  },
+
+  Cell: function Cell(cell_value) {
+    this.cell_value = cell_value;
+
+    this.accept = function(visitor, args) {
+      return visitor.visit_cell(this, args);
+    };
+  },
+
+  CellRow: function CellRow(cells) {
+    this.cells = cells;
+
+    this.accept = function(visitor, args) {
+      return visitor.visit_cell_row(this, args);
+    };
+  },
+
+  DataTable: function DataTable(cell_rows) {
+    this.cell_rows = cell_rows;
+
+    this.accept = function(visitor, args) {
+      return visitor.visit_data_table(this, args);
+    };
   }
 };

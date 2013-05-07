@@ -9,4 +9,4 @@ Feature: Hello
 
     Given I have 3 cukes in my belly
       |foo|bar|
-      |  1|  2|
+      |xxx|yyy|

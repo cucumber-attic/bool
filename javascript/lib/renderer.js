@@ -42,6 +42,30 @@ module.exports = function Renderer() {
     return out;
   };
 
+  this.visit_data_table = function(node, out) {
+    node.cell_rows.forEach(function(cell_row) {
+      out = self.render(cell_row, out);
+    });
+
+    return out;
+  };
+
+  this.visit_cell_row = function(node, out) {
+    out += '      |';
+    node.cells.forEach(function(cell) {
+      out = self.render(cell, out);
+    });
+    out += '\n';
+
+    return out;
+  };
+
+  this.visit_cell = function(node, out) {
+    out += node.cell_value.value + '|';
+
+    return out;
+  };
+
   this.render = function(node, out) {
     return node.accept(self, out);
   };

@@ -97,21 +97,35 @@ describe('Lexer', function() {
   });
 
   it ('lexes cells', function() {
-    lexer.setInput("|foo|bar|");
+    lexer.setInput("|foo|bar|  \n  ");
 
-    assert.deepEqual([ 'TOKEN_PIPE', '|' ], lex());
     assert.deepEqual([ 'TOKEN_CELL', 'foo' ], lex());
     assert.deepEqual([ 'TOKEN_PIPE', '|' ], lex());
     assert.deepEqual([ 'TOKEN_CELL', 'bar' ], lex());
     assert.deepEqual([ 'TOKEN_PIPE', '|' ], lex());
+    assert.deepEqual([ 'TOKEN_EOL', '  \n  ' ], lex());
   });
 
   it ('lexes empty cells', function() {
-    lexer.setInput("|||");
+    lexer.setInput("|||\n");
 
     assert.deepEqual([ 'TOKEN_PIPE', '|' ], lex());
     assert.deepEqual([ 'TOKEN_PIPE', '|' ], lex());
+    assert.deepEqual([ 'TOKEN_EOL', '\n' ], lex());
+  });
+
+  it ('lexes rows of cells', function() {
+    lexer.setInput("  | aaa | |\n  || ddd |\n");
+
+    assert.deepEqual([ 'TOKEN_CELL', ' aaa ' ], lex());
     assert.deepEqual([ 'TOKEN_PIPE', '|' ], lex());
+    assert.deepEqual([ 'TOKEN_CELL', ' ' ], lex());
+    assert.deepEqual([ 'TOKEN_PIPE', '|' ], lex());
+    assert.deepEqual([ 'TOKEN_EOL', '\n  ' ], lex());
+    assert.deepEqual([ 'TOKEN_PIPE', '|' ], lex());
+    assert.deepEqual([ 'TOKEN_CELL', ' ddd ' ], lex());
+    assert.deepEqual([ 'TOKEN_PIPE', '|' ], lex());
+    assert.deepEqual([ 'TOKEN_EOL', '\n' ], lex());
   });
 });
 

@@ -7,8 +7,8 @@
 %%
 
 main
-  : feature EOF      { return $1; }
-  ;
+    : feature EOF      { return $1; }
+    ;
 
 feature
   	: TOKEN_FEATURE TOKEN_NAME description_lines feature_elements
@@ -53,14 +53,46 @@ step
 multiline_arg
   	:
     | doc_string
+    | table
+        { $$ = new ast.DataTable($1); }
   	;
 
 doc_string
 	: TOKEN_TREBLE_QUOTE TOKEN_DOC_STRING TOKEN_TREBLE_QUOTE
-		{ $$= new ast.DocString($2.substr($2.indexOf('\n')+1)); }
+		{ $$ = new ast.DocString($2.substr($2.indexOf('\n')+1)); }
 	;
 
+table
+    : table cell_row
+        { $1.push($2); }
+    | cell_row
+        { $$ = [$1]; }
+    ;
 
+cell_row
+    : cells TOKEN_EOL
+        { $$ = new ast.CellRow($1); }
+    ;
+
+cells
+    : cells cell
+        { $1.push($2); }
+    | cell
+        { $$ = [$1]; }
+    ;
+
+cell
+    : TOKEN_CELL TOKEN_PIPE
+        {
+            var cell_value = new ast.Token($1.trim());
+            $$ = new ast.Cell(cell_value);
+        }
+    | TOKEN_PIPE
+        {
+            var cell_value = new ast.Token('');
+            $$ = new ast.Cell(cell_value);
+        }
+    ;
 %%
 
 // Load our AST code

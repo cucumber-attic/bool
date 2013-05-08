@@ -21,6 +21,8 @@ describe('Compiler', function() {
     var units = new Compiler().compile(feature);
     assert.equal(3, units.length);
     // TODO: assert.equal([???], units[0].steps[0].stack_frames)
-    assert.equal('I have 1 cukes in my belly', units[0].steps[0].name.value);
+    assert.equal('I have 20 cukes (20) in my belly', units[1].steps[0].name.value);
+    assert.equal('I eat 20 cukes', units[1].steps[1].name.value);
+    assert.equal('I should have 40 cukes in my belly', units[1].steps[2].name.value);
   });
 });

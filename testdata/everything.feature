@@ -8,8 +8,8 @@ Feature: Hello
   Scenario: Scenario:
     Given I have 3 more cukes in my belly
     When I have 3 cukes in my belly
-      |foo|bar|
-      |xxx|yyy|
+      | foo | bar |
+      | xxx | yyy |
     When I have 3 cukes in my belly
       """
       Look

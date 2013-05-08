@@ -4,7 +4,7 @@ Feature: Hello
     Given I have <n> cukes in my belly
 
     Examples: a few
-      |n|
-      |1|
-      |2|
-      |3|
+      | n   |
+      |   1 |
+      |  20 |
+      | 300 |

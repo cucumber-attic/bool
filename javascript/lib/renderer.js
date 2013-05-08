@@ -68,27 +68,62 @@ module.exports = function Renderer() {
   };
 
   this.visit_table = function(node, out) {
+    var col_index;
+    // TODO: move out from here to make less cluttered
+    var width_finder = {
+      visit_table: function(node, col_widths) {
+        node.cell_rows.forEach(function(cell_row) {
+          return cell_row.accept(width_finder, col_widths);
+        });
+        return col_widths;
+      },
+
+      visit_cell_row: function(node, col_widths) {
+        node.cells.forEach(function(cell, i) {
+          col_index = i;
+          return cell.accept(width_finder, col_widths);
+        });
+        return col_widths;
+      },
+
+      visit_cell: function(node, col_widths) {
+        col_widths[col_index] = Math.max(col_widths[col_index] || 0, node.cell_value.value.length);
+      }
+    };
+    var col_widths = node.accept(width_finder, []);
+
+    var out_and_col_widths = {out:out, col_widths:col_widths};
     node.cell_rows.forEach(function(cell_row) {
-      out = self.render(cell_row, out);
+      out = cell_row.accept(self, out_and_col_widths);
     });
 
     return out;
   };
 
-  this.visit_cell_row = function(node, out) {
-    out += '      |';
-    node.cells.forEach(function(cell) {
-      out = self.render(cell, out);
+  this.visit_cell_row = function(node, out_and_col_widths) {
+    out_and_col_widths.out += '     ';
+    node.cells.forEach(function(cell, col_index) {
+      out_and_col_widths.out = cell.accept(self, {out:out_and_col_widths.out, col_width:out_and_col_widths.col_widths[col_index]});
     });
-    out += '\n';
+    out_and_col_widths.out += ' |\n';
 
-    return out;
+    return out_and_col_widths.out;
   };
 
-  this.visit_cell = function(node, out) {
-    out += node.cell_value.value + '|';
+  this.visit_cell = function(node, out_and_col_width) {
+    var pad_width = out_and_col_width.col_width - node.cell_value.value.length;
+    var padding = "";
+    for (var i = 0; i < pad_width; i++) {
+      padding += ' ';
+    }
+    out_and_col_width.out += ' | ';
+    if(node.cell_value.value.match(/\d+/)) {
+      out_and_col_width.out += padding + node.cell_value.value;
+    } else {
+      out_and_col_width.out += node.cell_value.value + padding;
+    }
 
-    return out;
+    return out_and_col_width.out;
   };
 
   this.render = function(node, out) {

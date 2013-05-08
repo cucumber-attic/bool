@@ -8,5 +8,5 @@ Feature: Hello
     on 3 lines
 
     Given I have 3 cukes in my belly
-      |foo|bar|
-      |xxx|yyy|
+      | foos | bar |
+      | x    | yy  |

@@ -1,9 +1,10 @@
 # TODO
 
 [x] empty scenario/background name
-[ ] aligned table cells
-[ ] aligned table cells with numbers(right)/text(left)
+[x] aligned table cells
+[x] aligned table cells with numbers(right)/text(left)
 [x] no description
+[ ] table with trailing space
 [ ] description with internal indentation (markdown)
 [x] keywords after keywords
 [ ] Must verify in unit test that the AST nodes strip away indentation left of first line start

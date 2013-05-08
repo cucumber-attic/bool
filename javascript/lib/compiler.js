@@ -25,8 +25,7 @@ module.exports = function Compiler() {
   };
 
   this.visit_scenario = function(node, units) {
-    var steps = background_steps.concat(node.steps);
-    var unit = new Unit(steps);
+    var unit = new Unit(background_steps.concat(node.steps));
     units.push(unit);
   };
 
@@ -56,7 +55,7 @@ module.exports = function Compiler() {
       });
       return new ast.Step(new ast.Token(outline_step.keyword), new ast.Token(step_name));
     });
-    var unit = new Unit(steps);
+    var unit = new Unit(background_steps.concat(steps));
     units.push(unit);
   };
 

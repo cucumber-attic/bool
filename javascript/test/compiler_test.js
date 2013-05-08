@@ -14,4 +14,13 @@ describe('Compiler', function() {
     assert.equal('a background step', units[0].steps[0].name.value);
     assert.equal('I have 3 more cukes in my belly', units[0].steps[1].name.value);
   });
+
+  it('compiles scenario outline', function() {
+    var source = fs.readFileSync(path.join(__dirname, '../../testdata/with_scenario_outline.feature'), 'UTF-8');
+    var feature = parser.parse(source);
+    var units = new Compiler().compile(feature);
+    assert.equal(3, units.length);
+    // TODO: assert.equal([???], units[0].steps[0].stack_frames)
+    assert.equal('I have 1 cukes in my belly', units[0].steps[0].name.value);
+  });
 });

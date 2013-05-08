@@ -46,6 +46,8 @@ module.exports = function Compiler() {
   this.visit_cell_row = function(node, scenarios) {
     var steps = scenario_outline.steps.map(function(outline_step) {
       step_name = outline_step.name.value;
+
+      // TODO: Make a function so it's easier to replace in multiline args as well.
       example_args.forEach(function(arg, n) {
         step_name = step_name.replace(new RegExp('<' + arg.cell_value.value + '>', 'g'), node.cells[n].cell_value.value);
       });

@@ -94,7 +94,7 @@ table
     ;
 
 cell_row
-    : cells TOKEN_EOL
+    : cells TOKEN_PIPE TOKEN_EOL
         { $$ = new ast.CellRow($1); }
     ;
 
@@ -106,12 +106,12 @@ cells
     ;
 
 cell
-    : TOKEN_CELL TOKEN_PIPE
+    : TOKEN_PIPE TOKEN_CELL
         {
-            var cell_value = new ast.Token($1.trim());
+            var cell_value = new ast.Token($2.trim());
             $$ = new ast.Cell(cell_value);
         }
-    | TOKEN_PIPE
+    | TOKEN_PIPE TOKEN_PIPE
         {
             var cell_value = new ast.Token('');
             $$ = new ast.Cell(cell_value);

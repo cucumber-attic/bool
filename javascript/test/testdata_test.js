@@ -1,4 +1,5 @@
 var parser = require('../lib').parser;
+var lexer = require('../lib/lexer');
 var Renderer = require('../lib/renderer');
 var assert = require('assert');
 var fs = require('fs');
@@ -9,7 +10,7 @@ describe('Testdata', function() {
   fs.readdirSync(dir).forEach(function(f) {
   	if(f.match(/\.feature/)) {
       var source = fs.readFileSync(path.join(dir, f), 'UTF-8');
-      it(f, function() {
+      it('parses ' + f, function() {
         var feature = parser.parse(source);
         var rendered = new Renderer().render(feature, "");
         if(false) {
@@ -21,6 +22,20 @@ describe('Testdata', function() {
         // Make it async?
         assert.equal(source, rendered);
       });
+
+      /*
+      it('scans ' + f, function() {
+        console.log("====== %s ======", f);
+        lexer.setInput(source);
+        while(true) {
+          var tok = lexer.lex();
+          console.log("%s %s", tok, lexer.yytext);
+          if(tok == 'EOF') {
+            break;
+          }
+        }
+      });
+      */
   	}
   });
 });

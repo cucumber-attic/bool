@@ -9,3 +9,4 @@
 [x] keywords after keywords
 [ ] Must verify in unit test that the AST nodes strip away indentation left of first line start
 [ ] comments
+[ ] Consider internal iteration for visitors. Do this after writing the compiler. It might simplify the code a lot.

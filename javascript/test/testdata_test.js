@@ -1,9 +1,9 @@
-var parser = require('../lib').parser;
-var lexer = require('../lib/lexer');
-var Renderer = require('../lib/renderer');
 var assert = require('assert');
 var fs = require('fs');
 var path = require('path');
+var parser = require('../lib').parser;
+var lexer = require('../lib/lexer');
+var Renderer = require('../lib/renderer');
 
 describe('Testdata', function() {
   var dir = path.join(__dirname, '../../testdata');

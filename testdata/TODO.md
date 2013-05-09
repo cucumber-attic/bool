@@ -21,7 +21,7 @@
 [x] Tags
 [ ] Filters
 [ ] All tokens should have location info. Good cross platform tests for this!
-[ ] Descriptionlines should be tokens. Everything should be!
+[x] Descriptionlines should be tokens. Everything should be!
 [ ] Scenario Outline after DocString causes lexer to hang on regexp match. See example below.
 
 

@@ -95,7 +95,10 @@ multiline_arg
 
 doc_string
 	: TOKEN_TREBLE_QUOTE TOKEN_DOC_STRING TOKEN_TREBLE_QUOTE
-		{ $$ = new ast.DocString($2.substr($2.indexOf('\n')+1)); }
+		{
+            var string = $2.substr($2.indexOf('\n')+1);
+            $$ = new ast.DocString(new ast.Token(string));
+        }
 	;
 
 table

@@ -17,6 +17,18 @@ describe('Lexer', function() {
     assert.deepEqual([ 'TOKEN_FEATURE', 'Feature:' ], lex());
   });
 
+  it('tokenizes tags', function() {
+    lexer.setInput("@foo @bar @zap\n\n");
+
+    assert.deepEqual([ 'TOKEN_TAG', '@foo' ], lex());
+    assert.deepEqual([ 'TOKEN_TAG', '@bar' ], lex());
+    assert.deepEqual([ 'TOKEN_TAG', '@zap' ], lex());
+    assert.deepEqual(['INITIAL', 'TAGS'], lexer.conditionStack);
+    lex();
+    lex();
+    assert.deepEqual(['INITIAL'], lexer.conditionStack);
+  });
+
   it('tokenizes a named feature with given when', function() {
     lexer.setInput("Feature:     Hello\n" +
                    "  Given I have 4 cukes in my belly\n" +

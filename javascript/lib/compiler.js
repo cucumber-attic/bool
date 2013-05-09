@@ -21,7 +21,7 @@ module.exports = function Compiler() {
   };
 
   this.visit_scenario = function(node, scenarios) {
-    var scenario = new ast.Scenario(node.keyword, node.name, node.description_lines, background_steps.concat(node.steps));
+    var scenario = new ast.Scenario(node.tags, node.keyword, node.name, node.description_lines, background_steps.concat(node.steps));
     scenarios.push(scenario);
   };
 
@@ -53,7 +53,7 @@ module.exports = function Compiler() {
       });
       return new ast.Step(new ast.Token(outline_step.keyword), new ast.Token(step_name));
     });
-    var scenario = new ast.Scenario(scenario_outline.keyword, scenario_outline.name, scenario_outline.description_lines, background_steps.concat(steps));
+    var scenario = new ast.Scenario(scenario_outline.tags, scenario_outline.keyword, scenario_outline.name, scenario_outline.description_lines, background_steps.concat(steps));
     scenarios.push(scenario);
   };
 

@@ -5,7 +5,12 @@ module.exports = {
     this.value = value;
   },
 
-  Feature: function Feature(keyword, name, description_lines, feature_elements) {
+  Tag: function Tag(name) {
+    this.name = name;
+  },
+
+  Feature: function Feature(tags, keyword, name, description_lines, feature_elements) {
+    this.tags              = tags;
     this.keyword           = keyword;
     this.name              = name;
     this.description_lines = description_lines;
@@ -27,7 +32,8 @@ module.exports = {
     };
   },
 
-  Scenario: function Scenario(keyword, name, description_lines, steps) {
+  Scenario: function Scenario(tags, keyword, name, description_lines, steps) {
+    this.tags              = tags;
     this.keyword           = keyword;
     this.name              = name;
     this.description_lines = description_lines;
@@ -38,7 +44,8 @@ module.exports = {
     };
   },
 
-  ScenarioOutline: function ScenarioOutline(keyword, name, description_lines, steps, examples_list) {
+  ScenarioOutline: function ScenarioOutline(tags, keyword, name, description_lines, steps, examples_list) {
+    this.tags              = tags;
     this.keyword           = keyword;
     this.name              = name;
     this.description_lines = description_lines;
@@ -50,7 +57,8 @@ module.exports = {
     };
   },
 
-  Examples: function Examples(keyword, name, description_lines, table) {
+  Examples: function Examples(tags, keyword, name, description_lines, table) {
+    this.tags              = tags;
     this.keyword           = keyword;
     this.name              = name;
     this.description_lines = description_lines;

@@ -2,10 +2,15 @@
 %x NAME
 %x DOC_STRING
 %x CELL
+%x TAGS
 
 %%
 
 ^\s+                                                    { /* skip leading whitespace */ }
+'@'\w+                                                  { this.begin('TAGS'); return 'TOKEN_TAG'; }
+<TAGS>\u0020+                                           { }
+<TAGS>\u000A                                            { this.popState(); }
+<TAGS>'@'\w+                                            { return 'TOKEN_TAG'; }
 'Feature:'                                              { this.begin('AFTER_KEYWORD'); return 'TOKEN_FEATURE'; }
 'Background:'                                           { this.begin('AFTER_KEYWORD'); return 'TOKEN_BACKGROUND'; }
 'Scenario:'                                             { this.begin('AFTER_KEYWORD'); return 'TOKEN_SCENARIO'; }

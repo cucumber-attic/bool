@@ -10,9 +10,21 @@ main
     : feature EOF      { return $1; }
     ;
 
+tags
+    :
+        { $$ = []; }
+    | tags tag
+        { $1.push($2); }
+    ;
+
+tag
+    : TOKEN_TAG
+        { $$ = new ast.Tag(new ast.Token($1)); }
+    ;
+
 feature
-  	: TOKEN_FEATURE TOKEN_NAME description_lines feature_elements
-    	{ $$ = new ast.Feature(new ast.Token($1), new ast.Token($2), $3, $4); }
+  	: tags TOKEN_FEATURE TOKEN_NAME description_lines feature_elements
+    	{ $$ = new ast.Feature($1, new ast.Token($2), new ast.Token($3), $4, $5); }
   	;
 
 description_lines
@@ -25,8 +37,8 @@ description_lines
 feature_elements
     :
         { $$ = []; }
-    | feature_elements feature_element
-        { $1.push($2); }
+    | feature_elements tags feature_element
+        { $3.tags = $2; $1.push($3); }
     ;
 
 feature_element
@@ -42,16 +54,16 @@ background
 
 scenario
     : TOKEN_SCENARIO TOKEN_NAME description_lines steps
-        { $$ = new ast.Scenario(new ast.Token($1), new ast.Token($2), $3, $4); }
+        { $$ = new ast.Scenario([], new ast.Token($1), new ast.Token($2), $3, $4); }
     ;
 
 scenario_outline
     : TOKEN_SCENARIO_OUTLINE TOKEN_NAME description_lines steps examples_list
-        { $$ = new ast.ScenarioOutline(new ast.Token($1), new ast.Token($2), $3, $4, $5); }
+        { $$ = new ast.ScenarioOutline([], new ast.Token($1), new ast.Token($2), $3, $4, $5); }
     ;
 
 examples_list
-  :
+    :
         { $$ = []; }
     | examples_list examples
         { $1.push($2); }
@@ -59,7 +71,7 @@ examples_list
 
 examples
     : TOKEN_EXAMPLES TOKEN_NAME description_lines table
-        { $$ = new ast.Examples(new ast.Token($1), new ast.Token($2), $3, new ast.Table($4)); }
+        { $$ = new ast.Examples([], new ast.Token($1), new ast.Token($2), $3, new ast.Table($4)); }
     ;
 
 steps

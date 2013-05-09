@@ -2,6 +2,13 @@ module.exports = function Renderer() {
   var self = this;
 
   this.visit_feature = function(node, out) {
+    node.tags.forEach(function(tag, n) {
+      out += tag.name.value;
+    });
+    if(node.tags.length > 0) {
+      out += '\n';
+    }
+
     out += node.keyword.value + ' ' + node.name.value + '\n';
     node.description_lines.forEach(function(description_line) {
       out += '  ' + description_line.value + '\n';

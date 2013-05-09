@@ -2,13 +2,7 @@ module.exports = function Renderer() {
   var self = this;
 
   this.visit_feature = function(node, out) {
-    node.tags.forEach(function(tag, n) {
-      out += tag.name.value;
-    });
-    if(node.tags.length > 0) {
-      out += '\n';
-    }
-
+    out = render_tags(node.tags, out, '');
     out += node.keyword.value + ' ' + node.name.value + '\n';
     node.description_lines.forEach(function(description_line) {
       out += '  ' + description_line.value + '\n';
@@ -20,11 +14,25 @@ module.exports = function Renderer() {
     return out;
   };
 
-  function render_described_element(node, out, ind) {
-    out += '\n';
-    out += ind + node.keyword.value + ' ' + node.name.value + '\n';
+  function render_tags(tags, out, indent) {
+    tags.forEach(function(tag, n) {
+      if(n == 0) {
+        out += indent;
+      } else {
+        out += ' ';
+      }
+      out += tag.name.value;
+    });
+    if(tags.length > 0) {
+      out += '\n';
+    }
+    return out;
+  }
+
+  function render_described_element(node, out, indent) {
+    out += indent + node.keyword.value + ' ' + node.name.value + '\n';
     node.description_lines.forEach(function(description_line) {
-      out += ind + '  ' + description_line.value + '\n';
+      out += indent + '  ' + description_line.value + '\n';
     });
     if(node.description_lines.length > 0) {
       out += '\n';
@@ -41,11 +49,20 @@ module.exports = function Renderer() {
     return out;
   }
 
-  this.visit_background = render_feature_element;
+  this.visit_background = function(node, out) {
+    out += '\n';
+    return render_feature_element(node, out);
+  }
 
-  this.visit_scenario = render_feature_element;
+  this.visit_scenario = function(node, out) {
+    out += '\n';
+    out = render_tags(node.tags, out, '  ');
+    return render_feature_element(node, out);
+  }
 
   this.visit_scenario_outline = function(node, out) {
+    out += '\n';
+    out = render_tags(node.tags, out, '  ');
     out = render_feature_element(node, out);
     node.examples_list.forEach(function(examples) {
       out = self.render(examples, out);
@@ -54,6 +71,7 @@ module.exports = function Renderer() {
   }
 
   this.visit_examples = function(node, out) {
+    out += '\n';
     out = render_described_element(node, out, '    ');
     out = self.render(node.table, out);
     return out;

@@ -37,8 +37,8 @@ description_lines
 feature_elements
     :
         { $$ = []; }
-    | feature_elements tags feature_element
-        { $3.tags = $2; $1.push($3); }
+    | feature_elements feature_element
+        { $1.push($2); }
     ;
 
 feature_element
@@ -53,13 +53,13 @@ background
     ;
 
 scenario
-    : TOKEN_SCENARIO TOKEN_NAME description_lines steps
-        { $$ = new ast.Scenario([], new ast.Token($1), new ast.Token($2), $3, $4); }
+    : tags TOKEN_SCENARIO TOKEN_NAME description_lines steps
+        { $$ = new ast.Scenario($1, new ast.Token($2), new ast.Token($3), $4, $5); }
     ;
 
 scenario_outline
-    : TOKEN_SCENARIO_OUTLINE TOKEN_NAME description_lines steps examples_list
-        { $$ = new ast.ScenarioOutline([], new ast.Token($1), new ast.Token($2), $3, $4, $5); }
+    : tags TOKEN_SCENARIO_OUTLINE TOKEN_NAME description_lines steps examples_list
+        { $$ = new ast.ScenarioOutline($1, new ast.Token($2), new ast.Token($3), $4, $5, $6); }
     ;
 
 examples_list

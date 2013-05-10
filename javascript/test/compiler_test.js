@@ -25,7 +25,6 @@ describe('Compiler', function() {
     var units = new Compiler().compile(feature);
     assert.equal(3, units.length);
 
-    // TODO: assert.equal([???], units[0].steps[0].stack_frames)
     assert.equal('a background <n> step', units[1].steps[0].name.value);
     assert.equal('I have 20 cukes (20) in my belly', units[1].steps[1].name.value);
     assert.equal( 7, units[1].steps[1].name.locations[0].first_line);

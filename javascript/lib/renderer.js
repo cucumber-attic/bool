@@ -65,15 +65,10 @@ module.exports = function Renderer() {
     out = render_tags(node.tags, out, '  ');
     out = render_feature_element(node, out);
     node.examples_list.forEach(function(examples) {
-      out = examples.accept(self, out);
+      out += '\n';
+      out = render_described_element(examples, out, '    ');
+      out = examples.table.accept(self, out);
     });
-    return out;
-  }
-
-  this.visit_examples = function(node, out) {
-    out += '\n';
-    out = render_described_element(node, out, '    ');
-    out = node.table.accept(self, out);
     return out;
   }
 

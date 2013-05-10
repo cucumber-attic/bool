@@ -63,10 +63,6 @@ module.exports = {
     this.name              = name;
     this.description_lines = description_lines;
     this.table             = table;
-
-    this.accept = function(visitor, args) {
-      return visitor.visit_examples(this, args);
-    };
   },
 
   Step: function Step(keyword, name, multiline_arg) {

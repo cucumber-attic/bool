@@ -28,12 +28,8 @@ module.exports = function Compiler() {
   this.visit_scenario_outline = function(node, scenarios) {
     scenario_outline = node;
     node.examples_list.forEach(function(examples) {
-      examples.accept(self, scenarios);
+      examples.table.accept(self, scenarios);
     });
-  };
-
-  this.visit_examples = function(node, scenarios) {
-    node.table.accept(self, scenarios);
   };
 
   this.visit_table = function(node, scenarios) {

@@ -84,30 +84,18 @@ module.exports = function Renderer() {
     return out;
   };
 
+  function find_column_widths(table) {
+    col_widths = [];
+    table.cell_rows.forEach(function(cell_row) {
+      cell_row.cells.forEach(function(cell, col_index) {
+        col_widths[col_index] = Math.max(col_widths[col_index] || 0, cell.cell_value.value.length);
+      });
+    });
+    return col_widths;
+  }
+
   this.visit_table = function(node, out) {
-    var col_index;
-    // TODO: move out from here to make less cluttered
-    var width_finder = {
-      visit_table: function(node, col_widths) {
-        node.cell_rows.forEach(function(cell_row) {
-          return cell_row.accept(width_finder, col_widths);
-        });
-        return col_widths;
-      },
-
-      visit_cell_row: function(node, col_widths) {
-        node.cells.forEach(function(cell, i) {
-          col_index = i;
-          return cell.accept(width_finder, col_widths);
-        });
-        return col_widths;
-      },
-
-      visit_cell: function(node, col_widths) {
-        col_widths[col_index] = Math.max(col_widths[col_index] || 0, node.cell_value.value.length);
-      }
-    };
-    var col_widths = node.accept(width_finder, []);
+    var col_widths = find_column_widths(node);
 
     var out_and_col_widths = {out:out, col_widths:col_widths};
     node.cell_rows.forEach(function(cell_row) {

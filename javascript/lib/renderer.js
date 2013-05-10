@@ -44,7 +44,10 @@ module.exports = function Renderer() {
     out = render_described_element(node, out, '  ');
 
     node.steps.forEach(function(step) {
-      out = step.accept(self, out);
+      out += '    ' + step.keyword.value + step.name.value + '\n';
+      if(step.multiline_arg) {
+        out = step.multiline_arg.accept(self, out);
+      }
     });
     return out;
   }
@@ -71,14 +74,6 @@ module.exports = function Renderer() {
     });
     return out;
   }
-
-  this.visit_step = function(node, out) {
-    out += '    ' + node.keyword.value + node.name.value + '\n';
-    if(node.multiline_arg) {
-      out = node.multiline_arg.accept(self, out);
-    }
-    return out;
-  };
 
   this.visit_doc_string = function(node, out) {
     out += '      """\n';

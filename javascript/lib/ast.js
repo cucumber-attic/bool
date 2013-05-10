@@ -69,10 +69,6 @@ module.exports = {
     this.keyword       = keyword;
     this.name          = name;
     this.multiline_arg = multiline_arg;
-
-    this.accept = function(visitor, args) {
-      return visitor.visit_step(this, args);
-    };
   },
 
   DocString: function DocString(lines) {

@@ -6,7 +6,7 @@ var Compiler = require('../lib/compiler');
 
 describe('Compiler', function() {
   it('compiles background', function() {
-    var source = fs.readFileSync(path.join(__dirname, '../../testdata/with_background.feature'), 'UTF-8');
+    var source = fs.readFileSync(path.join(__dirname, '../../testdata/good/with_background.feature'), 'UTF-8');
     var feature = parser.parse(source);
     var units = new Compiler().compile(feature);
     assert.equal(2, units.length);
@@ -20,7 +20,7 @@ describe('Compiler', function() {
   });
 
   it('compiles scenario outline', function() {
-    var source = fs.readFileSync(path.join(__dirname, '../../testdata/with_scenario_outline.feature'), 'UTF-8');
+    var source = fs.readFileSync(path.join(__dirname, '../../testdata/good/with_scenario_outline.feature'), 'UTF-8');
     var feature = parser.parse(source);
     var units = new Compiler().compile(feature);
     assert.equal(3, units.length);

@@ -6,12 +6,12 @@ var parser = require('../lib').parser;
 var lexer = require('../lib/lexer');
 var Renderer = require('../lib/renderer');
 
-describe('Testdata', function() {
-  var dir = path.join(__dirname, '../../testdata');
+describe('Parser and renderer', function() {
+  var dir = path.join(__dirname, '../../testdata/good');
   fs.readdirSync(dir).forEach(function(f) {
-  	if(f.match(/\.feature$/)) {
+    if(f.match(/\.feature$/)) {
       var source = fs.readFileSync(path.join(dir, f), 'UTF-8');
-      it('parses ' + f, function() {
+      it('roundtrips ' + f, function() {
         var feature = parser.parse(source);
         var rendered = new Renderer().render(feature, "");
         if(false) {
@@ -36,7 +36,7 @@ describe('Testdata', function() {
           }
         }
       });
-*/
+      */
   	}
   });
 });

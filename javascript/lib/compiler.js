@@ -36,7 +36,7 @@ module.exports = function Compiler() {
     example_args = node.cell_rows[0].cells;
     node.cell_rows.slice(1).forEach(function(cell_row) {
       var steps = scenario_outline.steps.map(function(outline_step) {
-        step_name = outline_step.name.value;
+        var step_name = outline_step.name.value;
 
         // TODO: Make a function so it's easier to replace in multiline args as well.
         var cell_locations;

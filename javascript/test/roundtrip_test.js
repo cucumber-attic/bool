@@ -37,7 +37,7 @@ describe('Parser and renderer', function() {
           }
         });
       }
-  	}
+    }
   });
 });
 

@@ -1,7 +1,7 @@
 module.exports = function Renderer() {
   var self = this;
 
-  this.visit_feature = function(node, out) {
+  this.render = function(node, out) {
     out = render_tags(node.tags, out, '');
     out += node.keyword.value + ' ' + node.name.value + '\n';
     node.description_lines.forEach(function(description_line) {
@@ -9,7 +9,7 @@ module.exports = function Renderer() {
     });
 
     node.feature_elements.forEach(function(feature_element) {
-      out = self.render(feature_element, out);
+      out = feature_element.accept(self, out);
     });
     return out;
   };
@@ -44,7 +44,7 @@ module.exports = function Renderer() {
     out = render_described_element(node, out, '  ');
 
     node.steps.forEach(function(step) {
-      out = self.render(step, out);
+      out = step.accept(self, out);
     });
     return out;
   }
@@ -65,7 +65,7 @@ module.exports = function Renderer() {
     out = render_tags(node.tags, out, '  ');
     out = render_feature_element(node, out);
     node.examples_list.forEach(function(examples) {
-      out = self.render(examples, out);
+      out = examples.accept(self, out);
     });
     return out;
   }
@@ -73,14 +73,14 @@ module.exports = function Renderer() {
   this.visit_examples = function(node, out) {
     out += '\n';
     out = render_described_element(node, out, '    ');
-    out = self.render(node.table, out);
+    out = node.table.accept(self, out);
     return out;
   }
 
   this.visit_step = function(node, out) {
     out += '    ' + node.keyword.value + node.name.value + '\n';
     if(node.multiline_arg) {
-      out = self.render(node.multiline_arg, out);
+      out = node.multiline_arg.accept(self, out);
     }
     return out;
   };
@@ -151,9 +151,5 @@ module.exports = function Renderer() {
     }
 
     return out_and_col_width.out;
-  };
-
-  this.render = function(node, out) {
-    return node.accept(self, out);
   };
 };

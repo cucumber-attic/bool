@@ -6,7 +6,7 @@ module.exports = function Compiler() {
   var scenario_outline;
   var example_args;
 
-  this.visit_feature = function(node) {
+  this.compile = function(node) {
     background_steps = [];
 
     var scenarios = [];
@@ -61,9 +61,5 @@ module.exports = function Compiler() {
     });
     var scenario = new ast.Scenario(scenario_outline.tags, scenario_outline.keyword, scenario_outline.name, scenario_outline.description_lines, background_steps.concat(steps));
     scenarios.push(scenario);
-  };
-
-  this.compile = function(node) {
-    return node.accept(self);
   };
 };

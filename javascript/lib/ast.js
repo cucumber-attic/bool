@@ -19,10 +19,6 @@ module.exports = {
     this.name              = name;
     this.description_lines = description_lines;
     this.feature_elements  = feature_elements;
-
-    this.accept = function(visitor, args) {
-      return visitor.visit_feature(this, args);
-    };
   },
 
   Background: function Background(keyword, name, description_lines, steps) {

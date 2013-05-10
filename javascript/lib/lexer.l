@@ -28,7 +28,7 @@
                                                         }
 '|'                                                     { this.begin('CELL'); return 'TOKEN_PIPE'; }
 <CELL>[^\|\u000A]+                                      { return 'TOKEN_CELL'; }
-<CELL>'|'                                               { return 'TOKEN_PIPE'; }
+<CELL>'|'\u0020*                                         { return 'TOKEN_PIPE'; }
 <CELL>\u000A                                            { this.popState(); return 'TOKEN_EOL'; }
 .+													                            { return 'TOKEN_DESCRIPTION_LINE'; }
 <AFTER_KEYWORD>\u0020*                                  { /* skip whitespace after keyword */ this.begin('NAME'); }

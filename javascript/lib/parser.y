@@ -23,15 +23,15 @@ tag
     ;
 
 feature
-  	: tags TOKEN_FEATURE TOKEN_NAME description_lines feature_elements
-    	{ $$ = new ast.Feature($1, new ast.Token($2, [@2]), new ast.Token($3, [@3]), $4, $5); }
-  	;
+    : tags TOKEN_FEATURE TOKEN_NAME description_lines feature_elements
+        { $$ = new ast.Feature($1, new ast.Token($2, [@2]), new ast.Token($3, [@3]), $4, $5); }
+    ;
 
 description_lines
     :
-      	{ $$ = []; }
+        { $$ = []; }
     | description_lines TOKEN_DESCRIPTION_LINE
-      	{ $1.push(new ast.Token($2, [@2])); }
+        { $1.push(new ast.Token($2, [@2])); }
     ;
 
 feature_elements
@@ -75,24 +75,24 @@ examples
     ;
 
 steps
-	:
+    :
         { $$ = []; }
     | steps step
         { $1.push($2); }
     ;
 
 step
-  	: TOKEN_STEP TOKEN_NAME multiline_arg
+      : TOKEN_STEP TOKEN_NAME multiline_arg
         { $$ = new ast.Step(new ast.Token($1, [@1]), new ast.Token($2, [@2]), $3); }
-  	;
+      ;
 
 multiline_arg
-  	:
+      :
     | doc_string_lines
         { $$ = new ast.DocString($1); }
     | table
         { $$ = new ast.Table($1); }
-  	;
+      ;
 
 doc_string_lines
     : doc_string_lines doc_string_line

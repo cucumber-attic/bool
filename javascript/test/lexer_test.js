@@ -122,8 +122,7 @@ describe('Lexer', function() {
     assert.deepEqual([ 'TOKEN_CELL', 'foo' ], lex());
     assert.deepEqual([ 'TOKEN_PIPE', '|' ], lex());
     assert.deepEqual([ 'TOKEN_CELL', 'bar' ], lex());
-    assert.deepEqual([ 'TOKEN_PIPE', '|' ], lex());
-    assert.deepEqual([ 'TOKEN_CELL', '  ' ], lex());
+    assert.deepEqual([ 'TOKEN_PIPE', '|  ' ], lex());
     assert.deepEqual([ 'TOKEN_EOL', '\n' ], lex());
   });
 
@@ -141,13 +140,12 @@ describe('Lexer', function() {
 
     assert.deepEqual([ 'TOKEN_PIPE', '|' ], lex());
     assert.deepEqual([ 'TOKEN_CELL', ' aaa ' ], lex());
-    assert.deepEqual([ 'TOKEN_PIPE', '|' ], lex());
-    assert.deepEqual([ 'TOKEN_CELL', ' ' ], lex());
+    assert.deepEqual([ 'TOKEN_PIPE', '| ' ], lex());
     assert.deepEqual([ 'TOKEN_PIPE', '|' ], lex());
     assert.deepEqual([ 'TOKEN_EOL', '\n' ], lex());
     assert.deepEqual([ 'TOKEN_PIPE', '|' ], lex());
-    assert.deepEqual([ 'TOKEN_PIPE', '|' ], lex());
-    assert.deepEqual([ 'TOKEN_CELL', ' ddd ' ], lex());
+    assert.deepEqual([ 'TOKEN_PIPE', '| ' ], lex());
+    assert.deepEqual([ 'TOKEN_CELL', 'ddd ' ], lex());
     assert.deepEqual([ 'TOKEN_PIPE', '|' ], lex());
     assert.deepEqual([ 'TOKEN_EOL', '\n' ], lex());
   });

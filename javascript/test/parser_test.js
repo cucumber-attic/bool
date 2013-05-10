@@ -1,6 +1,28 @@
 var parser = require('../lib').parser;
 var Evaluator = require('../lib/evaluator');
 var assert = require('assert');
+var Renderer = require('../lib/renderer');
+
+describe('Parser', function() {
+  it('parses a table with trailing spaces', function() {
+    var feature = parser.parse(
+      "Feature: a\n" +
+      "  Scenario: b\n" +
+      "    Given c\n" +
+      "      |d|e|  \n" +
+      "      |f|g|  \n\n"
+    );
+    var rendered = new Renderer().render(feature, "");
+    assert.equal(rendered,
+      "Feature: a\n" +
+      "\n" +
+      "  Scenario: b\n" +
+      "    Given c\n" +
+      "      | d | e |\n" +
+      "      | f | g |\n"
+    );
+  });
+});
 
 /*
 describe('Bool', function() {

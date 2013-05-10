@@ -1,14 +1,14 @@
 module.exports = function Renderer() {
   var self = this;
 
-  this.render = function(node, out) {
-    out = render_tags(node.tags, out, '');
-    out += node.keyword.value + ' ' + node.name.value + '\n';
-    node.description_lines.forEach(function(description_line) {
+  this.render = function(feature, out) {
+    out = render_tags(feature.tags, out, '');
+    out += feature.keyword.value + ' ' + feature.name.value + '\n';
+    feature.description_lines.forEach(function(description_line) {
       out += '  ' + description_line.value + '\n';
     });
 
-    node.feature_elements.forEach(function(feature_element) {
+    feature.feature_elements.forEach(function(feature_element) {
       out = feature_element.accept(self, out);
     });
     return out;
@@ -52,22 +52,22 @@ module.exports = function Renderer() {
     return out;
   }
 
-  this.visit_background = function(node, out) {
+  this.visit_background = function(background, out) {
     out += '\n';
-    return render_feature_element(node, out);
+    return render_feature_element(background, out);
   }
 
-  this.visit_scenario = function(node, out) {
+  this.visit_scenario = function(scenario, out) {
     out += '\n';
-    out = render_tags(node.tags, out, '  ');
-    return render_feature_element(node, out);
+    out = render_tags(scenario.tags, out, '  ');
+    return render_feature_element(scenario, out);
   }
 
-  this.visit_scenario_outline = function(node, out) {
+  this.visit_scenario_outline = function(scenario_outline, out) {
     out += '\n';
-    out = render_tags(node.tags, out, '  ');
-    out = render_feature_element(node, out);
-    node.examples_list.forEach(function(examples) {
+    out = render_tags(scenario_outline.tags, out, '  ');
+    out = render_feature_element(scenario_outline, out);
+    scenario_outline.examples_list.forEach(function(examples) {
       out += '\n';
       out = render_described_element(examples, out, '    ');
       out = examples.table.accept(self, out);
@@ -75,20 +75,20 @@ module.exports = function Renderer() {
     return out;
   }
 
-  this.visit_doc_string = function(node, out) {
+  this.visit_doc_string = function(doc_string, out) {
     out += '      """\n';
-    node.lines.forEach(function(line) {
+    doc_string.lines.forEach(function(line) {
       out += line.value;
     });
     out += '      """\n';
     return out;
   };
 
-  this.visit_table = function(node, out) {
-    var col_widths = find_column_widths(node);
+  this.visit_table = function(table, out) {
+    var col_widths = find_column_widths(table);
 
     //var out_and_col_widths = {out:out, col_widths:col_widths};
-    node.cell_rows.forEach(function(cell_row) {
+    table.cell_rows.forEach(function(cell_row) {
       out += '     ';
       cell_row.cells.forEach(function(cell, col_index) {
         var pad_width = col_widths[col_index] - cell.cell_value.value.length;

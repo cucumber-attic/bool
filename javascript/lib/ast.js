@@ -81,19 +81,20 @@ module.exports = {
     };
   },
 
-  Cell: function Cell(cell_value) {
-    this.cell_value = cell_value;
-  },
-
-  CellRow: function CellRow(cells) {
-    this.cells = cells;
-  },
-
   Table: function Table(cell_rows) {
     this.cell_rows = cell_rows;
 
     this.accept = function(visitor, args) {
       return visitor.visit_table(this, args);
     };
+  },
+
+  CellRow: function CellRow(cells) {
+    this.cells = cells;
+  },
+
+  Cell: function Cell(cell_value) {
+    this.cell_value = cell_value;
   }
+
 };

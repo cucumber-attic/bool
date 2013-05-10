@@ -11,8 +11,8 @@
 [ ] Examples with table containing only header
 [ ] Scenario Outline with step args not in table
 [ ] Scenario Outline with table args not in step
-[n] Stack frames from Scenario Outline
-[ ] Stack frames from Background
+[x] Stack frames from Scenario Outline
+[x] Stack frames from Background
 [ ] Back references in compiled nodes
 [ ] DocStrings and descriptions: Must verify in unit test that the AST nodes strip away indentation left of first line start
 [ ] Lex/parse DocStrings and Descriptions in a more similar fashion. Perhaps line by line is simpler and will solve hanging regexp problem?

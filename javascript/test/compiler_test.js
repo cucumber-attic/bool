@@ -11,8 +11,12 @@ describe('Compiler', function() {
     var units = new Compiler().compile(feature);
     assert.equal(2, units.length);
     assert.equal(2, units[0].steps.length);
+
     assert.equal('a background step', units[0].steps[0].name.value);
+    assert.equal(4, units[0].steps[0].name.locations[0].first_line);
+
     assert.equal('I have 3 more cukes in my belly', units[0].steps[1].name.value);
+    assert.equal(7, units[0].steps[1].name.locations[0].first_line);
   });
 
   it('compiles scenario outline', function() {

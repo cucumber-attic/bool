@@ -23,7 +23,7 @@
 [x] All tokens should have location info. Good cross platform tests for this!
 [x] Descriptionlines should be tokens. Everything should be!
 [ ] Scenario Outline after DocString causes lexer to hang on regexp match. See example below.
-
+[ ] API docs for compiler output, essentially attributes and location info.
 
 ### Infinite loop!
 '\n      Look\n      Ma\n      DocString\n      """\n\n  Scenario Outline: World\n    Given I have <m> cukes (<m>) in my belly\n    When I eat <m> cukes\n    Then I should have <n> cukes in my belly\n\n    Examples: a few\n      | m   | n   |\n      |   1 |   2 |\n      |  20 |  40 |\n      | 300 | 600 |\n'

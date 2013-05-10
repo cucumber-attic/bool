@@ -33,4 +33,4 @@
 
 ## Bugs
 - [x] Scenario Outline after DocString causes lexer to hang on regexp match.
-- [ ] Table with trailing space crashes
+- [x] Table with trailing space crashes

@@ -18,10 +18,14 @@
 'Examples:'                                             { this.begin('AFTER_KEYWORD'); return 'TOKEN_EXAMPLES'; }
 'Given\u0020'|'When\u0020'|'Then\u0020'|'And\u0020'|'But\u0020'
                                                         { this.begin('AFTER_KEYWORD'); return 'TOKEN_STEP'; }
-'"""'[ \t]*                                             { this.begin('DOC_STRING'); return 'TOKEN_TREBLE_QUOTE'; }
-<DOC_STRING>(.|\s)+(?=\n\s*\"\"\")                      { return 'TOKEN_DOC_STRING'; }
-<DOC_STRING>\n\s*'"""'                                  { this.popState(); return 'TOKEN_TREBLE_QUOTE'; }
-
+'"""'[ \t]*\u000A                                       { this.begin('DOC_STRING'); }
+<DOC_STRING>.+\u000A                                    { 
+                                                            if(yytext.indexOf('"""') == -1) {
+                                                              return 'TOKEN_DOC_STRING_LINE';
+                                                            } else {
+                                                              this.popState();
+                                                            }
+                                                        }
 '|'                                                     { this.begin('CELL'); return 'TOKEN_PIPE'; }
 <CELL>[^\|\u000A]+                                      { return 'TOKEN_CELL'; }
 <CELL>'|'                                               { return 'TOKEN_PIPE'; }

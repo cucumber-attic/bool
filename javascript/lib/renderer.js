@@ -87,7 +87,9 @@ module.exports = function Renderer() {
 
   this.visit_doc_string = function(node, out) {
     out += '      """\n';
-    out += node.string.value + '\n';
+    node.lines.forEach(function(line) {
+      out += line.value;
+    });
     out += '      """\n';
     return out;
   };

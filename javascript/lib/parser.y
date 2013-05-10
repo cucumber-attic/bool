@@ -88,18 +88,23 @@ step
 
 multiline_arg
   	:
-    | doc_string
+    | doc_string_lines
+        { $$ = new ast.DocString($1); }
     | table
         { $$ = new ast.Table($1); }
   	;
 
-doc_string
-	: TOKEN_TREBLE_QUOTE TOKEN_DOC_STRING TOKEN_TREBLE_QUOTE
-		{
-            var string = $2.substr($2.indexOf('\n')+1);
-            $$ = new ast.DocString(new ast.Token(string, [@2]));
-        }
-	;
+doc_string_lines
+    : doc_string_lines doc_string_line
+        { $1.push($2); }
+    | doc_string_line
+        { $$ = [$1]; }
+    ;
+
+doc_string_line
+    : TOKEN_DOC_STRING_LINE
+        { $$ = new ast.Token($1, [@1]); }
+    ;
 
 table
     : table cell_row

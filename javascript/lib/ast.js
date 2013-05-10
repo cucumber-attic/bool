@@ -83,8 +83,8 @@ module.exports = {
     };
   },
 
-  DocString: function DocString(string) {
-    this.string = string;
+  DocString: function DocString(lines) {
+    this.lines = lines;
 
     this.accept = function(visitor, args) {
       return visitor.visit_doc_string(this, args);

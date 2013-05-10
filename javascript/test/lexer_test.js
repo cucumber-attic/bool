@@ -1,9 +1,8 @@
 var assert = require('assert');
 var lexer = require('../lib/lexer');
 // Install our own parseError function that doesn't depend on the parser.
-var SyntaxError = require('../lib/syntax_error');
-lexer.parseError = function(message, hash){
-  throw new SyntaxError(message, hash);
+lexer.parseError = function(message, hash) {
+  throw new Error(message);
 };
 
 function lex() {
@@ -101,11 +100,19 @@ describe('Lexer', function() {
     lexer.setInput("  \"\"\"  \n" +
                    "  This is\n" +
                    "   a DocString\n" +
-                   "  \"\"\"\n");
+                   "  \"\"\"\n" +
+                   "Given something\n" +
+                   "  \"\"\"  \n" +
+                   "  The next\n" +
+                   "DocString\n" +
+                   "  \"\"\"\n"
+                   );
 
-    assert.deepEqual([ 'TOKEN_TREBLE_QUOTE', '"""  ' ], lex());
-    assert.deepEqual([ 'TOKEN_DOC_STRING', '\n  This is\n   a DocString' ], lex());
-    assert.deepEqual([ 'TOKEN_TREBLE_QUOTE', '\n  """' ], lex());
+    assert.deepEqual([ 'TOKEN_DOC_STRING_LINE', "  This is\n" ], lex());
+    assert.deepEqual([ 'TOKEN_DOC_STRING_LINE', "   a DocString\n" ], lex());      
+    assert.deepEqual([ 'TOKEN_STEP', "Given " ], lex());
+    assert.deepEqual([ 'TOKEN_NAME', "something" ], lex());
+    assert.deepEqual([ 'TOKEN_DOC_STRING_LINE', "  The next\n" ], lex());
   });
 
   it ('lexes cells', function() {

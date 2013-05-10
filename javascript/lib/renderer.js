@@ -84,6 +84,30 @@ module.exports = function Renderer() {
     return out;
   };
 
+  this.visit_table = function(node, out) {
+    var col_widths = find_column_widths(node);
+
+    //var out_and_col_widths = {out:out, col_widths:col_widths};
+    node.cell_rows.forEach(function(cell_row) {
+      out += '     ';
+      cell_row.cells.forEach(function(cell, col_index) {
+        var pad_width = col_widths[col_index] - cell.cell_value.value.length;
+        var padding = "";
+        for (var i = 0; i < pad_width; i++) {
+          padding += ' ';
+        }
+        out += ' | ';
+        if(cell.cell_value.value.match(/\d+/)) {
+          out += padding + cell.cell_value.value;
+        } else {
+          out += cell.cell_value.value + padding;
+        }
+      });
+      out += ' |\n';
+    });
+    return out;
+  };
+
   function find_column_widths(table) {
     col_widths = [];
     table.cell_rows.forEach(function(cell_row) {
@@ -94,41 +118,4 @@ module.exports = function Renderer() {
     return col_widths;
   }
 
-  this.visit_table = function(node, out) {
-    var col_widths = find_column_widths(node);
-
-    var out_and_col_widths = {out:out, col_widths:col_widths};
-    node.cell_rows.forEach(function(cell_row) {
-      out = render_cell_row(cell_row, out_and_col_widths);
-    });
-
-    return out;
-  };
-
-  function render_cell_row(cell_row, out_and_col_widths) {
-    out_and_col_widths.out += '     ';
-    cell_row.cells.forEach(function(cell, col_index) {
-      arg = {out:out_and_col_widths.out, col_width:out_and_col_widths.col_widths[col_index]};
-      out_and_col_widths.out = render_cell(cell, arg);
-    });
-    out_and_col_widths.out += ' |\n';
-
-    return out_and_col_widths.out;
-  };
-
-  function render_cell(cell, out_and_col_width) {
-    var pad_width = out_and_col_width.col_width - cell.cell_value.value.length;
-    var padding = "";
-    for (var i = 0; i < pad_width; i++) {
-      padding += ' ';
-    }
-    out_and_col_width.out += ' | ';
-    if(cell.cell_value.value.match(/\d+/)) {
-      out_and_col_width.out += padding + cell.cell_value.value;
-    } else {
-      out_and_col_width.out += cell.cell_value.value + padding;
-    }
-
-    return out_and_col_width.out;
-  };
 };

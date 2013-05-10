@@ -19,19 +19,19 @@ tags
 
 tag
     : TOKEN_TAG
-        { $$ = new ast.Tag(new ast.Token($1)); }
+        { $$ = new ast.Tag(new ast.Token($1, [@1])); }
     ;
 
 feature
   	: tags TOKEN_FEATURE TOKEN_NAME description_lines feature_elements
-    	{ $$ = new ast.Feature($1, new ast.Token($2), new ast.Token($3), $4, $5); }
+    	{ $$ = new ast.Feature($1, new ast.Token($2, [@2]), new ast.Token($3, [@3]), $4, $5); }
   	;
 
 description_lines
     :
       	{ $$ = []; }
     | description_lines TOKEN_DESCRIPTION_LINE
-      	{ $1.push(new ast.Token($2)); }
+      	{ $1.push(new ast.Token($2, [@2])); }
     ;
 
 feature_elements
@@ -49,17 +49,17 @@ feature_element
 
 background
     : TOKEN_BACKGROUND TOKEN_NAME description_lines steps
-        { $$ = new ast.Background(new ast.Token($1), new ast.Token($2), $3, $4); }
+        { $$ = new ast.Background(new ast.Token($1, [@1]), new ast.Token($2, [@2]), $3, $4); }
     ;
 
 scenario
     : tags TOKEN_SCENARIO TOKEN_NAME description_lines steps
-        { $$ = new ast.Scenario($1, new ast.Token($2), new ast.Token($3), $4, $5); }
+        { $$ = new ast.Scenario($1, new ast.Token($2, [@2]), new ast.Token($3, [@3]), $4, $5); }
     ;
 
 scenario_outline
     : tags TOKEN_SCENARIO_OUTLINE TOKEN_NAME description_lines steps examples_list
-        { $$ = new ast.ScenarioOutline($1, new ast.Token($2), new ast.Token($3), $4, $5, $6); }
+        { $$ = new ast.ScenarioOutline($1, new ast.Token($2, [@2]), new ast.Token($3, [@3]), $4, $5, $6); }
     ;
 
 examples_list
@@ -71,7 +71,7 @@ examples_list
 
 examples
     : TOKEN_EXAMPLES TOKEN_NAME description_lines table
-        { $$ = new ast.Examples([], new ast.Token($1), new ast.Token($2), $3, new ast.Table($4)); }
+        { $$ = new ast.Examples([], new ast.Token($1, [@1]), new ast.Token($2, [@2]), $3, new ast.Table($4)); }
     ;
 
 steps
@@ -83,7 +83,7 @@ steps
 
 step
   	: TOKEN_STEP TOKEN_NAME multiline_arg
-        { $$ = new ast.Step(new ast.Token($1), new ast.Token($2), $3); }
+        { $$ = new ast.Step(new ast.Token($1, [@1]), new ast.Token($2, [@2]), $3); }
   	;
 
 multiline_arg
@@ -97,7 +97,7 @@ doc_string
 	: TOKEN_TREBLE_QUOTE TOKEN_DOC_STRING TOKEN_TREBLE_QUOTE
 		{
             var string = $2.substr($2.indexOf('\n')+1);
-            $$ = new ast.DocString(new ast.Token(string));
+            $$ = new ast.DocString(new ast.Token(string, [@2]));
         }
 	;
 
@@ -123,12 +123,12 @@ cells
 cell
     : TOKEN_PIPE TOKEN_CELL
         {
-            var cell_value = new ast.Token($2.trim());
+            var cell_value = new ast.Token($2.trim(), [@2]);
             $$ = new ast.Cell(cell_value);
         }
     | TOKEN_PIPE TOKEN_PIPE
         {
-            var cell_value = new ast.Token('');
+            var cell_value = new ast.Token('', [@2]);
             $$ = new ast.Cell(cell_value);
         }
     ;

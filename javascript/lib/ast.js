@@ -1,8 +1,12 @@
 module.exports = {
   // TODO: Store line and columns as well so we can indent descriptions
 
-  Token: function Token(value) {
+  Token: function Token(value, locations) {
     this.value = value;
+    this.locations   = locations;
+    if(locations == undefined) throw new Error('Missing locations');
+    if(!Array.isArray(locations)) throw new Error('locations is not Array');
+    if(typeof(locations[0].first_line) != 'number') throw new Error('locations[0] is not Map of int');
   },
 
   Tag: function Tag(name) {

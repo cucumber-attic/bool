@@ -48,10 +48,16 @@ module.exports = function Compiler() {
       step_name = outline_step.name.value;
 
       // TODO: Make a function so it's easier to replace in multiline args as well.
+      var cell_locations;
       example_args.forEach(function(arg, n) {
         step_name = step_name.replace(new RegExp('<' + arg.cell_value.value + '>', 'g'), node.cells[n].cell_value.value);
+        cell_locations = node.cells[n].cell_value.locations;
       });
-      return new ast.Step(new ast.Token(outline_step.keyword), new ast.Token(step_name));
+      var keyword_locations = outline_step.keyword.locations.concat(cell_locations);
+      var name_locations    = outline_step.name.locations.concat(cell_locations);
+      var keyword_token = new ast.Token(outline_step.keyword.value, keyword_locations);
+      var name_token = new ast.Token(step_name, name_locations);
+      return new ast.Step(keyword_token, name_token);
     });
     var scenario = new ast.Scenario(scenario_outline.tags, scenario_outline.keyword, scenario_outline.name, scenario_outline.description_lines, background_steps.concat(steps));
     scenarios.push(scenario);

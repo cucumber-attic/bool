@@ -11,7 +11,7 @@
 [ ] Examples with table containing only header
 [ ] Scenario Outline with step args not in table
 [ ] Scenario Outline with table args not in step
-[ ] Stack frames from Scenario Outline
+[n] Stack frames from Scenario Outline
 [ ] Stack frames from Background
 [ ] Back references in compiled nodes
 [ ] DocStrings and descriptions: Must verify in unit test that the AST nodes strip away indentation left of first line start
@@ -20,7 +20,7 @@
 [ ] Consider internal iteration for visitors. Do this after writing the compiler. It might simplify the code a lot.
 [x] Tags
 [ ] Filters
-[ ] All tokens should have location info. Good cross platform tests for this!
+[x] All tokens should have location info. Good cross platform tests for this!
 [x] Descriptionlines should be tokens. Everything should be!
 [ ] Scenario Outline after DocString causes lexer to hang on regexp match. See example below.
 

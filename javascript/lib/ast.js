@@ -83,10 +83,6 @@ module.exports = {
 
   Cell: function Cell(cell_value) {
     this.cell_value = cell_value;
-
-    this.accept = function(visitor, args) {
-      return visitor.visit_cell(this, args);
-    };
   },
 
   CellRow: function CellRow(cells) {

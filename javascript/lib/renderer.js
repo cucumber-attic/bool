@@ -99,33 +99,34 @@ module.exports = function Renderer() {
 
     var out_and_col_widths = {out:out, col_widths:col_widths};
     node.cell_rows.forEach(function(cell_row) {
-      out = cell_row.accept(self, out_and_col_widths);
+      out = render_cell_row(cell_row, out_and_col_widths);
     });
 
     return out;
   };
 
-  this.visit_cell_row = function(node, out_and_col_widths) {
+  function render_cell_row(cell_row, out_and_col_widths) {
     out_and_col_widths.out += '     ';
-    node.cells.forEach(function(cell, col_index) {
-      out_and_col_widths.out = cell.accept(self, {out:out_and_col_widths.out, col_width:out_and_col_widths.col_widths[col_index]});
+    cell_row.cells.forEach(function(cell, col_index) {
+      arg = {out:out_and_col_widths.out, col_width:out_and_col_widths.col_widths[col_index]};
+      out_and_col_widths.out = render_cell(cell, arg);
     });
     out_and_col_widths.out += ' |\n';
 
     return out_and_col_widths.out;
   };
 
-  this.visit_cell = function(node, out_and_col_width) {
-    var pad_width = out_and_col_width.col_width - node.cell_value.value.length;
+  function render_cell(cell, out_and_col_width) {
+    var pad_width = out_and_col_width.col_width - cell.cell_value.value.length;
     var padding = "";
     for (var i = 0; i < pad_width; i++) {
       padding += ' ';
     }
     out_and_col_width.out += ' | ';
-    if(node.cell_value.value.match(/\d+/)) {
-      out_and_col_width.out += padding + node.cell_value.value;
+    if(cell.cell_value.value.match(/\d+/)) {
+      out_and_col_width.out += padding + cell.cell_value.value;
     } else {
-      out_and_col_width.out += node.cell_value.value + padding;
+      out_and_col_width.out += cell.cell_value.value + padding;
     }
 
     return out_and_col_width.out;

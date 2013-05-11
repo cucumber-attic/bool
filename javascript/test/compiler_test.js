@@ -26,9 +26,19 @@ describe('Compiler', function() {
     assert.equal(3, units.length);
 
     assert.equal('a background <n> step', units[1].steps[0].name.value);
-    assert.equal('I have 20 cukes (20) in my belly', units[1].steps[1].name.value);
-    assert.equal( 7, units[1].steps[1].name.locations[0].first_line);
-    assert.equal(14, units[1].steps[1].name.locations[1].first_line);
+
+    step_1_1_name = units[1].steps[1].name;
+    assert.equal('I have 20 cukes (20) in my belly', step_1_1_name.value);
+    assert.equal( 7, step_1_1_name.locations[0].first_line);
+    assert.equal(19, step_1_1_name.locations[1].first_line);
+
+    step_1_1_docstring = units[1].steps[1].multiline_arg;
+    var expected_doc_string = 
+      "      A doc\n" +
+      "      string 40 gets\n" +
+      "      variables 20 replaced\n";
+    assert.equal(expected_doc_string, step_1_1_docstring.string());
+
     assert.equal('I eat 20 cukes', units[1].steps[2].name.value);
     assert.equal('I should have 40 cukes in my belly', units[1].steps[3].name.value);
   });

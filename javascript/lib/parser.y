@@ -82,12 +82,12 @@ steps
     ;
 
 step
-      : TOKEN_STEP TOKEN_NAME multiline_arg
+    : TOKEN_STEP TOKEN_NAME multiline_arg
         { $$ = new ast.Step(new ast.Token($1, [@1]), new ast.Token($2, [@2]), $3); }
-      ;
+    ;
 
 multiline_arg
-      :
+    :
     | doc_string_lines
         { $$ = new ast.DocString($1); }
     | table

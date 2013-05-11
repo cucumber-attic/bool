@@ -76,6 +76,12 @@ module.exports = {
   DocString: function DocString(lines) {
     this.lines = lines;
 
+    this.string = function() {
+      return lines.map(function(line) {
+        return line.value;
+      }).join('');
+    };
+
     this.accept = function(visitor, args) {
       return visitor.visit_doc_string(this, args);
     };

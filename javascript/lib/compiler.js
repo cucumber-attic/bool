@@ -36,22 +36,33 @@ module.exports = function Compiler() {
     arg_names = node.rows[0];
     node.rows.slice(1).forEach(function(row) {
       var steps = scenario_outline.steps.map(function(outline_step) {
-        var step_name = outline_step.name.value;
+        var locations = outline_step.keyword.locations.concat(row[0].locations);
 
-        // TODO: Make a function so it's easier to replace in multiline args as well.
-        var cell_locations;
-        arg_names.forEach(function(arg_name, n) {
-          step_name = step_name.replace(new RegExp('<' + arg_name.value + '>', 'g'), row[n].value);
-          cell_locations = row[n].locations;
-        });
-        var keyword_locations = outline_step.keyword.locations.concat(cell_locations);
-        var name_locations    = outline_step.name.locations.concat(cell_locations);
-        var keyword_token = new ast.Token(outline_step.keyword.value, keyword_locations);
-        var name_token = new ast.Token(step_name, name_locations);
-        return new ast.Step(keyword_token, name_token);
+        var step_name = replace(arg_names, row, outline_step.name.value);
+        var multiline_arg = null;
+        if(outline_step.multiline_arg) {
+          var replace_visitor = {
+            visit_doc_string: function(doc_string, args) {
+              var doc_string_value = replace(arg_names, row, doc_string.string());
+              return new ast.DocString([new ast.Token(doc_string_value, locations)]);
+            }
+          }
+          multiline_arg = outline_step.multiline_arg.accept(replace_visitor);
+        }
+
+        var keyword_token = new ast.Token(outline_step.keyword.value, locations);
+        var name_token = new ast.Token(step_name, locations);
+        return new ast.Step(keyword_token, name_token, multiline_arg);
       });
       var scenario = new ast.Scenario(scenario_outline.tags, scenario_outline.keyword, scenario_outline.name, scenario_outline.description_lines, background_steps.concat(steps));
       scenarios.push(scenario);
     });
   };
+
+  function replace(arg_names, arg_values, s) {
+    arg_names.forEach(function(arg_name, arg_index) {
+      s = s.replace(new RegExp('<' + arg_name.value + '>', 'g'), arg_values[arg_index].value);
+    });
+    return s;
+  }
 };

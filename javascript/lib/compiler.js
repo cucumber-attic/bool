@@ -33,16 +33,16 @@ module.exports = function Compiler() {
   };
 
   this.visit_table = function(node, scenarios) {
-    example_args = node.cell_rows[0].cells;
-    node.cell_rows.slice(1).forEach(function(cell_row) {
+    arg_names = node.rows[0];
+    node.rows.slice(1).forEach(function(row) {
       var steps = scenario_outline.steps.map(function(outline_step) {
         var step_name = outline_step.name.value;
 
         // TODO: Make a function so it's easier to replace in multiline args as well.
         var cell_locations;
-        example_args.forEach(function(arg, n) {
-          step_name = step_name.replace(new RegExp('<' + arg.cell_value.value + '>', 'g'), cell_row.cells[n].cell_value.value);
-          cell_locations = cell_row.cells[n].cell_value.locations;
+        arg_names.forEach(function(arg_name, n) {
+          step_name = step_name.replace(new RegExp('<' + arg_name.value + '>', 'g'), row[n].value);
+          cell_locations = row[n].locations;
         });
         var keyword_locations = outline_step.keyword.locations.concat(cell_locations);
         var name_locations    = outline_step.name.locations.concat(cell_locations);

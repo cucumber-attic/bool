@@ -88,19 +88,19 @@ module.exports = function Renderer() {
     var col_widths = find_column_widths(table);
 
     //var out_and_col_widths = {out:out, col_widths:col_widths};
-    table.cell_rows.forEach(function(cell_row) {
+    table.rows.forEach(function(row) {
       out += '     ';
-      cell_row.cells.forEach(function(cell, col_index) {
-        var pad_width = col_widths[col_index] - cell.cell_value.value.length;
+      row.forEach(function(cell, col_index) {
+        var pad_width = col_widths[col_index] - cell.value.length;
         var padding = "";
         for (var i = 0; i < pad_width; i++) {
           padding += ' ';
         }
         out += ' | ';
-        if(cell.cell_value.value.match(/\d+/)) {
-          out += padding + cell.cell_value.value;
+        if(cell.value.match(/\d+/)) {
+          out += padding + cell.value;
         } else {
-          out += cell.cell_value.value + padding;
+          out += cell.value + padding;
         }
       });
       out += ' |\n';
@@ -110,9 +110,9 @@ module.exports = function Renderer() {
 
   function find_column_widths(table) {
     col_widths = [];
-    table.cell_rows.forEach(function(cell_row) {
-      cell_row.cells.forEach(function(cell, col_index) {
-        col_widths[col_index] = Math.max(col_widths[col_index] || 0, cell.cell_value.value.length);
+    table.rows.forEach(function(row) {
+      row.forEach(function(cell, col_index) {
+        col_widths[col_index] = Math.max(col_widths[col_index] || 0, cell.value.length);
       });
     });
     return col_widths;

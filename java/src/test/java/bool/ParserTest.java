@@ -1,5 +1,6 @@
 package bool;
 
+import bool.ast.FeatureElement;
 import org.junit.Test;
 
 import java.io.IOException;
@@ -15,7 +16,7 @@ public class ParserTest {
     @Test
     public void test_parse() {
         Parser parser = new Parser(new Lexer("foo && bar"));
-        Node node = parser.buildAst();
+        FeatureElement node = parser.buildAst();
         assertTrue(node.accept(new Evaluator(), asList("foo", "bar")));
         assertFalse(node.accept(new Evaluator(), asList("foo")));
     }

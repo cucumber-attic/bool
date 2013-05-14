@@ -21,6 +21,7 @@
       1. bullet
         1. sub bullet
 
+- [ ] Tags on Examples. Currently causing conflicts compiling the parser.
 - [ ] DocStrings and descriptions: Must verify in unit test that the AST nodes strip away indentation left of first line start
 - [ ] Lex/parse DocStrings and descriptions in a more similar fashion. 
       Perhaps line by line is simpler and will solve hanging regexp bug?

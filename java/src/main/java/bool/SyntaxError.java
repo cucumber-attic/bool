@@ -1,5 +1,7 @@
 package bool;
 
+import bool.ast.Token;
+
 /**
  * Common exception for both lex/scan and parse errors.
  */

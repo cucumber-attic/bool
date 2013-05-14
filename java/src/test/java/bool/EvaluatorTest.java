@@ -1,5 +1,6 @@
 package bool;
 
+import bool.ast.FeatureElement;
 import org.junit.Test;
 
 import java.io.IOException;
@@ -11,7 +12,7 @@ public class EvaluatorTest {
     @Test
     public void test_and_or_expression() throws IOException {
         Parser parser = new Parser(new Lexer("a && b || c"));
-        Node node = parser.buildAst();
+        FeatureElement node = parser.buildAst();
         assertTrue(node.accept(new Evaluator(), asList("a", "b")));
         assertTrue(node.accept(new Evaluator(), asList("a", "c")));
     }
@@ -19,7 +20,7 @@ public class EvaluatorTest {
     @Test
     public void test_or_and_expression() throws IOException {
         Parser parser = new Parser(new Lexer("a || b && c"));
-        Node node = parser.buildAst();
+        FeatureElement node = parser.buildAst();
         assertTrue(node.accept(new Evaluator(), asList("a", "b")));
         assertTrue(node.accept(new Evaluator(), asList("a", "c")));
     }

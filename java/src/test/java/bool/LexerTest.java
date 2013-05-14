@@ -1,5 +1,6 @@
 package bool;
 
+import bool.ast.Token;
 import org.junit.Test;
 
 import java.io.IOException;

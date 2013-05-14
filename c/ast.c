@@ -17,8 +17,11 @@ void yyerror(Node** node, const char* msg) {
         return;
     }
 
-    last_error.message = strdup(msg);
-    last_error.token   = create_token();
+    last_error.message      = strdup(msg);
+    last_error.first_line   = yylloc.first_line;
+    last_error.first_column = yylloc.first_column;
+    last_error.last_line    = yylloc.last_line;
+    last_error.last_column  = yylloc.last_column;
 }
 
 Node* parse_ast(const char* source) {
@@ -79,11 +82,11 @@ void free_ast(Node* node) {
 
 Token* create_token() {
     Token* tok = (Token*) malloc(sizeof* tok);
-    tok->first_line   = yylloc.first_line;
-    tok->last_line    = yylloc.last_line;
-    tok->first_column = yylloc.first_column;
-    tok->last_column  = yylloc.last_column;
     tok->value        = strdup("");
+    tok->first_line   = yylloc.first_line;
+    tok->first_column = yylloc.first_column;
+    tok->last_line    = yylloc.last_line;
+    tok->last_column  = yylloc.last_column;
     return tok;
 }
 

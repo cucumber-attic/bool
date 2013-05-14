@@ -13,8 +13,8 @@ static VALUE transform_token(Token *token) {
     return rb_funcall(cToken, rb_intern("new"), 5, 
         rb_str_new2(token->value), 
         INT2FIX(token->first_line),
-        INT2FIX(token->last_line),
         INT2FIX(token->first_column),
+        INT2FIX(token->last_line),
         INT2FIX(token->last_column)
     );
 }
@@ -56,11 +56,13 @@ static VALUE Bool_parse(VALUE klass, VALUE r_expr) {
         free_ast(ast);
         return result;
     } else {
-        VALUE token = transform_token(last_error.token);
         exception = rb_funcall(
-            eSyntaxError, rb_intern("new"), 2,
-            rb_str_new2(last_error.message), 
-            token
+            eSyntaxError, rb_intern("new"), 5,
+            rb_str_new2(last_error.message),
+            INT2FIX(last_error.first_line),
+            INT2FIX(last_error.first_column),
+            INT2FIX(last_error.last_line),
+            INT2FIX(last_error.last_column)
         );
         rb_exc_raise(exception);
     }

@@ -4,14 +4,17 @@
 typedef struct Token {
     char* value;
     int first_line;
-    int last_line;
     int first_column;
+    int last_line;
     int last_column;
 } Token;
 
 typedef struct SyntaxError {
     char* message;
-    Token* token;
+    int first_line;
+    int first_column;
+    int last_line;
+    int last_column;
 } SyntaxError;
 
 typedef enum NodeType {

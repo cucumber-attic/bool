@@ -32,10 +32,10 @@ void test_line_and_column()
        //12345678
     ASSERT_EQUALS(NULL, ast);
 
-    ASSERT_EQUALS(4, last_error.token->first_line);
-    ASSERT_EQUALS(4, last_error.token->last_line);
-    ASSERT_EQUALS(4, last_error.token->first_column);
-    ASSERT_EQUALS(6, last_error.token->last_column);
+    ASSERT_EQUALS(4, last_error.first_line);
+    ASSERT_EQUALS(4, last_error.last_line);
+    ASSERT_EQUALS(4, last_error.first_column);
+    ASSERT_EQUALS(6, last_error.last_column);
     ASSERT_STRING_EQUALS(
         "syntax error, unexpected TOKEN_AND, expecting TOKEN_VAR or TOKEN_NOT or TOKEN_LPAREN", 
         last_error.message);
@@ -51,8 +51,10 @@ void test_invalid_symbol()
        //12345678
 
     ASSERT_EQUALS(NULL, ast);
-    ASSERT_EQUALS(4, last_error.token->first_line);
-    ASSERT_EQUALS(5, last_error.token->first_column);
+    ASSERT_EQUALS(4, last_error.first_line);
+    ASSERT_EQUALS(5, last_error.first_column);
+    ASSERT_EQUALS(4, last_error.last_line);
+    ASSERT_EQUALS(5, last_error.last_column);
     ASSERT_STRING_EQUALS("syntax error: ^^\n", last_error.message);
 }
 
@@ -62,7 +64,7 @@ void test_invalid_token()
         "^£$");
 
     ASSERT_EQUALS(NULL, ast);
-    ASSERT_EQUALS(1, last_error.token->first_line);
+    ASSERT_EQUALS(1, last_error.first_line);
     ASSERT_STRING_EQUALS("syntax error: ^£$", last_error.message);
 }
 
@@ -72,7 +74,7 @@ void test_invalid_statement()
         "a ^ e");
     
     ASSERT_EQUALS(NULL, ast);
-    ASSERT_EQUALS(1, last_error.token->first_line);
+    ASSERT_EQUALS(1, last_error.first_line);
     ASSERT_STRING_EQUALS("syntax error: ^ e", last_error.message);
 }
 
@@ -86,9 +88,9 @@ void test_invalid_long_statement()
         "      c   \n"
         "        &&");
     ASSERT_EQUALS(NULL, ast);
-    ASSERT_EQUALS(6, last_error.token->first_line);
-    ASSERT_EQUALS(9, last_error.token->first_column);
-    ASSERT_EQUALS(11, last_error.token->last_column);
+    ASSERT_EQUALS(6, last_error.first_line);
+    ASSERT_EQUALS(9, last_error.first_column);
+    ASSERT_EQUALS(11, last_error.last_column);
     ASSERT_STRING_EQUALS(
         "syntax error, unexpected $end, expecting TOKEN_VAR or TOKEN_NOT or TOKEN_LPAREN", 
         last_error.message);

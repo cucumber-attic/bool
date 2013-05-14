@@ -72,9 +72,9 @@ public class LexerTest {
             fail();
         } catch (SyntaxError expected) {
             assertEquals("syntax error: ?     \n", expected.getMessage());
-            assertEquals(4, expected.startPos.line);
-            assertEquals(5, expected.startPos.column);
-            assertEquals(5, expected.endPos.column);
+            assertEquals(4, expected.getFirstLine());
+            assertEquals(5, expected.getFirstColumn());
+            assertEquals(5, expected.getLastColumn());
         }
     }
 }

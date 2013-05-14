@@ -1,5 +1,7 @@
 package bool;
 
+import bool.ast.*;
+
 public class Lexer implements Parser.Lexer {
     %%{
         machine lexer;
@@ -8,12 +10,12 @@ public class Lexer implements Parser.Lexer {
         main := |*
             [ \t\r];
             '\n'              => { ++firstLine; lineStart = p + 1; };
-            [A-Za-z0-9_\-@]+  => { ret = Parser.TOKEN_VAR;    fbreak; };
-            '&&'              => { ret = Parser.TOKEN_AND;    fbreak; };
-            '||'              => { ret = Parser.TOKEN_OR;     fbreak; };
-            '!'               => { ret = Parser.TOKEN_NOT;    fbreak; };
-            '('               => { ret = Parser.TOKEN_LPAREN; fbreak; };
-            ')'               => { ret = Parser.TOKEN_RPAREN; fbreak; };
+            [A-Za-z0-9_\-@]+  => { ret = Parser.TOKEN_BACKGROUND;    fbreak; };
+            '&&'              => { ret = Parser.TOKEN_BACKGROUND;    fbreak; };
+            '||'              => { ret = Parser.TOKEN_BACKGROUND;     fbreak; };
+            '!'               => { ret = Parser.TOKEN_BACKGROUND;    fbreak; };
+            '('               => { ret = Parser.TOKEN_BACKGROUND; fbreak; };
+            ')'               => { ret = Parser.TOKEN_BACKGROUND; fbreak; };
         *|;
     }%%
 
@@ -41,8 +43,18 @@ public class Lexer implements Parser.Lexer {
     }
 
     @Override
-    public Union getLVal() {
-        return new Token(yytext, firstLine, lastLine, firstColumn, lastColumn);
+    public Position getStartPos() {
+        return new Position(firstLine, firstColumn);
+    }
+
+    @Override
+    public Position getEndPos() {
+        return new Position(lastLine, lastColumn);
+    }
+
+    @Override
+    public Token getLVal() {
+        return new Token(yytext, getStartPos(), getEndPos());
     }
 
     @Override
@@ -64,7 +76,8 @@ public class Lexer implements Parser.Lexer {
         if(ret == Parser.EOF) {
             firstColumn = lastColumn = p - lineStart + 1;
             yytext = new String(data, p, pe - p);
-            yyerror("syntax error: " + yytext);
+            String message = "syntax error: " + yytext;
+            throw new SyntaxError(message, getStartPos(), getEndPos());
         } else {
             firstColumn = ts - lineStart + 1;
             lastColumn  = te - lineStart + 1;
@@ -75,9 +88,8 @@ public class Lexer implements Parser.Lexer {
     }
 
     @Override
-    public void yyerror(String message) {
-        Token token = new Token(yytext, firstLine, lastLine, firstColumn, lastColumn);
-        throw new SyntaxError(message, token);
+    public void yyerror(Parser.Location location, String message) {
+        throw new SyntaxError(message, location);
     }
 }
 

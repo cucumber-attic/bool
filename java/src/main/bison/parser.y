@@ -10,6 +10,7 @@ import bool.ast.*;
 %define stype "Union"
 %error-verbose
 %define lex_throws SyntaxError
+%locations
 
 %code {
     private Feature main;

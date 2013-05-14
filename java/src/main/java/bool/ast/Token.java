@@ -1,33 +1,21 @@
 package bool.ast;
 
-import bool.Parser;
-
 public class Token implements Union {
     private final String value;
-    private Parser.Location location;
+    private final Position startPos;
+    private final Position endPos;
 
-    public Token(String value, Parser.Location location) {
+    public Token(String value, Position location) {
+        this(value, location, location);
+    }
+
+    public Token(String value, Position startPos, Position endPos) {
         this.value = value;
-        this.location = location;
+        this.startPos = startPos;
+        this.endPos = endPos;
     }
 
     public String getValue() {
         return value;
-    }
-
-    public int getFirstLine() {
-        return location.begin.line;
-    }
-
-    public int getLastLine() {
-        return location.end.line;
-    }
-
-    public int getFirstColumn() {
-        return location.begin.column;
-    }
-
-    public int getLastColumn() {
-        return location.end.column;
     }
 }

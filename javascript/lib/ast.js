@@ -3,12 +3,12 @@ module.exports = {
 
   Token: function Token(value, locations) {
     this.value = value;
-    this.locations   = locations;
 
-    // PAranoia. This can go away later.
+    // Paranoia. This can go away later.
     if(locations == undefined) throw new Error('Missing locations');
-    if(!Array.isArray(locations)) throw new Error('locations is not Array');
+    if(!Array.isArray(locations)) locations = [locations];
     if(typeof(locations[0].first_line) != 'number') throw new Error('locations[0] is not Map of int');
+    this.locations   = locations;
   },
 
   Tag: function Tag(name) {

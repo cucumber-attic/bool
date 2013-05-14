@@ -12,54 +12,50 @@ public class LexerTest {
     public void test_simple_lex() throws IOException {
         Lexer lexer = new Lexer("foo && bar");
         assertEquals(Parser.TOKEN_VAR, lexer.yylex());
-        assertEquals("foo", getToken(lexer).getValue());
+        assertEquals("foo", lexer.getLVal().getValue());
 
         assertEquals(Parser.TOKEN_AND, lexer.yylex());
-        assertEquals("&&", getToken(lexer).getValue());
+        assertEquals("&&", lexer.getLVal().getValue());
 
         assertEquals(Parser.TOKEN_VAR, lexer.yylex());
-        assertEquals("bar", getToken(lexer).getValue());
-    }
-
-    private Token getToken(Lexer lexer) {
-        return ((Token)lexer.getLVal());
+        assertEquals("bar", lexer.getLVal().getValue());
     }
 
     @Test
     public void test_less_simple_lex() throws IOException {
         Lexer lexer = new Lexer("a && b && (!c || !d)");
         assertEquals(Parser.TOKEN_VAR, lexer.yylex());
-        assertEquals("a", getToken(lexer).getValue());
+        assertEquals("a", lexer.getLVal().getValue());
 
         assertEquals(Parser.TOKEN_AND, lexer.yylex());
-        assertEquals("&&", getToken(lexer).getValue());
+        assertEquals("&&", lexer.getLVal().getValue());
 
         assertEquals(Parser.TOKEN_VAR, lexer.yylex());
-        assertEquals("b", getToken(lexer).getValue());
+        assertEquals("b", lexer.getLVal().getValue());
 
         assertEquals(Parser.TOKEN_AND, lexer.yylex());
-        assertEquals("&&", getToken(lexer).getValue());
+        assertEquals("&&", lexer.getLVal().getValue());
 
         assertEquals(Parser.TOKEN_LPAREN, lexer.yylex());
-        assertEquals("(", getToken(lexer).getValue());
+        assertEquals("(", lexer.getLVal().getValue());
 
         assertEquals(Parser.TOKEN_NOT, lexer.yylex());
-        assertEquals("!", getToken(lexer).getValue());
+        assertEquals("!", lexer.getLVal().getValue());
 
         assertEquals(Parser.TOKEN_VAR, lexer.yylex());
-        assertEquals("c", getToken(lexer).getValue());
+        assertEquals("c", lexer.getLVal().getValue());
 
         assertEquals(Parser.TOKEN_OR, lexer.yylex());
-        assertEquals("||", getToken(lexer).getValue());
+        assertEquals("||", lexer.getLVal().getValue());
 
         assertEquals(Parser.TOKEN_NOT, lexer.yylex());
-        assertEquals("!", getToken(lexer).getValue());
+        assertEquals("!", lexer.getLVal().getValue());
 
         assertEquals(Parser.TOKEN_VAR, lexer.yylex());
-        assertEquals("d", getToken(lexer).getValue());
+        assertEquals("d", lexer.getLVal().getValue());
 
         assertEquals(Parser.TOKEN_RPAREN, lexer.yylex());
-        assertEquals(")", getToken(lexer).getValue());
+        assertEquals(")", lexer.getLVal().getValue());
     }
 
     @Test
@@ -76,9 +72,9 @@ public class LexerTest {
             fail();
         } catch (SyntaxError expected) {
             assertEquals("syntax error: ?     \n", expected.getMessage());
-            assertEquals(4, expected.getToken().getFirstLine());
-            assertEquals(5, expected.getToken().getFirstColumn());
-            assertEquals(5, expected.getToken().getLastColumn());
+            assertEquals(4, expected.startPos.line);
+            assertEquals(5, expected.startPos.column);
+            assertEquals(5, expected.endPos.column);
         }
     }
 }

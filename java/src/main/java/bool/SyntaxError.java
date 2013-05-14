@@ -5,14 +5,16 @@ package bool;
  */
 public class SyntaxError extends RuntimeException {
 
-    private final Token token;
+    public final Position startPos;
+    public final Position endPos;
 
-    public SyntaxError(String message, Token token) {
-        super(message);
-        this.token = token;
+    public SyntaxError(String message, Parser.Location location) {
+        this(message, location.begin, location.end);
     }
 
-    public Token getToken() {
-        return token;
+    public SyntaxError(String message, Position startPos, Position endPos) {
+        super(message);
+        this.startPos = startPos;
+        this.endPos = endPos;
     }
 }

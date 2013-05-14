@@ -10,6 +10,7 @@ import java.io.IOException;
 %define stype "Union"
 %error-verbose
 %define lex_throws SyntaxError
+%locations
 
 %code {
     private Node expr;

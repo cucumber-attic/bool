@@ -53,12 +53,12 @@ int yylex(void) {
     yylloc.last_line = yylloc.first_line;
 
     if(ret == 0) {
-        yylloc.first_column = yylloc.last_column = (int)(p - line_start) + 1;
         const char* prefix = "syntax error: ";
         char* message = malloc(sizeof(char) * (strlen(prefix) + pe - p + 1));
         strcpy(message, prefix);
         strcpy(message + strlen(prefix), p);
 
+        yylloc.first_column = yylloc.last_column = (int)(p - line_start) + 1;
         yyerror(NULL, message);
     } else {
         yylloc.first_column = (int)(ts - line_start) + 1;

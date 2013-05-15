@@ -72,9 +72,9 @@ public class Lexer implements Parser.Lexer {
         lastLine = firstLine;
 
         if(ret == Parser.EOF) {
-            firstColumn = lastColumn = p - lineStart + 1;
             yytext = new String(data, p, pe - p);
             String message = "syntax error: " + yytext;
+            firstColumn = lastColumn = p - lineStart + 1;
             throw new SyntaxError(message, firstLine, firstColumn, lastLine, lastColumn);
         } else {
             firstColumn = ts - lineStart + 1;

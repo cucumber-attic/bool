@@ -2,20 +2,36 @@ package bool.ast;
 
 public class Token implements Union {
     private final String value;
-    private final Position startPos;
-    private final Position endPos;
+    private final int firstLine;
+    private final int firstColumn;
+    private final int lastLine;
+    private final int lastColumn;
 
-    public Token(String value, Position location) {
-        this(value, location, location);
-    }
-
-    public Token(String value, Position startPos, Position endPos) {
+    public Token(String value, int firstLine, int firstColumn, int lastLine, int lastColumn) {
         this.value = value;
-        this.startPos = startPos;
-        this.endPos = endPos;
+        this.firstLine = firstLine;
+        this.firstColumn = firstColumn;
+        this.lastLine = lastLine;
+        this.lastColumn = lastColumn;
     }
 
     public String getValue() {
         return value;
+    }
+
+    public int getFirstLine() {
+        return firstLine;
+    }
+
+    public int getFirstColumn() {
+        return firstColumn;
+    }
+
+    public int getLastLine() {
+        return lastLine;
+    }
+
+    public int getLastColumn() {
+        return lastColumn;
     }
 }

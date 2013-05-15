@@ -54,7 +54,7 @@ public class Lexer implements Parser.Lexer {
 
     @Override
     public Token getLVal() {
-        return new Token(yytext, getStartPos(), getEndPos());
+        return new Token(yytext, firstLine, firstColumn, lastLine, lastColumn);
     }
 
     @Override
@@ -74,10 +74,10 @@ public class Lexer implements Parser.Lexer {
         lastLine = firstLine;
 
         if(ret == Parser.EOF) {
-            firstColumn = lastColumn = p - lineStart + 1;
             yytext = new String(data, p, pe - p);
             String message = "syntax error: " + yytext;
-            throw new SyntaxError(message, getStartPos(), getEndPos());
+            firstColumn = lastColumn = p - lineStart + 1;
+            throw new SyntaxError(message, firstLine, firstColumn, lastLine, lastColumn);
         } else {
             firstColumn = ts - lineStart + 1;
             lastColumn  = te - lineStart + 1;
@@ -89,7 +89,6 @@ public class Lexer implements Parser.Lexer {
 
     @Override
     public void yyerror(Parser.Location location, String message) {
-        throw new SyntaxError(message, location);
+        throw new SyntaxError(message, location.begin.getLine(), location.begin.getColumn(), location.end.getLine(), location.end.getColumn());
     }
 }
-

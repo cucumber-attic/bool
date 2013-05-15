@@ -13,11 +13,11 @@ import bool.ast.*;
 %locations
 
 %code {
-    private Feature main;
+    private Feature feature;
 
     public Feature buildAst() throws SyntaxError {
         parse();
-        return main;
+        return feature;
     }
 
     private List list(Object o) {
@@ -56,7 +56,7 @@ import bool.ast.*;
 %type <List> examples_list
 %type <Examples> examples
 %type <MultilineArg> multiline_arg
-%type <Union> table
+%type <List> table
 %type <List> doc_string_lines
 %type <DocString> doc_string_line
 %type <List> cell_row
@@ -67,7 +67,7 @@ import bool.ast.*;
 
 main
     : feature
-        { return $1; }
+        { feature = $1; }
     ;
 
 tags
@@ -79,19 +79,19 @@ tags
 
 tag
     : TOKEN_TAG
-        { $$ = new Tag(new Token($1, @1)); }
+        { $$ = new Tag($1); }
     ;
 
 feature
     : tags TOKEN_FEATURE TOKEN_NAME description_lines feature_elements
-        { $$ = new Feature($1, new Token($2, @2), new Token($3, @3), $4, $5); }
+        { $$ = new Feature($1, $2, $3, $4, $5); }
     ;
 
 description_lines
     :
         { $$ = new List(); }
     | description_lines TOKEN_DESCRIPTION_LINE
-        { $1.add(new Token($2, @2)); }
+        { $1.add($2); }
     ;
 
 feature_elements
@@ -109,17 +109,17 @@ feature_element
 
 background
     : TOKEN_BACKGROUND TOKEN_NAME description_lines steps
-        { $$ = new Background(new Token($1, @1), new Token($2, @2), $3, $4); }
+        { $$ = new Background($1, $2, $3, $4); }
     ;
 
 scenario
     : tags TOKEN_SCENARIO TOKEN_NAME description_lines steps
-        { $$ = new Scenario($1, new Token($2, @2), new Token($3, @3), $4, $5); }
+        { $$ = new Scenario($1, $2, $3, $4, $5); }
     ;
 
 scenario_outline
     : tags TOKEN_SCENARIO_OUTLINE TOKEN_NAME description_lines steps examples_list
-        { $$ = new ScenarioOutline($1, new Token($2, @2), new Token($3, @3), $4, $5, $6); }
+        { $$ = new ScenarioOutline($1, $2, $3, $4, $5, $6); }
     ;
 
 examples_list
@@ -131,7 +131,7 @@ examples_list
 
 examples
     : TOKEN_EXAMPLES TOKEN_NAME description_lines table
-        { $$ = new Examples(null, new Token($1, @1), new Token($2, @2), $3, new Table($4)); }
+        { $$ = new Examples(null, $1, $2, $3, new Table($4)); }
     ;
 
 steps
@@ -143,7 +143,7 @@ steps
 
 step
     : TOKEN_STEP TOKEN_NAME multiline_arg
-        { $$ = new Step(new Token($1, @1), new Token($2, @2), $3); }
+        { $$ = new Step($1, $2, $3); }
     ;
 
 multiline_arg
@@ -164,7 +164,7 @@ doc_string_lines
 
 doc_string_line
     : TOKEN_DOC_STRING_LINE
-        { $$ = new Token($1, @1); }
+        { $$ = $1; }
     ;
 
 table
@@ -188,8 +188,8 @@ cells
 
 cell
     : TOKEN_PIPE TOKEN_CELL
-        { $$ = new Token($2.getValue().trim(), @2); }
+        { Location l = @2; $$ = new Token($2.getValue().trim(), l.begin.getLine(), l.begin.getColumn(), l.end.getLine(), l.end.getColumn()); }
     | TOKEN_PIPE TOKEN_PIPE
-        { $$ = new Token("", @2); }
+        { Location l = @2; $$ = new Token("", l.begin.getLine(), l.begin.getColumn(), l.end.getLine(), l.end.getColumn()); }
     ;
 %%

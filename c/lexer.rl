@@ -38,7 +38,7 @@ void scan_init(const char* data) {
 }
 
 int yylex(void) {
-    int ret = 0;
+    int ret = 0; // EOF
 
     if (at_eof) {
         return ret;

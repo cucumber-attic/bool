@@ -13,6 +13,8 @@
 - [x] Scenario Outline compilation: replace <tokens> in DocStrings.
 - [ ] Scenario Outline compilation: replace <tokens> in DataTables.
 - [ ] Ignore # comments
+- [ ] Test with tabs: Feature:\tname
+- [ ] Test with no space: Feature:name
 - [ ] Verify that internal indentation gets preserved through parser->renderer, both for descriptions and DocStrings.
 
     Feature: Foo

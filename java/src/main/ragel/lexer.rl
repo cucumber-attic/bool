@@ -7,15 +7,18 @@ public class Lexer implements Parser.Lexer {
         machine lexer;
         alphtype char;
 
+        name := |*
+            any*             => { fnext main; ret = Parser.TOKEN_NAME; fbreak; };
+        *|;
+
+        after_keyword := |*
+            [ ]*             => { fnext name; };
+        *|;
+
         main := |*
             [ \t\r];
             '\n'              => { ++firstLine; lineStart = p + 1; };
-            [A-Za-z0-9_\-@]+  => { ret = Parser.TOKEN_BACKGROUND;    fbreak; };
-            '&&'              => { ret = Parser.TOKEN_BACKGROUND;    fbreak; };
-            '||'              => { ret = Parser.TOKEN_BACKGROUND;     fbreak; };
-            '!'               => { ret = Parser.TOKEN_BACKGROUND;    fbreak; };
-            '('               => { ret = Parser.TOKEN_BACKGROUND; fbreak; };
-            ')'               => { ret = Parser.TOKEN_BACKGROUND; fbreak; };
+            'Feature:'        => { fnext after_keyword; ret = Parser.TOKEN_FEATURE; fbreak; };
         *|;
     }%%
 

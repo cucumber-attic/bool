@@ -2,19 +2,57 @@ package bool;
 
 import org.junit.Test;
 
-import java.io.IOException;
-
 import static org.junit.Assert.assertEquals;
 
 public class LexerTest {
-    @Test
-    public void test_simple_lex() throws IOException {
-        Lexer lexer = new Lexer("Feature: hello");
-        assertEquals(Parser.TOKEN_FEATURE, lexer.yylex());
-        assertEquals("Feature:", lexer.getLVal().getValue());
 
-        assertEquals(Parser.TOKEN_NAME, lexer.yylex());
-        assertEquals("hello", lexer.getLVal().getValue());
+    private Lexer lexer;
+
+    @Test
+    public void test_simple_lex() {
+        lexer = new Lexer("  \n  Feature: hello\n");
+        assertLex(Parser.TOKEN_FEATURE, "Feature:");
+        assertLex(Parser.TOKEN_NAME, "hello");
+    }
+
+    @Test
+    public void tokenizes_tags() {
+        lexer = new Lexer("@foo @bar @zap\n\n");
+        assertLex(Parser.TOKEN_TAG, "@foo");
+        assertLex(Parser.TOKEN_TAG, "@bar");
+        assertLex(Parser.TOKEN_TAG, "@zap");
+    }
+
+    @Test
+    public void tokenizes_a_named_feature_with_given_when() {
+        lexer = new Lexer("" +
+                "Feature:     Hello\n" +
+                "  Given I have 4 cukes in my belly\n" +
+                "  When  I go shopping\n");
+        assertLex(Parser.TOKEN_FEATURE, "Feature:");
+        assertLex(Parser.TOKEN_NAME, "Hello");
+        assertLex(Parser.TOKEN_STEP, "Given ");
+        assertLex(Parser.TOKEN_NAME, "I have 4 cukes in my belly");
+        assertLex(Parser.TOKEN_STEP, "When ");
+        assertLex(Parser.TOKEN_NAME, " I go shopping");
+    }
+
+    @Test
+    public void tokenizes_a_named_feature_with_description() {
+        lexer = new Lexer("" +
+                "Feature:     Hello\n" +
+                "  this is a description\n" +
+                "  and so is this");
+        assertLex(Parser.TOKEN_FEATURE, "Feature:");
+        assertLex(Parser.TOKEN_NAME, "Hello");
+        assertLex(Parser.TOKEN_DESCRIPTION_LINE, "this is a description");
+        assertLex(Parser.TOKEN_DESCRIPTION_LINE, "and so is this");
+    }
+
+    private void assertLex(int type, String value) {
+        int actualType = lexer.yylex();
+        assertEquals(value, lexer.getLVal().getValue());
+        assertEquals(type, actualType);
     }
 
     //    @Test

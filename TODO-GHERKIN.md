@@ -15,6 +15,8 @@
 - [ ] Ignore # comments
 - [ ] Test with tabs: Feature:\tname
 - [ ] Test with no space: Feature:name
+- [ ] Feature/Scenario/Step name not ending with newline before EOF
+- [ ] Test with all of \r, \r\n and \n (CRLF)
 - [ ] Verify that internal indentation gets preserved through parser->renderer, both for descriptions and DocStrings.
 
     Feature: Foo

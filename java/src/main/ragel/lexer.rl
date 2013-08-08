@@ -7,18 +7,28 @@ public class Lexer implements Parser.Lexer {
         machine lexer;
         alphtype char;
 
+        crlf     = '\n';
+        feature  = 'Feature:';
+        step     = 'Given ' | 'When '| 'Then ' | 'And ' | 'But ';
+        tag      = '@'[a-z]+;
+        description_line = 'xxxx';
+
         name := |*
-            any*             => { fnext main; ret = Parser.TOKEN_NAME; fbreak; };
+            (any -- crlf)*     => { fnext main; ret = Parser.TOKEN_NAME; fbreak; };
         *|;
 
         after_keyword := |*
-            [ ]*             => { fnext name; };
+            [ ]+              => { fnext name; };
+            empty             => { fnext name; };
         *|;
 
         main := |*
             [ \t\r];
             '\n'              => { ++firstLine; lineStart = p + 1; };
-            'Feature:'        => { fnext after_keyword; ret = Parser.TOKEN_FEATURE; fbreak; };
+            tag               => { ret = Parser.TOKEN_TAG; fbreak; };
+            feature           => { fnext after_keyword; ret = Parser.TOKEN_FEATURE; fbreak; };
+            step              => { fnext name; ret = Parser.TOKEN_STEP; fbreak; };
+            description_line  => { ret = Parser.TOKEN_DESCRIPTION_LINE; fbreak; };
         *|;
     }%%
 

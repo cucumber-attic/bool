@@ -6,7 +6,7 @@
 #
 set -e
 BASEDIR=$(cd `dirname $0` && /bin/pwd)
-REQUIRED_BISON_VERSION=2.7
+REQUIRED_BISON_VERSION=3.0
 PATH=$BASEDIR/bison-$REQUIRED_BISON_VERSION/tests:$PATH
 BISON_VERSION=`bison --version | grep ^bison | sed 's/^.* //'`
 

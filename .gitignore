@@ -1,6 +1,6 @@
 .DS_Store
 mingw/
-bison-2.7/
-ragel-6.8/
+bison-*/
+ragel-*/
 .project
 *~

@@ -8,12 +8,12 @@ public class Lexer implements Parser.Lexer {
         main := |*
             [ \t\r];
             '\n'              => { ++firstLine; lineStart = p + 1; };
-            [A-Za-z0-9_\-@]+  => { ret = Parser.TOKEN_VAR;    fbreak; };
-            '&&'              => { ret = Parser.TOKEN_AND;    fbreak; };
-            '||'              => { ret = Parser.TOKEN_OR;     fbreak; };
-            '!'               => { ret = Parser.TOKEN_NOT;    fbreak; };
-            '('               => { ret = Parser.TOKEN_LPAREN; fbreak; };
-            ')'               => { ret = Parser.TOKEN_RPAREN; fbreak; };
+            [A-Za-z0-9_\-@]+  => { ret = TOKEN_VAR;    fbreak; };
+            '&&'              => { ret = TOKEN_AND;    fbreak; };
+            '||'              => { ret = TOKEN_OR;     fbreak; };
+            '!'               => { ret = TOKEN_NOT;    fbreak; };
+            '('               => { ret = TOKEN_LPAREN; fbreak; };
+            ')'               => { ret = TOKEN_RPAREN; fbreak; };
         *|;
     }%%
 
@@ -57,7 +57,7 @@ public class Lexer implements Parser.Lexer {
 
     @Override
     public final int yylex() {
-        int ret = Parser.EOF;
+        int ret = EOF;
 
         if (atEof) {
             return ret;
@@ -71,7 +71,7 @@ public class Lexer implements Parser.Lexer {
 
         lastLine = firstLine;
 
-        if(ret == Parser.EOF) {
+        if(ret == EOF) {
             yytext = new String(data, p, pe - p);
             String message = "syntax error: " + yytext;
             firstColumn = lastColumn = p - lineStart + 1;

@@ -59,7 +59,6 @@ int yylex(void) {
         strcpy(message + strlen(prefix), p);
 
         yylloc.first_column = yylloc.last_column = (int)(p - line_start) + 1;
-
         yyerror(NULL, message);
     } else {
         yylloc.first_column = (int)(ts - line_start) + 1;

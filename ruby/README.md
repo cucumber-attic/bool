@@ -1,6 +1,7 @@
 ## Ruby (MRI) on Linux/OS X
 
-You need MRI 1.9.3 or newer. OS X and Linux users can install this easily with [RVM](https://rvm.io/).
+You need MRI 1.9.3-p327 or 2.0.0-p0. OS X and Linux users can install this easily with [RVM](https://rvm.io/).
+Do not use newer patch levels such as 1.9.3-p448, 2.0.0-p195 or 2.0.0-p247. They don't seem to install with clang. Not sure why.
 
 Now you need to install dependencies. cd to this directory (`bool/ruby`) and run:
 

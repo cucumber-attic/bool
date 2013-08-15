@@ -1,3 +1,9 @@
+## [Git master](https://github.com/cucumber/bool/compare/v1.0.16...master)
+
+* Upgraded to Bison 3.0
+* Upgraded to mingw-w32-1.0-bin_i686-darwin_20130531.tar.bz2
+* Upgraded various node libraries and Ruby gems
+
 ## [1.0.16](https://github.com/cucumber/bool/compare/v1.0.15...v1.0.16) (15 April 2013)
 
 * [java] Don't throw IOException.

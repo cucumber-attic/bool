@@ -7,11 +7,11 @@ require 'bool/renderer'
 
 module Bool
   class SyntaxError < StandardError
-    attr_reader :token
+    attr_reader :first_line, :first_column, :last_line, :last_column
 
-    def initialize(message, token)
+    def initialize(message, first_line, first_column, last_line, last_column)
       super(message)
-      @token = token
+      @first_line, @first_column, @last_line, @last_column = first_line, first_column, last_line, last_column
     end
   end
 
@@ -21,7 +21,7 @@ module Bool
       parser = Java::Bool::Parser.new(lexer)
       parser.buildAst()
     rescue => e
-      raise SyntaxError.new(e.message, e.token)
+      raise SyntaxError.new(e.message, e.first_line, e.first_column, e.last_line, e.last_column)
     end
     module_function(:parse)
   else

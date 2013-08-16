@@ -27,13 +27,13 @@ if RUBY_PLATFORM =~ /java/
 
   task :test => native_lib_jar
 else
-  supported_ruby_versions = %w[1.9.3 2.0.0]
+  supported_ruby_versions = %w[1.9.3-p327 2.0.0-p0]
   patch_or_rc = RbConfig::CONFIG["PATCHLEVEL"] =~ /^-/ ? RbConfig::CONFIG["prefix"].split('-')[-1] : "p#{RbConfig::CONFIG["PATCHLEVEL"]}"
   ruby_version_with_patch_or_rc = "#{RUBY_VERSION}-#{patch_or_rc}"
 
-  if !supported_ruby_versions.index(RUBY_VERSION)
+  if !supported_ruby_versions.index(ruby_version_with_patch_or_rc)
     STDERR.print "\e[31m"
-    STDERR.puts "You'll need Ruby 1.9.3 or 2.0.0. You have ruby #{ruby_version_with_patch_or_rc}. Read #{File.expand_path('../README.md', __FILE__)}."
+    STDERR.puts "Your ruby version must be one of #{supported_ruby_versions}. You have ruby #{ruby_version_with_patch_or_rc}. Read #{File.expand_path('../README.md', __FILE__)}."
     STDERR.print "\e[0m"
     exit 1
   end

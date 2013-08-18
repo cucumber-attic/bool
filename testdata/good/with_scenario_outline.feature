@@ -3,6 +3,7 @@ Feature: Hello
   Background: b
     Given a background <n> step
 
+  @foo
   Scenario Outline: World
     Given I have <m> cukes (<m>) in my belly
       """

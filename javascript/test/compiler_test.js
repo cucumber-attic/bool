@@ -29,8 +29,8 @@ describe('Compiler', function() {
 
     step_1_1_name = units[1].steps[1].name;
     assert.equal('I have 20 cukes (20) in my belly', step_1_1_name.value);
-    assert.equal( 7, step_1_1_name.locations[0].first_line);
-    assert.equal(19, step_1_1_name.locations[1].first_line);
+    assert.equal( 8, step_1_1_name.locations[0].first_line);
+    assert.equal(20, step_1_1_name.locations[1].first_line);
 
     step_1_1_docstring = units[1].steps[1].multiline_arg;
     var expected_doc_string = 

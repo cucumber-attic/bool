@@ -14,25 +14,23 @@ public class ParserTest {
 
     @Test
     public void test_parse() {
-        Parser parser = new Parser(new Lexer("foo && bar"));
-        Node node = parser.buildAst();
+        Node node = Bool.parse("foo && bar");
         assertTrue(node.accept(new Evaluator(), asList("foo", "bar")));
         assertFalse(node.accept(new Evaluator(), asList("foo")));
     }
 
     @Test
     public void test_parse_error() throws IOException {
-        Parser parser = new Parser(new Lexer("" +
-                "          \n" +
-                "          \n" +
-                "  a       \n" +
-                "    ||    \n" +
-                "      c   \n" +
-                "        &&"
-               //1234567890
-        ));
         try {
-            parser.buildAst();
+            Bool.parse("" +
+                    "          \n" +
+                    "          \n" +
+                    "  a       \n" +
+                    "    ||    \n" +
+                    "      c   \n" +
+                    "        &&"
+                    //1234567890
+            );
             fail();
         } catch (SyntaxError expected) {
             assertEquals("syntax error, unexpected end of input, expecting TOKEN_VAR or TOKEN_NOT or TOKEN_LPAREN", expected.getMessage());

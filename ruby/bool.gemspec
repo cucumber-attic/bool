@@ -1,6 +1,6 @@
 Gem::Specification.new do |s|
   s.name    = "bool"
-  s.version = "1.0.17"
+  s.version = "1.0.18"
   s.summary = "Boolean expression evaluator"
   s.author  = "Aslak Hellesøy"
   
@@ -13,7 +13,7 @@ Gem::Specification.new do |s|
     s.files << "lib/#{s.name}_ext.jar"
   elsif ENV['RUBY_PLATFORM'] == 'x86-mingw32'
     s.platform = "x86-mingw32"
-    s.files << "lib/#{s.name}l_ext.so"
+    s.files << "lib/#{s.name}_ext.so"
   else
     s.extensions << "ext/#{s.name}_ext/extconf.rb"
     s.files += Dir.glob("ext/**/*.{c,h,rb}")

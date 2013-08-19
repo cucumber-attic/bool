@@ -1,3 +1,7 @@
+## [1.0.18](https://github.com/cucumber/bool/compare/v1.0.17...v1.0.18) (19 Aug 2013)
+
+* Fixed typo in gemspec that botched previous release.
+
 ## [1.0.17](https://github.com/cucumber/bool/compare/v1.0.16...v1.0.17) (19 Aug 2013)
 
 * Fixed build to work with arbitrary 1.9.3 and 2.0.0 patch levels.

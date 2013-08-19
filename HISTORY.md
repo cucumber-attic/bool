@@ -1,5 +1,6 @@
 ## [Git master](https://github.com/cucumber/bool/compare/v1.0.16...master)
 
+* Fixed build to work with arbitrary 1.9.3 and 2.0.0 patch levels.
 * Upgraded to Bison 3.0
 * Upgraded to mingw-w32-1.0-bin_i686-darwin_20130531.tar.bz2
 * Upgraded various node libraries and Ruby gems

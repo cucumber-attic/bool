@@ -14,7 +14,7 @@ public class Lexer implements Parser.Lexer {
         description_line = 'xxxx';
 
         name := |*
-            (any -- crlf)*     => { fnext main; ret = Parser.TOKEN_NAME; fbreak; };
+            (any -- crlf)*     => { fnext main; ret = TOKEN_NAME; fbreak; };
         *|;
 
         after_keyword := |*
@@ -25,10 +25,10 @@ public class Lexer implements Parser.Lexer {
         main := |*
             [ \t\r];
             '\n'              => { ++firstLine; lineStart = p + 1; };
-            tag               => { ret = Parser.TOKEN_TAG; fbreak; };
-            feature           => { fnext after_keyword; ret = Parser.TOKEN_FEATURE; fbreak; };
-            step              => { fnext name; ret = Parser.TOKEN_STEP; fbreak; };
-            description_line  => { ret = Parser.TOKEN_DESCRIPTION_LINE; fbreak; };
+            tag               => { ret = TOKEN_TAG; fbreak; };
+            feature           => { fnext after_keyword; ret = TOKEN_FEATURE; fbreak; };
+            step              => { fnext name; ret = TOKEN_STEP; fbreak; };
+            description_line  => { ret = TOKEN_DESCRIPTION_LINE; fbreak; };
         *|;
     }%%
 
@@ -72,7 +72,7 @@ public class Lexer implements Parser.Lexer {
 
     @Override
     public final int yylex() {
-        int ret = Parser.EOF;
+        int ret = EOF;
 
         if (atEof) {
             return ret;
@@ -86,7 +86,7 @@ public class Lexer implements Parser.Lexer {
 
         lastLine = firstLine;
 
-        if(ret == Parser.EOF) {
+        if(ret == EOF) {
             yytext = new String(data, p, pe - p);
             String message = "syntax error: " + yytext;
             firstColumn = lastColumn = p - lineStart + 1;

@@ -7,9 +7,9 @@ import bool.ast.*;
 %language "Java"
 %name-prefix ""
 %define public
-%define stype "Union"
+%define api.value.type {Union}
 %error-verbose
-%define lex_throws SyntaxError
+%define lex_throws {SyntaxError}
 %locations
 
 %code {

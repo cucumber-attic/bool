@@ -3,3 +3,4 @@ npm-debug.log
 lib/parser.js
 lib/lexer.js
 
+jison.log

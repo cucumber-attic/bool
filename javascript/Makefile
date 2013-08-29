@@ -24,7 +24,8 @@ clobber:
 .PHONY: clobber
 
 lib/parser.js: lib/parser.y lib/lexer.js node_modules
-	./node_modules/.bin/jison -o $@ lib/parser.y
+	./node_modules/.bin/jison -o $@ lib/parser.y | tee jison.log
+	grep conflict jison.log > /dev/null; test $$? -ne 0
 
 lib/lexer.js: lib/lexer.l node_modules
 	./node_modules/.bin/jison-lex -o $@ lib/lexer.l

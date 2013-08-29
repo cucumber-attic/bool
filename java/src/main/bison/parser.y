@@ -130,8 +130,8 @@ examples_list
     ;
 
 examples
-    : TOKEN_EXAMPLES TOKEN_NAME description_lines table
-        { $$ = new Examples(null, $1, $2, $3, new Table($4)); }
+    : tags TOKEN_EXAMPLES TOKEN_NAME description_lines table
+        { $$ = new Examples($1, $2, $3, $4, new Table($5)); }
     ;
 
 steps

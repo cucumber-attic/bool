@@ -69,6 +69,7 @@ module.exports = function Renderer() {
     out = render_feature_element(scenario_outline, out);
     scenario_outline.examples_list.forEach(function(examples) {
       out += '\n';
+      out = render_tags(examples.tags, out, '    ');
       out = render_described_element(examples, out, '    ');
       out = examples.table.accept(self, out);
     });

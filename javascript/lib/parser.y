@@ -68,9 +68,10 @@ scenario
         { $$ = new ast.Scenario($1, new ast.Token($2, @2), new ast.Token($3, @3), $4, $5); }
     ;
 
+// TODO - we should use examples_list instead of examples so we can have more than one!
 scenario_outline
-    : tags TOKEN_SCENARIO_OUTLINE TOKEN_NAME description_lines steps examples_list
-        { $$ = new ast.ScenarioOutline($1, new ast.Token($2, @2), new ast.Token($3, @3), $4, $5, $6); }
+    : tags TOKEN_SCENARIO_OUTLINE TOKEN_NAME description_lines steps examples
+        { $$ = new ast.ScenarioOutline($1, new ast.Token($2, @2), new ast.Token($3, @3), $4, $5, [$6]); }
     ;
 
 examples_list
@@ -81,8 +82,8 @@ examples_list
     ;
 
 examples
-    : TOKEN_EXAMPLES TOKEN_NAME description_lines table
-        { $$ = new ast.Examples([], new ast.Token($1, @1), new ast.Token($2, @2), $3, new ast.Table($4)); }
+    : tags TOKEN_EXAMPLES TOKEN_NAME description_lines table
+        { $$ = new ast.Examples($1, new ast.Token($2, @2), new ast.Token($3, @3), $4, new ast.Table($5)); }
     ;
 
 steps

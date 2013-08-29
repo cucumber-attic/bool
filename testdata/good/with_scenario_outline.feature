@@ -14,6 +14,7 @@ Feature: Hello
     When I eat <m> cukes
     Then I should have <n> cukes in my belly
 
+    @foo
     Examples: a few
       | m   | n   |
       |   1 |   2 |

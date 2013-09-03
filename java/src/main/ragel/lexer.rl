@@ -7,29 +7,43 @@ public class Lexer implements Parser.Lexer {
         machine lexer;
         alphtype char;
 
-        crlf     = '\n';
-        feature  = 'Feature:';
-        step     = 'Given ' | 'When '| 'Then ' | 'And ' | 'But ';
-        tag      = '@'[a-z]+;
-        description_line = 'xxxx';
+        crlf             = '\n';
 
-        name := |*
-            (any -- crlf)*     => { fnext main; ret = TOKEN_NAME; fbreak; };
+        feature          = 'Feature:';
+        background       = 'Background:';
+        scenario         = 'Scenario:';
+        scenario_outline = 'Scenario Outline:';
+        examples         = 'Examples:';
+        step             = 'Given ' | 'When '| 'Then ' | 'And ' | 'But ';
+        tag              = '@'alpha+;
+
+        main := |*
+            [ \t\r]              ;
+            crlf                 ;
+            tag               => { fnext tags; ret = TOKEN_TAG; fbreak; };
+            feature           => { fnext after_keyword; ret = TOKEN_FEATURE; fbreak; };
+            background        => { fnext after_keyword; ret = TOKEN_BACKGROUND; fbreak; };
+            scenario          => { fnext after_keyword; ret = TOKEN_SCENARIO; fbreak; };
+            scenario_outline  => { fnext after_keyword; ret = TOKEN_SCENARIO_OUTLINE; fbreak; };
+            examples          => { fnext after_keyword; ret = TOKEN_EXAMPLES; fbreak; };
+            step              => { fnext after_keyword; ret = TOKEN_STEP; fbreak; };
+        *|;
+
+        tags := |*
+            [ ]                  ;
+            crlf              => { fnext main; };
+            tag               => { ret = TOKEN_TAG; fbreak; };
         *|;
 
         after_keyword := |*
-            [ ]+              => { fnext name; };
-            empty             => { fnext name; };
+            [ ]                  ;
+            (any -- [ ])      => { fhold; fnext name; };
         *|;
 
-        main := |*
-            [ \t\r];
-            '\n'              => { ++firstLine; lineStart = p + 1; };
-            tag               => { ret = TOKEN_TAG; fbreak; };
-            feature           => { fnext after_keyword; ret = TOKEN_FEATURE; fbreak; };
-            step              => { fnext name; ret = TOKEN_STEP; fbreak; };
-            description_line  => { ret = TOKEN_DESCRIPTION_LINE; fbreak; };
+        name := |*
+            (any -- crlf)*    => { fnext main; ret = TOKEN_NAME; fbreak; };
         *|;
+
     }%%
 
     %%write data noerror;
@@ -105,3 +119,4 @@ public class Lexer implements Parser.Lexer {
         throw new SyntaxError(message, location.begin.getLine(), location.begin.getColumn(), location.end.getLine(), location.end.getColumn());
     }
 }
+

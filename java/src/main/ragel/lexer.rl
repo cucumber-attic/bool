@@ -7,46 +7,64 @@ public class Lexer implements Parser.Lexer {
         machine lexer;
         alphtype char;
 
-        crlf             = '\n';
+        crlf              = '\n';
 
-        feature          = 'Feature:';
-        background       = 'Background:';
-        scenario         = 'Scenario:';
-        scenario_outline = 'Scenario Outline:';
-        examples         = 'Examples:';
-        step             = 'Given ' | 'When '| 'Then ' | 'And ' | 'But ';
-        tag              = '@'alpha+;
+        feature           = 'Feature:';
+        background        = 'Background:';
+        scenario          = 'Scenario:';
+        scenario_outline  = 'Scenario Outline:';
+        examples          = 'Examples:';
+        step              = 'Given ' | 'When '| 'Then ' | 'And ' | 'But ';
+        tag               = '@'alpha+;
+        doc_string_delim  = '"""';
 
         main := |*
-            [ \t\r]              ;
-            crlf                 ;
-            tag               => { fnext tags; ret = TOKEN_TAG; fbreak; };
-            feature           => { fnext after_keyword; ret = TOKEN_FEATURE; fbreak; };
-            background        => { fnext after_keyword; ret = TOKEN_BACKGROUND; fbreak; };
-            scenario          => { fnext after_keyword; ret = TOKEN_SCENARIO; fbreak; };
-            scenario_outline  => { fnext after_keyword; ret = TOKEN_SCENARIO_OUTLINE; fbreak; };
-            examples          => { fnext after_keyword; ret = TOKEN_EXAMPLES; fbreak; };
-            step              => { fnext after_keyword; ret = TOKEN_STEP; fbreak; };
-            any               => { fhold; fnext description_line; };
+            [ \t\r]                            ;
+            crlf                               ;
+            tag                             => { fnext tags; ret = TOKEN_TAG; fbreak; };
+            feature                         => { fnext after_keyword; ret = TOKEN_FEATURE; fbreak; };
+            background                      => { fnext after_keyword; ret = TOKEN_BACKGROUND; fbreak; };
+            scenario                        => { fnext after_keyword; ret = TOKEN_SCENARIO; fbreak; };
+            scenario_outline                => { fnext after_keyword; ret = TOKEN_SCENARIO_OUTLINE; fbreak; };
+            examples                        => { fnext after_keyword; ret = TOKEN_EXAMPLES; fbreak; };
+            step                            => { fnext after_keyword; ret = TOKEN_STEP; fbreak; };
+            doc_string_delim . [ ]* . crlf  => { fnext doc_string; };
+            '|'                             => { fnext cell; ret = TOKEN_PIPE; fbreak; };
+            any                             => { fhold; fnext description_line; };
         *|;
 
         tags := |*
-            [ ]                  ;
-            crlf              => { fnext main; };
-            tag               => { ret = TOKEN_TAG; fbreak; };
+            [ ]                                ;
+            crlf                            => { fnext main; };
+            tag                             => { ret = TOKEN_TAG; fbreak; };
         *|;
 
         after_keyword := |*
-            [ ]                  ;
-            (any -- [ ])      => { fhold; fnext name; };
+            [ ]                                ;
+            (any -- [ ])                    => { fhold; fnext name; };
         *|;
 
         name := |*
-            (any -- crlf)*    => { fnext main; ret = TOKEN_NAME; fbreak; };
+            (any -- crlf)*                  => { fnext main; ret = TOKEN_NAME; fbreak; };
+        *|;
+
+        doc_string := |*
+            [ ]* . doc_string_delim         => { fnext main; };
+            any                             => { fhold; fnext doc_string_line; };
+        *|;
+
+        doc_string_line := |*
+            (any -- crlf)* . crlf           => { fnext doc_string; ret = TOKEN_DOC_STRING_LINE; fbreak; };
+        *|;
+
+        cell := |*
+            crlf                            => { fnext main; ret = TOKEN_EOL; fbreak; };
+            '|' . [ ]*                      => { ret = TOKEN_PIPE; fbreak; };
+            [^\|\n]*                        => { ret = TOKEN_CELL; fbreak; };
         *|;
 
         description_line := |*
-            (any -- crlf)*    => { fnext main; ret = TOKEN_DESCRIPTION_LINE; fbreak; };
+            (any -- crlf)*                  => { fnext main; ret = TOKEN_DESCRIPTION_LINE; fbreak; };
         *|;
 
     }%%

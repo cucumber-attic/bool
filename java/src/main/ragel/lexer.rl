@@ -27,6 +27,7 @@ public class Lexer implements Parser.Lexer {
             scenario_outline  => { fnext after_keyword; ret = TOKEN_SCENARIO_OUTLINE; fbreak; };
             examples          => { fnext after_keyword; ret = TOKEN_EXAMPLES; fbreak; };
             step              => { fnext after_keyword; ret = TOKEN_STEP; fbreak; };
+            any               => { fhold; fnext description_line; };
         *|;
 
         tags := |*
@@ -42,6 +43,10 @@ public class Lexer implements Parser.Lexer {
 
         name := |*
             (any -- crlf)*    => { fnext main; ret = TOKEN_NAME; fbreak; };
+        *|;
+
+        description_line := |*
+            (any -- crlf)*    => { fnext main; ret = TOKEN_DESCRIPTION_LINE; fbreak; };
         *|;
 
     }%%
@@ -119,4 +124,3 @@ public class Lexer implements Parser.Lexer {
         throw new SyntaxError(message, location.begin.getLine(), location.begin.getColumn(), location.end.getLine(), location.end.getColumn());
     }
 }
-

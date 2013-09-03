@@ -32,7 +32,7 @@ public class LexerTest {
 
     @Test
     public void tokenizes_a_named_feature_with_given_when() {
-        lexer = new Lexer("" +
+        lexer = new Lexer(
                 "Feature:     Hello\n" +
                 "  Given I have 4 cukes in my belly\n" +
                 " When  I go shopping\n");
@@ -55,17 +55,17 @@ public class LexerTest {
         assertLex(Lexer.TOKEN_NAME, "World");
     }
 
-//    @Test
-//    public void tokenizes_a_named_feature_with_description() {
-//        lexer = new Lexer("" +
-//                "Feature:     Hello\n" +
-//                "  this is a description\n" +
-//                "  and so is this");
-//        assertLex(Lexer.TOKEN_FEATURE, "Feature:");
-//        assertLex(Lexer.TOKEN_NAME, "Hello");
-//        assertLex(Lexer.TOKEN_DESCRIPTION_LINE, "this is a description");
-//        assertLex(Lexer.TOKEN_DESCRIPTION_LINE, "and so is this");
-//    }
+    @Test
+    public void tokenizes_a_named_feature_with_description() {
+        lexer = new Lexer(
+                "Feature:     Hello\n" +
+                "  this is a description\n" +
+                "  and so is this");
+        assertLex(Lexer.TOKEN_FEATURE, "Feature:");
+        assertLex(Lexer.TOKEN_NAME, "Hello");
+        assertLex(Lexer.TOKEN_DESCRIPTION_LINE, "this is a description");
+        assertLex(Lexer.TOKEN_DESCRIPTION_LINE, "and so is this");
+    }
 
     private void assertLex(int type, String value) {
         int actualType = lexer.yylex();
@@ -74,4 +74,3 @@ public class LexerTest {
     }
 
 }
-

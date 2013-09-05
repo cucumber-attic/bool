@@ -2,6 +2,7 @@ package bool;
 
 import bool.ast.*;
 
+import java.util.Collections;
 import java.util.List;
 
 public class Renderer {
@@ -9,48 +10,6 @@ public class Renderer {
     private final static int NO_INDENTATION = 0;
     private final static int INDENTATION = 2;
 
-    private class FeatureElementVisitor implements FeatureElement.Visitor<StringBuilder, StringBuilder> {
-
-        @Override
-        public StringBuilder visit(Background background, StringBuilder out) {
-            out.append("\n");
-            writeIndent(INDENTATION, out)
-                    .append(background.keyword.getValue())
-                    .append(" ")
-                    .append(background.name.getValue())
-                    .append("\n");
-            renderDescription(background.descriptionLines, 2*INDENTATION, out);
-            renderSteps(background.steps, 2*INDENTATION, out);
-            return out;
-        }
-
-        @Override
-        public StringBuilder visit(Scenario scenario, StringBuilder out) {
-            // TODO
-            return out;
-        }
-
-        @Override
-        public StringBuilder visit(ScenarioOutline scenarioOutline, StringBuilder out) {
-            // TODO
-            return out;
-        }
-    }
-
-    private class MultilineArgVisitor implements MultilineArg.Visitor<StringBuilder, StringBuilder> {
-
-        @Override
-        public StringBuilder visit(Table table, StringBuilder out) {
-            // TODO
-            return out;
-        }
-
-        @Override
-        public StringBuilder visit(DocString docString, StringBuilder out) {
-            // TODO
-            return out;
-        }
-    }
 
     public String render(Feature feature) {
         StringBuilder out = new StringBuilder();
@@ -58,9 +17,73 @@ public class Renderer {
         out.append(feature.keyword.getValue()).append(" ").append(feature.name.getValue()).append("\n");
         renderDescription(feature.descriptionLines, INDENTATION, out);
         for (FeatureElement fe : feature.featureElement) {
-            fe.accept(new FeatureElementVisitor(), out);
+            renderFeatureElement(fe, out);
         }
         return out.toString();
+    }
+
+    private void renderFeatureElement(FeatureElement featureElement, StringBuilder out) {
+        featureElement.accept(new FeatureElement.Visitor<Void, StringBuilder>() {
+
+            @Override
+            public Void visit(Background background, StringBuilder out) {
+                renderBackground(background, out);
+                return null;
+            }
+
+            @Override
+            public Void visit(Scenario scenario, StringBuilder out) {
+                renderScenario(scenario, out);
+                return null;
+            }
+
+            @Override
+            public Void visit(ScenarioOutline scenarioOutline, StringBuilder out) {
+                renderScenarioOutline(scenarioOutline, out);
+                return null;
+            }
+
+        }, out);
+    }
+
+    private StringBuilder renderBackground(Background background, StringBuilder out) {
+        out.append("\n");
+        renderFeatureElement(background.keyword, background.name, background.descriptionLines, background.steps, out, INDENTATION);
+        return out;
+    }
+
+    private StringBuilder renderScenario(Scenario scenario, StringBuilder out) {
+        out.append("\n");
+        renderTags(scenario.tags, out, INDENTATION);
+        renderFeatureElement(scenario.keyword, scenario.name, scenario.descriptionLines, scenario.steps, out, INDENTATION);
+        return out;
+    }
+
+    private StringBuilder renderScenarioOutline(ScenarioOutline scenarioOutline, StringBuilder out) {
+        out.append("\n");
+        renderTags(scenarioOutline.tags, out, INDENTATION);
+        renderFeatureElement(scenarioOutline.keyword, scenarioOutline.name, scenarioOutline.descriptionLines, scenarioOutline.steps, out, INDENTATION);
+        for (Examples examples : scenarioOutline.examplesList) {
+            renderExamples(examples, out);
+        }
+        return out;
+    }
+
+    private void renderExamples(Examples examples, StringBuilder out) {
+        out.append("\n");
+        renderTags(examples.tags, out, 2 * INDENTATION);
+        renderFeatureElement(examples.keyword, examples.name, examples.descriptionLines, Collections.EMPTY_LIST, out, 2*INDENTATION);
+        renderTable(examples.table, out);
+    }
+
+    private void renderFeatureElement(Token keyword, Token name, List<Token> descriptionLines, List<Step> steps, StringBuilder out, int indent) {
+        writeIndent(indent, out)
+                .append(keyword.getValue())
+                .append(" ")
+                .append(name.getValue())
+                .append("\n");
+        renderDescription(descriptionLines, indent+INDENTATION, out);
+        renderSteps(steps, indent+INDENTATION, out);
     }
 
     private void renderTags(List<Tag> tags, StringBuilder out, int indent) {
@@ -97,9 +120,35 @@ public class Renderer {
                     .append(s.name.getValue())
                     .append("\n");
             if (s.multilineArg != null) {
-                s.multilineArg.accept(new MultilineArgVisitor(), out);
+                renderMultilineArg(s.multilineArg, out);
             }
         }
+    }
+
+    private void renderMultilineArg(MultilineArg multilineArg, StringBuilder out) {
+        multilineArg.accept(new MultilineArg.Visitor<Void, StringBuilder>() {
+
+                @Override
+                public Void visit(Table table, StringBuilder out) {
+                    renderTable(table, out);
+                    return null;
+                }
+
+                @Override
+                public Void visit(DocString docString, StringBuilder out) {
+                    renderDocString(docString, out);
+                    return null;
+                }
+
+            }, out);
+    }
+
+    private void renderTable(Table table, StringBuilder out) { // TODO int indent
+        // TODO
+    }
+
+    private void renderDocString(DocString docString, StringBuilder out) {
+        // TODO
     }
 
     private StringBuilder writeIndent(int i, StringBuilder out) {

@@ -78,13 +78,13 @@ public class RendererTest {
             ),
             elements(
                 scenario(tags("@bar"), "b",
-                    descriptionLines(
-                        "description 1",
-                        "description 2"
-                    ), new Step[] {
+                        descriptionLines(
+                                "description 1",
+                                "description 2"
+                        ), new Step[]{
                         given("c"),
                         when("d")
-                    }
+                }
                 )
             )
         );
@@ -100,6 +100,42 @@ public class RendererTest {
                 "    description 2\n" +
                 "\n" +
                 "    Given c\n" +
+                "    When d\n",
+            rendered);
+    }
+
+    @Test
+    public void renders_feature_with_scenario_and_docstring() {
+        Feature feature = new Feature(
+            tags(),
+            token("Feature:"), token("a"),
+            descriptionLines(
+            ),
+            elements(
+                scenario(tags(), "b",
+                    descriptionLines(
+                    ), new Step[] {
+                        given("c",
+                            "doc string 1",
+                            "doc string 2"
+                        ),
+                        when("d")
+                    }
+                )
+            )
+        );
+
+        String rendered = new Renderer().render(feature);
+
+        assertEquals(
+                "Feature: a\n" +
+                "\n" +
+                "  Scenario: b\n" +
+                "    Given c\n" +
+                "    \"\"\"\n" +
+                "    doc string 1\n" +
+                "    doc string 2\n" +
+                "    \"\"\"\n" +
                 "    When d\n",
             rendered);
     }
@@ -200,6 +236,10 @@ public class RendererTest {
 
     private ScenarioOutline scenarioOutline(List<Tag> tags, String name, List<Token> descriptionLines, Step[] steps, Examples[] examples) {
         return new ScenarioOutline(tags, token("Scenario Outline:"), token(name), descriptionLines, Arrays.asList(steps), Arrays.asList(examples));
+    }
+
+    private Step given(String name, String ... docString) {
+        return new Step(token("Given "), token(name), new DocString(tokens(docString)));
     }
 
     private Step given(String name) {

@@ -7,15 +7,19 @@ import java.util.List;
 
 public class Renderer {
 
-    private final static int NO_INDENTATION = 0;
     private final static int INDENTATION = 2;
+
+    private final static int FEATURE_INDENTATION = 0;
+    private final static int FEATURE_ELEMENT_INDENTATION = INDENTATION;
+    private final static int STEP_INDENTATION = FEATURE_ELEMENT_INDENTATION + INDENTATION;
+    private final static int EXAMPLES_INDENTATION = FEATURE_ELEMENT_INDENTATION + INDENTATION;
 
 
     public String render(Feature feature) {
         StringBuilder out = new StringBuilder();
-        renderTags(feature.tags, out, NO_INDENTATION);
+        renderTags(feature.tags, out, FEATURE_INDENTATION);
         out.append(feature.keyword.getValue()).append(" ").append(feature.name.getValue()).append("\n");
-        renderDescription(feature.descriptionLines, INDENTATION, out);
+        renderDescription(feature.descriptionLines, FEATURE_INDENTATION+INDENTATION, out);
         for (FeatureElement fe : feature.featureElement) {
             renderFeatureElement(fe, out);
         }
@@ -54,15 +58,15 @@ public class Renderer {
 
     private StringBuilder renderScenario(Scenario scenario, StringBuilder out) {
         out.append("\n");
-        renderTags(scenario.tags, out, INDENTATION);
-        renderFeatureElement(scenario.keyword, scenario.name, scenario.descriptionLines, scenario.steps, out, INDENTATION);
+        renderTags(scenario.tags, out, FEATURE_ELEMENT_INDENTATION);
+        renderFeatureElement(scenario.keyword, scenario.name, scenario.descriptionLines, scenario.steps, out, FEATURE_ELEMENT_INDENTATION);
         return out;
     }
 
     private StringBuilder renderScenarioOutline(ScenarioOutline scenarioOutline, StringBuilder out) {
         out.append("\n");
-        renderTags(scenarioOutline.tags, out, INDENTATION);
-        renderFeatureElement(scenarioOutline.keyword, scenarioOutline.name, scenarioOutline.descriptionLines, scenarioOutline.steps, out, INDENTATION);
+        renderTags(scenarioOutline.tags, out, FEATURE_ELEMENT_INDENTATION);
+        renderFeatureElement(scenarioOutline.keyword, scenarioOutline.name, scenarioOutline.descriptionLines, scenarioOutline.steps, out, FEATURE_ELEMENT_INDENTATION);
         for (Examples examples : scenarioOutline.examplesList) {
             renderExamples(examples, out);
         }
@@ -71,8 +75,8 @@ public class Renderer {
 
     private void renderExamples(Examples examples, StringBuilder out) {
         out.append("\n");
-        renderTags(examples.tags, out, 2 * INDENTATION);
-        renderFeatureElement(examples.keyword, examples.name, examples.descriptionLines, Collections.EMPTY_LIST, out, 2*INDENTATION);
+        renderTags(examples.tags, out, EXAMPLES_INDENTATION);
+        renderFeatureElement(examples.keyword, examples.name, examples.descriptionLines, Collections.EMPTY_LIST, out, EXAMPLES_INDENTATION);
         renderTable(examples.table, out);
     }
 
@@ -148,7 +152,11 @@ public class Renderer {
     }
 
     private void renderDocString(DocString docString, StringBuilder out) {
-        // TODO
+        writeIndent(STEP_INDENTATION, out).append("\"\"\"\n");
+        for (Token line : docString.lines) {
+            writeIndent(STEP_INDENTATION, out).append(line.getValue()).append("\n");
+        }
+        writeIndent(STEP_INDENTATION, out).append("\"\"\"\n");
     }
 
     private StringBuilder writeIndent(int i, StringBuilder out) {

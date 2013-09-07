@@ -3,7 +3,7 @@ package bool.ast;
 import java.util.List;
 
 public class DocString implements Union, MultilineArg {
-    private List<Token> lines;
+    public final List<Token> lines;
 
     public DocString(List<Token> lines) {
         this.lines = lines;

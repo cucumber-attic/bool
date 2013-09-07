@@ -163,7 +163,7 @@ public class RendererTest {
                             ),
                             new String[][] {
                                 {"aaa","bb","c"},
-                                {"dd","eee","f"}
+                                {"11","222","3"}
                             }
                         )
                     }
@@ -188,9 +188,9 @@ public class RendererTest {
                 "    Examples: e\n"  +
                 "      description 3\n" +
                 "      description 4\n" +
-                "\n",
-//                "      |aaa|bb |c|\n"+
-//                "      |dd |eee|f|\n",
+                "\n"+
+                "      | aaa |  bb | c |\n"+
+                "      | 11  | 222 | 3 |\n",
             rendered);
     }
 

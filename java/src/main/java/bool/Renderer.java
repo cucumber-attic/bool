@@ -2,7 +2,9 @@ package bool;
 
 import bool.ast.*;
 
+import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Iterator;
 import java.util.List;
 
 public class Renderer {
@@ -10,9 +12,8 @@ public class Renderer {
     private final static int INDENTATION = 2;
 
     private final static int FEATURE_INDENTATION = 0;
-    private final static int FEATURE_ELEMENT_INDENTATION = INDENTATION;
-    private final static int STEP_INDENTATION = FEATURE_ELEMENT_INDENTATION + INDENTATION;
-    private final static int EXAMPLES_INDENTATION = FEATURE_ELEMENT_INDENTATION + INDENTATION;
+    private final static int SCENARIO_INDENTATION = INDENTATION;
+    private final static int STEP_INDENTATION = SCENARIO_INDENTATION + INDENTATION;
 
 
     public String render(Feature feature) {
@@ -58,15 +59,15 @@ public class Renderer {
 
     private StringBuilder renderScenario(Scenario scenario, StringBuilder out) {
         out.append("\n");
-        renderTags(scenario.tags, out, FEATURE_ELEMENT_INDENTATION);
-        renderFeatureElement(scenario.keyword, scenario.name, scenario.descriptionLines, scenario.steps, out, FEATURE_ELEMENT_INDENTATION);
+        renderTags(scenario.tags, out, SCENARIO_INDENTATION);
+        renderFeatureElement(scenario.keyword, scenario.name, scenario.descriptionLines, scenario.steps, out, SCENARIO_INDENTATION);
         return out;
     }
 
     private StringBuilder renderScenarioOutline(ScenarioOutline scenarioOutline, StringBuilder out) {
         out.append("\n");
-        renderTags(scenarioOutline.tags, out, FEATURE_ELEMENT_INDENTATION);
-        renderFeatureElement(scenarioOutline.keyword, scenarioOutline.name, scenarioOutline.descriptionLines, scenarioOutline.steps, out, FEATURE_ELEMENT_INDENTATION);
+        renderTags(scenarioOutline.tags, out, SCENARIO_INDENTATION);
+        renderFeatureElement(scenarioOutline.keyword, scenarioOutline.name, scenarioOutline.descriptionLines, scenarioOutline.steps, out, SCENARIO_INDENTATION);
         for (Examples examples : scenarioOutline.examplesList) {
             renderExamples(examples, out);
         }
@@ -75,8 +76,8 @@ public class Renderer {
 
     private void renderExamples(Examples examples, StringBuilder out) {
         out.append("\n");
-        renderTags(examples.tags, out, EXAMPLES_INDENTATION);
-        renderFeatureElement(examples.keyword, examples.name, examples.descriptionLines, Collections.EMPTY_LIST, out, EXAMPLES_INDENTATION);
+        renderTags(examples.tags, out, STEP_INDENTATION);
+        renderFeatureElement(examples.keyword, examples.name, examples.descriptionLines, Collections.EMPTY_LIST, out, STEP_INDENTATION);
         renderTable(examples.table, out);
     }
 
@@ -147,8 +148,56 @@ public class Renderer {
             }, out);
     }
 
-    private void renderTable(Table table, StringBuilder out) { // TODO int indent
-        // TODO
+    private void renderTable(Table table, StringBuilder out) {
+        int[] colWidths = findColumnWidths(table);
+        for (List<Token> row : table.rows) {
+            writeIndent(STEP_INDENTATION + INDENTATION - 1, out);
+            Iterator<Token> cellIterator = row.iterator();
+            for (int i = 0; i < colWidths.length; ++i) {
+                if (!cellIterator.hasNext())
+                    break; // handle malformed tables
+                Token cell = cellIterator.next();
+                out.append(" | ");
+                String cellValue = cell.getValue();
+                int padding = colWidths[i] - cellValue.length();
+                if (isNumber(cellValue)) {
+                    out.append(cellValue);
+                    writeIndent(padding, out);
+                } else {
+                    writeIndent(padding, out);
+                    out.append(cellValue);
+                }
+            }
+            out.append(" |\n");
+        }
+    }
+
+    private boolean isNumber(String value) {
+        // Could use StringUtils.isNumber(value) if we introduce a dependency
+        for (char ch : value.toCharArray()) {
+            if (!Character.isDigit(ch))
+                return false;
+        }
+        return true;
+    }
+
+    private int[] findColumnWidths(Table table) {
+        if (table.rows.isEmpty())
+            return new int[0];
+        int numCols = table.rows.get(0).size();
+        int[] colWidths = new int[numCols];
+        for (List<Token> row : table.rows) {
+            Iterator<Token> cellIterator = row.iterator();
+            for (int i = 0; i < numCols; ++i) {
+                if (!cellIterator.hasNext())
+                    break; // handle malformed tables
+                Token cell = cellIterator.next();
+                int cellWidth = cell.getValue().length();
+                if (colWidths[i] < cellWidth)
+                    colWidths[i] = cellWidth;
+            }
+        }
+        return colWidths;
     }
 
     private void renderDocString(DocString docString, StringBuilder out) {

@@ -59,7 +59,7 @@ public class Lexer implements Parser.Lexer {
         int ret = -1;
 
         if (p == eof) {
-            return EOF;
+            ret = EOF;
         }
 
         %% write exec;

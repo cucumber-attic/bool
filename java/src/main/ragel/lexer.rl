@@ -27,7 +27,6 @@ public class Lexer implements Parser.Lexer {
     private final char[] data;
 
     private String yytext = null;
-    private boolean atEof = false;
 
     public Lexer(char[] data)  {
         this.data = data;
@@ -57,21 +56,17 @@ public class Lexer implements Parser.Lexer {
 
     @Override
     public final int yylex() {
-        int ret = EOF;
+        int ret = -1;
 
-        if (atEof) {
-            return ret;
+        if (p == eof) {
+            return EOF;
         }
 
         %% write exec;
 
-        if (p == eof) {
-            atEof = true;
-        }
-
         lastLine = firstLine;
 
-        if(ret == EOF) {
+        if(ret == -1) {
             yytext = new String(data, p, pe - p);
             String message = "syntax error: " + yytext;
             firstColumn = lastColumn = p - lineStart + 1;

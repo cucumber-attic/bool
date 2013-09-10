@@ -19,6 +19,10 @@ public class LexerTest {
 
         assertEquals(Lexer.TOKEN_VAR, lexer.yylex());
         assertEquals("bar", lexer.getLVal().getValue());
+
+        // Test EOF
+        assertEquals(Lexer.EOF, lexer.yylex());
+        assertEquals(Lexer.EOF, lexer.yylex());
     }
 
     @Test

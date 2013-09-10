@@ -1,3 +1,7 @@
+## [Git master](https://github.com/cucumber/bool/compare/v1.0.10...master) (Not release)
+
+* Lexer no longer throws SyntaxError when lexing beyond EOF.
+
 ## [1.0.19](https://github.com/cucumber/bool/compare/v1.0.18...v1.0.19) (27 Aug 2013)
 
 * Introduced an `AbstractEvaluator` in java, which allows alternative interpretations of variables.

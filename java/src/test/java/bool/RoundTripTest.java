@@ -1,50 +1,72 @@
 package bool;
 
+import bool.ast.Feature;
 import com.google.common.base.Charsets;
+import com.google.common.base.Predicate;
 import com.google.common.io.Files;
+import junitparams.JUnitParamsRunner;
+import junitparams.Parameters;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.junit.runners.Parameterized;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
 
-import static org.junit.runners.Parameterized.Parameters;
+import static com.google.common.collect.Collections2.filter;
+import static org.junit.Assert.assertEquals;
 
-@RunWith(Parameterized.class)
+/**
+ * This test parses feature files under /testdata/good, renders them and verifies that the output
+ * is the same as the input.
+ *
+ * To validate just a single file, run with FEATURE=filename
+ */
+@RunWith(JUnitParamsRunner.class)
 public class RoundTripTest {
+    private static String FEATURE_PATTERN = System.getenv().get("FEATURE");
 
-    private final File featureFile;
+    static {
+        if (FEATURE_PATTERN == null) {
+            FEATURE_PATTERN = ".*";
+        } else {
+            FEATURE_PATTERN = ".*" + FEATURE_PATTERN + ".*";
+        }
+    }
 
-    @Parameters
-    public static Collection<Object[]> data() {
+    public static Object[] featureFiles() {
         File rootDir = new File(RoundTripTest.class.getProtectionDomain().getCodeSource().getLocation().getFile())
                 .getParentFile()
                 .getParentFile()
                 .getParentFile();
         File testdata = new File(rootDir, "testdata");
         File good = new File(testdata, "good");
-        File[] goodFeatures = good.listFiles();
-
-        List<Object[]> result = new ArrayList<Object[]>();
-        for (File goodFeature : goodFeatures) {
-            result.add(new Object[]{goodFeature});
-        }
-        return result;
+        List<File> goodFeatures = Arrays.asList(good.listFiles());
+        Collection<File> filteredGoodFeatures = filter(goodFeatures, new Predicate<File>() {
+            @Override
+            public boolean apply(File file) {
+                return file.getPath().matches(FEATURE_PATTERN);
+            }
+        });
+        return filteredGoodFeatures.toArray();
     }
 
-    public RoundTripTest(File featureFile) {
-        this.featureFile = featureFile;
-    }
-
-    // See roundtrip_test.js
     @Test
-    public void roundtrips_good_features() throws IOException {
+    @Parameters(method = "featureFiles")
+    public void roundtrips_good_features(File featureFile) throws IOException {
         String source = Files.toString(featureFile, Charsets.UTF_8);
         Parser parser = new Parser(new Lexer(source));
-        //Feature feature = parser.buildAst();
+        try {
+//            Feature feature = parser.buildAst();
+//            String rendered = new Renderer().render(feature);
+//            assertEquals(source, rendered);
+        } catch (SyntaxError e) {
+            StackTraceElement[] stackTrace = e.getStackTrace();
+            stackTrace[stackTrace.length - 1] = new StackTraceElement(getClass().getName(), "roundtrips_good_features", featureFile.getName(), e.getFirstLine());
+            e.setStackTrace(stackTrace);
+            throw e;
+        }
     }
 }

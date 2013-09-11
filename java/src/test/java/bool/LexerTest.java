@@ -13,6 +13,7 @@ public class LexerTest {
         lexer = new Lexer("  \n  Feature: hello\n");
         assertLex(Lexer.TOKEN_FEATURE, "Feature:");
         assertLex(Lexer.TOKEN_NAME, "hello");
+        assertEof();
     }
 
     @Test
@@ -21,6 +22,7 @@ public class LexerTest {
         assertLex(Lexer.TOKEN_TAG, "@foo");
         assertLex(Lexer.TOKEN_TAG, "@bar");
         assertLex(Lexer.TOKEN_TAG, "@zap");
+        assertEof();
     }
 
     @Test
@@ -28,6 +30,7 @@ public class LexerTest {
         lexer = new Lexer(" Given  I have 4 cukes in my belly\n");
         assertLex(Lexer.TOKEN_STEP, "Given ");
         assertLex(Lexer.TOKEN_NAME, "I have 4 cukes in my belly");
+        assertEof();
     }
 
     @Test
@@ -42,6 +45,7 @@ public class LexerTest {
         assertLex(Lexer.TOKEN_NAME, "I have 4 cukes in my belly");
         assertLex(Lexer.TOKEN_STEP, "When ");
         assertLex(Lexer.TOKEN_NAME, "I go shopping");
+        assertEof();
     }
 
     @Test
@@ -53,6 +57,7 @@ public class LexerTest {
         assertLex(Lexer.TOKEN_NAME, "Hello");
         assertLex(Lexer.TOKEN_SCENARIO_OUTLINE, "Scenario Outline:");
         assertLex(Lexer.TOKEN_NAME, "World");
+        assertEof();
     }
 
     @Test
@@ -65,6 +70,7 @@ public class LexerTest {
         assertLex(Lexer.TOKEN_NAME, "Hello");
         assertLex(Lexer.TOKEN_DESCRIPTION_LINE, "this is a description");
         assertLex(Lexer.TOKEN_DESCRIPTION_LINE, "and so is this");
+        assertEof();
     }
 
     @Test
@@ -84,6 +90,8 @@ public class LexerTest {
         assertLex(Lexer.TOKEN_STEP, "Given ");
         assertLex(Lexer.TOKEN_NAME, "something");
         assertLex(Lexer.TOKEN_DOC_STRING_LINE, "  The next\n");
+        assertLex(Lexer.TOKEN_DOC_STRING_LINE, "DocString\n");
+        assertEof();
     }
 
     @Test
@@ -95,6 +103,7 @@ public class LexerTest {
         assertLex(Lexer.TOKEN_CELL, "bar");
         assertLex(Lexer.TOKEN_PIPE, "|  ");
         assertLex(Lexer.TOKEN_EOL, "\n");
+        assertEof();
     }
 
     @Test
@@ -104,6 +113,7 @@ public class LexerTest {
         assertLex(Lexer.TOKEN_PIPE, "|");
         assertLex(Lexer.TOKEN_PIPE, "|");
         assertLex(Lexer.TOKEN_EOL, "\n");
+        assertEof();
     }
 
     @Test
@@ -119,12 +129,30 @@ public class LexerTest {
         assertLex(Lexer.TOKEN_CELL, "ddd ");
         assertLex(Lexer.TOKEN_PIPE, "|");
         assertLex(Lexer.TOKEN_EOL, "\n");
+        assertEof();
+    }
+
+    @Test
+    public void eof_ignores_trailing_whitespaces() {
+        lexer = new Lexer("  \n");
+        assertEof();
+    }
+
+    @Test
+    public void eof_is_repeatable() {
+        lexer = new Lexer("");
+        assertEof();
+        assertEof(); // test EOF can be repeated
     }
 
     private void assertLex(int type, String value) {
         int actualType = lexer.yylex();
         assertEquals(value, lexer.getLVal().getValue());
         assertEquals(type, actualType);
+    }
+
+    private void assertEof() {
+        assertEquals(Lexer.EOF, lexer.yylex());
     }
 
 }

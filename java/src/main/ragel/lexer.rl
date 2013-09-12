@@ -40,12 +40,14 @@ public class Lexer implements Parser.Lexer {
         *|;
 
         after_keyword := |*
+            # NOT WORKING: [ ]* => { fnext name; };
             [ ]                                ;
             (any -- [ ])                    => { fhold; fnext name; };
         *|;
 
         name := |*
-            (any -- crlf)*                  => { fnext main; ret = TOKEN_NAME; fbreak; };
+            # NOT WORKING: (any -- crlf)* => { fnext main; ret = TOKEN_NAME; fbreak; };
+            (any -- crlf)* . crlf           => { /* hack to exclude crlf */ te = p;fnext main; ret = TOKEN_NAME; fbreak; };
         *|;
 
         doc_string := |*

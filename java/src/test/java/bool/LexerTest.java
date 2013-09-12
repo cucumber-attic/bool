@@ -61,6 +61,36 @@ public class LexerTest {
     }
 
     @Test
+    public void tokenizes_keywords_without_names() {
+        lexer = new Lexer(
+                "Feature:   \n" +
+                "Background:\n" +
+                "Scenario: \n" +
+                "  Given \n" +
+                "  When   \n" +
+                "Scenario Outline:\n" +
+                "  Examples:\n");
+//                "Scenario:"
+        assertLex(Lexer.TOKEN_FEATURE, "Feature:");
+        assertLex(Lexer.TOKEN_NAME, "");
+        assertLex(Lexer.TOKEN_BACKGROUND, "Background:");
+        assertLex(Lexer.TOKEN_NAME, "");
+        assertLex(Lexer.TOKEN_SCENARIO, "Scenario:");
+        assertLex(Lexer.TOKEN_NAME, "");
+        assertLex(Lexer.TOKEN_STEP, "Given ");
+        assertLex(Lexer.TOKEN_NAME, "");
+        assertLex(Lexer.TOKEN_STEP, "When ");
+        assertLex(Lexer.TOKEN_NAME, "");
+        assertLex(Lexer.TOKEN_SCENARIO_OUTLINE, "Scenario Outline:");
+        assertLex(Lexer.TOKEN_NAME, "");
+        assertLex(Lexer.TOKEN_EXAMPLES, "Examples:");
+        assertLex(Lexer.TOKEN_NAME, "");
+//        assertLex(Lexer.TOKEN_SCENARIO, "Scenario:");
+//        assertLex(Lexer.TOKEN_NAME, "");
+        assertEof();
+    }
+
+    @Test
     public void tokenizes_a_named_feature_with_description() {
         lexer = new Lexer(
                 "Feature:     Hello\n" +

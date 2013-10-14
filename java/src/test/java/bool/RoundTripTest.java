@@ -59,9 +59,9 @@ public class RoundTripTest {
         String source = Files.toString(featureFile, Charsets.UTF_8);
         Parser parser = new Parser(new Lexer(source));
         try {
-//            Feature feature = parser.buildAst();
-//            String rendered = new Renderer().render(feature);
-//            assertEquals(source, rendered);
+            Feature feature = parser.buildAst();
+            String rendered = new Renderer().render(feature);
+            assertEquals(source, rendered);
         } catch (SyntaxError e) {
             StackTraceElement[] stackTrace = e.getStackTrace();
             stackTrace[stackTrace.length - 1] = new StackTraceElement(getClass().getName(), "roundtrips_good_features", featureFile.getName(), e.getFirstLine());

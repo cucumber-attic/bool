@@ -58,10 +58,10 @@ import bool.ast.*;
 %type <MultilineArg> multiline_arg
 %type <List> table
 %type <List> doc_string_lines
-%type <DocString> doc_string_line
+%type <Token> doc_string_line
 %type <List> cell_row
 %type <List> cells
-%type <List> cell
+%type <Token> cell
 
 %%
 

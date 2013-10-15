@@ -104,6 +104,22 @@ public class LexerTest {
     }
 
     @Test
+    public void skips_blank_description_lines() {
+        lexer = new Lexer(
+                "Feature:     Hello\n" +
+                "  this is a description\n" +
+                "  \n" +
+                "  and so is this\n" +
+                "  \n" +
+                "  \n");
+        assertLex(Lexer.TOKEN_FEATURE, "Feature:");
+        assertLex(Lexer.TOKEN_NAME, "Hello");
+        assertLex(Lexer.TOKEN_DESCRIPTION_LINE, "this is a description");
+        assertLex(Lexer.TOKEN_DESCRIPTION_LINE, "and so is this");
+        assertEof();
+    }
+
+    @Test
     public void tokenizes_a_docstring() {
         lexer = new Lexer(
                 "  \"\"\"  \n" +

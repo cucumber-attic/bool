@@ -30,8 +30,7 @@ public class RendererTest {
                 "@foo\n" +
                 "Feature: a\n" +
                 "  description 1\n" +
-                "  description 2\n" +
-                "\n",
+                "  description 2\n",
             rendered);
     }
 
@@ -116,8 +115,8 @@ public class RendererTest {
                     descriptionLines(
                     ), new Step[] {
                         given("c",
-                            "doc string 1",
-                            "doc string 2"
+                            "      doc string 1\n",
+                            "      doc string 2\n"
                         ),
                         when("d")
                     }
@@ -132,10 +131,10 @@ public class RendererTest {
                 "\n" +
                 "  Scenario: b\n" +
                 "    Given c\n" +
-                "    \"\"\"\n" +
-                "    doc string 1\n" +
-                "    doc string 2\n" +
-                "    \"\"\"\n" +
+                "      \"\"\"\n" +
+                "      doc string 1\n" +
+                "      doc string 2\n" +
+                "      \"\"\"\n" +
                 "    When d\n",
             rendered);
     }
@@ -189,8 +188,8 @@ public class RendererTest {
                 "      description 3\n" +
                 "      description 4\n" +
                 "\n"+
-                "      | aaa |  bb | c |\n"+
-                "      | 11  | 222 | 3 |\n",
+                "      | aaa | bb  | c |\n"+
+                "      |  11 | 222 | 3 |\n",
             rendered);
     }
 

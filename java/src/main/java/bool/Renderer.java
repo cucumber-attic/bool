@@ -88,6 +88,9 @@ public class Renderer {
                 .append(name.getValue())
                 .append("\n");
         renderDescription(descriptionLines, indent+INDENTATION, out);
+        if (!descriptionLines.isEmpty()) {
+            out.append("\n");
+        }
         renderSteps(steps, indent+INDENTATION, out);
     }
 
@@ -112,9 +115,6 @@ public class Renderer {
             writeIndent(indent, out)
                     .append(dl.getValue())
                     .append("\n");
-        }
-        if (!descriptionLines.isEmpty()) {
-            out.append("\n");
         }
     }
 
@@ -161,11 +161,11 @@ public class Renderer {
                 String cellValue = cell.getValue();
                 int padding = colWidths[i] - cellValue.length();
                 if (isNumber(cellValue)) {
-                    out.append(cellValue);
                     writeIndent(padding, out);
+                    out.append(cellValue);
                 } else {
-                    writeIndent(padding, out);
                     out.append(cellValue);
+                    writeIndent(padding, out);
                 }
             }
             out.append(" |\n");
@@ -201,11 +201,11 @@ public class Renderer {
     }
 
     private void renderDocString(DocString docString, StringBuilder out) {
-        writeIndent(STEP_INDENTATION, out).append("\"\"\"\n");
+        writeIndent(STEP_INDENTATION + INDENTATION, out).append("\"\"\"\n");
         for (Token line : docString.lines) {
-            writeIndent(STEP_INDENTATION, out).append(line.getValue()).append("\n");
+            out.append(line.getValue());
         }
-        writeIndent(STEP_INDENTATION, out).append("\"\"\"\n");
+        writeIndent(STEP_INDENTATION + INDENTATION, out).append("\"\"\"\n");
     }
 
     private StringBuilder writeIndent(int i, StringBuilder out) {

@@ -11,7 +11,7 @@
 - [x] All tokens should have location info. Good cross platform tests for this!
 - [x] Descriptionlines should be tokens. Everything should be!
 - [x] Scenario Outline compilation: replace <tokens> in DocStrings.
-- [ ] Scenario Outline compilation: replace <tokens> in DataTables.
+- [x] Scenario Outline compilation: replace <tokens> in DataTables.
 - [ ] Ignore # comments
 - [ ] Test with tabs: Feature:\tname
 - [ ] Test with no space: Feature:name

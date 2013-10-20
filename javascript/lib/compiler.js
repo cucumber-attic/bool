@@ -34,24 +34,13 @@ module.exports = function Compiler() {
 
   this.visit_table = function(node, scenarios) {
     arg_names = node.rows[0];
-    node.rows.slice(1).forEach(function(row) {
+    node.rows.slice(1).forEach(function(arg_values) {
       var steps = scenario_outline.steps.map(function(outline_step) {
-        var locations = outline_step.keyword.locations.concat(row[0].locations);
-
-        var step_name = replace(arg_names, row, outline_step.name.value);
-        var multiline_arg = null;
-        if(outline_step.multiline_arg) {
-          var replace_visitor = {
-            visit_doc_string: function(doc_string, args) {
-              var doc_string_value = replace(arg_names, row, doc_string.string());
-              return new ast.DocString([new ast.Token(doc_string_value, locations)]);
-            }
-          }
-          multiline_arg = outline_step.multiline_arg.accept(replace_visitor);
-        }
-
-        var keyword_token = new ast.Token(outline_step.keyword.value, locations);
-        var name_token = new ast.Token(step_name, locations);
+        var step_name = replace_string(arg_names, arg_values, outline_step.name.value);
+        var keyword_locations = outline_step.keyword.locations.concat(arg_values[0].locations);
+        var keyword_token = new ast.Token(outline_step.keyword.value, keyword_locations);
+        var name_token = new ast.Token(step_name, keyword_locations);
+        var multiline_arg = replace_multiline_arg(arg_names, arg_values, outline_step.multiline_arg);
         return new ast.Step(keyword_token, name_token, multiline_arg);
       });
       var scenario = new ast.Scenario(scenario_outline.tags, scenario_outline.keyword, scenario_outline.name, scenario_outline.description_lines, background_steps.concat(steps));
@@ -59,7 +48,36 @@ module.exports = function Compiler() {
     });
   };
 
-  function replace(arg_names, arg_values, s) {
+  function replace_multiline_arg(arg_names, arg_values, multiline_arg) {
+    if (multiline_arg) {
+      var replace_visitor = {
+        visit_doc_string: function(doc_string, args) {
+          var replaced_lines = doc_string.lines.map(function(t) {
+            return replace_token(arg_names, arg_values, t);
+          });
+          return new ast.DocString(replaced_lines);
+        },
+        visit_table: function(table, args) {
+          var replaced_rows = table.rows.map(function(r) {
+            return r.map(function(c) {
+              return replace_token(arg_names, arg_values, c);
+              });
+          });
+          return new ast.Table(replaced_rows);
+        }
+      };
+      return multiline_arg.accept(replace_visitor);
+    } else {
+      return null;
+    }
+  }
+
+  function replace_token(arg_names, arg_values, t) {
+    var replaced_value = replace_string(arg_names, arg_values, t.value);
+    return new ast.Token(replaced_value, t.locations);
+  }
+
+  function replace_string(arg_names, arg_values, s) {
     arg_names.forEach(function(arg_name, arg_index) {
       s = s.replace(new RegExp('<' + arg_name.value + '>', 'g'), arg_values[arg_index].value);
     });

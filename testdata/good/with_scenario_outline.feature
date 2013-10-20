@@ -12,6 +12,8 @@ Feature: Hello
       variables <m> replaced
       """
     When I eat <m> cukes
+      | data tables | vars replaced |
+      | <n>         | <m>           |
     Then I should have <n> cukes in my belly
 
     @foo

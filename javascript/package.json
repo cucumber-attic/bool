@@ -26,9 +26,9 @@
         }
     ],
     "devDependencies": {
-        "mocha" : "~1.12.0",
+        "mocha" : "~1.17.0",
         "jison-lex": "~0.2.1",
-        "jison": "~0.4.10"
+        "jison": "~0.4.13"
     },
     "scripts": {
         "test": "make mocha"

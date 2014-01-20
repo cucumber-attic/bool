@@ -6,7 +6,7 @@ Gem::Specification.new do |s|
   
   s.files = Dir.glob("lib/**/*.rb")
   s.add_development_dependency('rake')
-  s.add_development_dependency('bundler', '~> 1.3.5')
+  s.add_development_dependency('bundler', '~> 1.5.2')
   
   if ENV['RUBY_PLATFORM'] == 'java' || RUBY_PLATFORM =~ /java/
     s.platform = "java"
@@ -17,6 +17,6 @@ Gem::Specification.new do |s|
   else
     s.extensions << "ext/#{s.name}_ext/extconf.rb"
     s.files += Dir.glob("ext/**/*.{c,h,rb}")
-    s.add_development_dependency('rake-compiler', '~> 0.9.1')
+    s.add_development_dependency('rake-compiler', '~> 0.9.2')
   end
 end

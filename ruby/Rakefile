@@ -27,6 +27,8 @@ if RUBY_PLATFORM =~ /java/
 
   task :test => native_lib_jar
 else
+  # Ideally we'd use ruby 2.1.0, but this needs to be fixed first:
+  # https://github.com/luislavena/rake-compiler/issues/88
   supported_ruby_versions = %w[1.9.3 2.0.0]
   patch_or_rc = RbConfig::CONFIG["PATCHLEVEL"] =~ /^-/ ? RbConfig::CONFIG["prefix"].split('-')[-1] : "p#{RbConfig::CONFIG["PATCHLEVEL"]}"
   ruby_version_with_patch_or_rc = "#{RUBY_VERSION}-#{patch_or_rc}"
@@ -77,10 +79,6 @@ else
     if !File.directory?(cross_ruby)
       sh "bundle exec rake-compiler cross-ruby VERSION=#{ruby_version_with_patch_or_rc}"
     end
-
-    tmp_dir = "tmp/x86-mingw32/#{name}_ext/#{RUBY_VERSION}/win32"
-    mkdir_p(tmp_dir)
-    cp 'resolv.rb', tmp_dir
   end
 
   begin

@@ -1,4 +1,4 @@
-## Ruby (MRI) on Linux/OS X
+## Ruby (MRI) and JRuby
 
 You need MRI 1.9.3 or 2.0.0 to build the native C code. OS X and Linux users can install this easily with [RVM](https://rvm.io/) or [rbenv](https://github.com/sstephenson/rbenv) + [ruby-build](https://github.com/sstephenson/ruby-build).
 
@@ -44,7 +44,7 @@ Third, create a `~/bin/jruby` script for either RVM or rbenv.
 RVM users can set up a `jruby` like so:
 
 ```
-ln -s ~/.rvm/rubies/jruby-1.7.3/bin/jruby ~/bin/jruby
+ln -s ~/.rvm/rubies/jruby-1.7.9/bin/jruby ~/bin/jruby
 ```
 
 ### rbenv
@@ -57,10 +57,9 @@ cp rbenv-jruby ~/bin/jruby
 
 ### Testing with jruby
 
-
 The build should pass with:
 
 ```
-jruby -S gem install bundler
+jruby -S gem install bundler && jruby -S bundle
 jruby -S rake
 ```

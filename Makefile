@@ -56,13 +56,13 @@ endif
 ### Bump versions
 
 java/pom.xml: VERSION
-	perl -i -pe 'if (!$$changed) {s/<version>.*/<version>$(VERSION)<\/version>/ and $$changed++;}' java/pom.xml
+	perl -i -pe 'if (!$$changed) {s/<version>.*/<version>$(VERSION)<\/version>/ and $$changed++;}' $@
 
 javascript/package.json: VERSION
-	perl -i -pe 'if (!$$changed) {s/"version"\s*:.*/"version": "$(VERSION)",/ and $$changed++;}' javascript/package.json
+	perl -i -pe 'if (!$$changed) {s/"version"\s*:.*/"version": "$(VERSION)",/ and $$changed++;}' $@
 
 ruby/bool.gemspec: VERSION
-	perl -i -pe 'if (!$$changed) {s/s.version\s*=.*/s.version = "$(VERSION)"/ and $$changed++;}' ruby/bool.gemspec
+	perl -i -pe 'if (!$$changed) {s/s.version\s*=.*/s.version = "$(VERSION)"/ and $$changed++;}' $@
 
 version: java/pom.xml javascript/package.json ruby/bool.gemspec
 

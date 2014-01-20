@@ -1,4 +1,4 @@
-## [Git master](https://github.com/cucumber/bool/compare/v1.0.10...master) (Not released)
+## [1.0.20](https://github.com/cucumber/bool/compare/v1.0.19...1.0.20) (19 Jan 2014)
 
 * Lexer no longer throws SyntaxError when lexing beyond EOF.
 

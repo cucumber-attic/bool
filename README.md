@@ -1,6 +1,6 @@
 # bool
 
-[![Build Status](https://travis-ci.org/cucumber/bool.png)](https://travis-ci.org/cucumber/bool)
+[![Build Status](https://travis-ci.org/cucumber/bool.svg)](https://travis-ci.org/cucumber/bool)
 
 This is a cross-platform library for parsing boolean arithmetic expressions like `a && b && (!c || !d)` and evaluating them by assigning values to the variables.
 

@@ -1,12 +1,14 @@
+%x AFTER_KEYWORD
+%x NAME
+%x TOKEN_DESCRIPTION_LINE
+
 %%
 
-\s+                   { /* skip whitespace */ }
-[A-Za-z0-9_\-@]+      { return 'TOKEN_VAR'; }
-"&&"                  { return 'TOKEN_AND'; }
-"||"                  { return 'TOKEN_OR'; }
-"!"                   { return 'TOKEN_NOT'; }
-"("                   { return 'TOKEN_LPAREN'; }
-")"                   { return 'TOKEN_RPAREN'; }
+^\s+                  { /* skip leading whitespace */ }
+"Feature:"            { this.begin('AFTER_KEYWORD'); return 'TOKEN_FEATURE'; }
+"Given "|"When "      { this.begin('AFTER_KEYWORD'); return 'TOKEN_STEP'; }
+<AFTER_KEYWORD>\s*    { /* skip whitespace after keyword */ this.begin('NAME'); }
+<NAME>.*              { this.begin('INITIAL'); return 'TOKEN_NAME'; }
 <<EOF>>               { return 'EOF'; }
 
 %%
